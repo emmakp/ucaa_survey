@@ -1,8 +1,11 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Questionaire;
+use App\Models\QuestionType;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -15,15 +18,17 @@ class QuestionController extends Controller
 
     public function create()
     {
-        return view('questions.create');
+        $questionaires = Questionaire::all();
+        $questionTypes = QuestionType::all();
+        return view('questions.create', compact('questionaires', 'questionTypes'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'question' => 'required',
-            'questionaire_id' => 'required',
-            'question_type' => 'required',
+            'questionaire_id' => 'required|exists:questionaires,id',
+            'question_type' => 'required|exists:question_types,id',
         ]);
 
         Question::create($request->all());
@@ -38,15 +43,17 @@ class QuestionController extends Controller
 
     public function edit(Question $question)
     {
-        return view('questions.edit', compact('question'));
+        $questionaires = Questionaire::all();
+        $questionTypes = QuestionType::all();
+        return view('questions.edit', compact('question', 'questionaires', 'questionTypes'));
     }
 
     public function update(Request $request, Question $question)
     {
         $request->validate([
             'question' => 'required',
-            'questionaire_id' => 'required',
-            'question_type' => 'required',
+            'questionaire_id' => 'required|exists:questionaires,id',
+            'question_type' => 'required|exists:question_types,id',
         ]);
 
         $question->update($request->all());
