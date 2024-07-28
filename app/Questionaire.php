@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class Questionaire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['question', 'questionaire_id', 'question_type'];
+    protected $fillable = ['obfuscator', 'survey_id', 'validity', 'target_audience'];
 }

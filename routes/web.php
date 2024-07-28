@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AudienceController;
+use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\QuestionaireController;
+use App\Http\Controllers\QuestionTypeController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AnswerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +59,16 @@ Route::group(['middleware' => 'auth'], function(){
             Route::resource('user-roles', 'UserRolesController');
             Route::resource('employees', 'EmployeesController');
             Route::resource('departments', 'DepartmentsController');
+
+            Route::resources([
+                'audiences' => AudienceController::class,
+                'surveys' => SurveyController::class,
+                'questionaires' => QuestionaireController::class,
+                'question-types' => QuestionTypeController::class,
+                'questions' => QuestionController::class,
+                'answers' => AnswerController::class,
+            ]);
+
 
         });
     // });

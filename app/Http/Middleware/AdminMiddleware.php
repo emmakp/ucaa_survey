@@ -38,7 +38,7 @@ class AdminMiddleware
             return $next($request);
             exit;
         }
-
+        if((ControllerModel::count()) < 1){ return $next($request); }
         // Controller ID
         $controllerID = ControllerModel::where('Name', $controller)->first()->id;
 
