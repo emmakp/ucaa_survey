@@ -9,6 +9,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+// missing modal classes
+use App\Titles;
+use App\UserRoles;
+
 class RegisterController extends Controller
 {
     /*
@@ -50,9 +54,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'FirstName' => ['required', 'string', 'max:255'],
+            'SecondName' => ['required', 'string', 'max:255'],
+            'UserName' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'PhoneNumber' => ['required', 'numeric', 'unique:users', 'digits:9'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'userrole' => ['required', 'integer'],
+            'title' => ['required', 'integer'],
+            'gender' => ['required', 'string'],
+            'file' => ['nullable','mimes:png,jpeg,jpg','max:5000']
         ]);
     }
 
@@ -64,10 +75,48 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $obfuscator = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 25)), 0, 5);
+
         return User::create([
-            'name' => $data['name'],
+            'FirstName' => $data['FirstName'],
+            'SecondName' => $data['SecondName'],
             'email' => $data['email'],
+            'PhoneNumber' => $data['PhoneNumber'],
             'password' => Hash::make($data['password']),
+            'UserRole' => $data['userrole'],
+            'title' => $data['title'],
+            'username' => $data['UserName'],
+            'gender' => $data['gender'],
+            'Obfuscator' => $obfuscator,
+            'validity' => 1,
         ]);
     }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        // Overridden to add file to user profile pic
+        if($request->hasFile('file')){
+            $file = new FileUploadController;
+            $file->upload_pic($request, 'user', $user->Obfuscator);
+        }
+
+        // $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    }
+
+    public function showRegistrationForm()
+    {
+        $titles = Titles::orderBy('TitleName')->get();
+        $userRoles = UserRoles::orderBy('RoleName')->get();
+        return view('auth.register')->with(['titles' => $titles, 'userRoles' => $userRoles]);
+    }
+
+
+
 }

@@ -19,4 +19,49 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function(){
+    // Route::get('/dashboard', 'HomeController@index')->name('home');
+
+    // Only varified emails can access these controllers or routes
+    // Route::group(['middleware' => 'verified'], function(){
+
+        Route::get('/home', 'HomeController@index')->name('test');
+        //
+        Route::group(['middleware' => 'admin'], function(){
+
+            // Post
+            Route::post('/staff/{staff}/restore', 'UsersController@restore')->name('restore_user');
+            Route::post('/staff/change-password', 'UsersController@postChangePassword')->name('user.postchangePassword');
+
+            // Get
+            Route::get('/staff/change-password', 'UsersController@getChangePassword')->name('user.changePassword');
+
+            // PATCH / PUT,
+            Route::put('/staff/block/{obfuscator}/asuser/{firstname}-{lastname}', 'UsersController@block_user')->name('block_user');
+            Route::patch('/staff/unblock/{obfuscator}/foruser/{firstname}-{lastname}', 'UsersController@unblock_user')->name('unblock_user');
+
+            // DELETE
+            Route::delete('/staff/{staff}/remove_user_account', 'UsersController@permanentely_delete')->name('remove_user');
+
+
+            // Resources
+            Route::resource('audit-trail', 'AuditTrailController');
+            Route::resource('staff', 'UsersController');
+            Route::resource('titles', 'TitlesController');
+            Route::resource('user-roles', 'UserRolesController');
+            Route::resource('employees', 'EmployeesController');
+            Route::resource('departments', 'DepartmentsController');
+
+        });
+    // });
+});
+
+// Debug
+Route::get('drugqty', 'HomeController@drugqty');
+
+Route::get('/no-cache', function() {
+    $exitCode = Artisan::call('config:clear');
+    echo 'Cache cleared';
+});
