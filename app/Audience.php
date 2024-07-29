@@ -19,4 +19,9 @@ class Audience extends Model
     protected $hidden = [
 
     ];
+
+    public function user(){
+        return $this->belongsTo('App\User', 'created_by');
+
+    }
 }

@@ -9,5 +9,10 @@ class Survey extends Model
     use SoftDeletes;
 
     protected $fillable = ['title', 'status', 'obfuscator', 'created_by'];
+
+    public function user(){
+        return $this->belongsTo('App\User', 'created_by');
+
+    }
 }
 

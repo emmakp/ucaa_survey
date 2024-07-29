@@ -29,6 +29,7 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4 pt-4">
+                    @include('inc.messages')
                     @yield('content')
                 </div>
             </main>

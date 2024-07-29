@@ -22,11 +22,11 @@
                             @php
                                 $counter = 1;
                             @endphp
-                            @foreach ($audience as $record)
+                            @foreach ($audiences as $record)
                                 <tr>
                                     <td>{{ $counter }}</td>
                                     <td>{{ $record->title }}</td>
-                                    <td>{{ $record->created_by }} {{ $record->user->SecondName }}</td>
+                                    <td>{{ $record->user->FirstName }} {{ $record->user->SecondName }}</td>
                                     <td>{{ $record->created_at->setTimezone('Africa/Nairobi') }}</td>
                                 </tr>
                                 @php

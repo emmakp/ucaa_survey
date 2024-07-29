@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Survey;
 use App\AuditTrail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SurveyController extends Controller
 {
@@ -35,13 +36,30 @@ class SurveyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'status' => 'required',
-            'obfuscator' => 'required',
-            'created_by' => 'required',
+            'title' => 'string|required',
         ]);
 
-        Survey::create($request->all());
+
+        $audit_action = 'Created a Survey';
+        $audit_user_id = auth()->user()->id;
+
+        // Audit this action
+        $audit_trail = new AuditTrail();
+
+        $audit_trail->action = $audit_action;
+        $audit_trail->user_id = $audit_user_id;
+
+        $audit_trail->save();
+
+        // Survey::create($request->all());
+        $survey = new Survey;
+        $survey->title = $request->input('title');
+        $survey->obfuscator = Str::random(10);
+        $survey->created_by = $audit_user_id;
+        $survey->status = 'pending';
+        $survey->save();
+
+
 
         return redirect()->route('surveys.index')->with('success', 'Survey created successfully.');
     }

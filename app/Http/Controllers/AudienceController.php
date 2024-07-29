@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Audience;
 use App\AuditTrail;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class AudienceController extends Controller
@@ -36,12 +37,29 @@ class AudienceController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'created_by' => 'required',
-            'obfuscator' => 'required',
-            'validity' => 'required|boolean',
+            // 'created_by' => 'required',
+            // 'obfuscator' => 'required',
+            // 'validity' => 'required|boolean',
         ]);
 
-        Audience::create($request->all());
+        $audit_action = 'Created an audience';
+        $audit_user_id = auth()->user()->id;
+
+        // Audit this action
+        $audit_trail = new AuditTrail();
+
+        $audit_trail->action = $audit_action;
+        $audit_trail->user_id = $audit_user_id;
+
+        $audit_trail->save();
+
+        // Audience::create($request->all());
+        $audience = new Audience;
+        $audience->title = $request->input('title');
+        $audience->obfuscator = Str::random(10);
+        $audience->created_by = $audit_user_id;
+        $audience->validity = 1;
+        $audience->save();
 
         return redirect()->route('audiences.index')->with('success', 'Audience created successfully.');
     }

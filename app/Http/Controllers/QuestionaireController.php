@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Questionaire;
+use App\Survey;
+use App\Audience;
+use Illuminate\Support\Str;
+use App\AuditTrail;
 use Illuminate\Http\Request;
 
 class QuestionaireController extends Controller
@@ -15,19 +19,36 @@ class QuestionaireController extends Controller
 
     public function create()
     {
-        return view('questionaires.create');
+        $surveys = Survey::orderBy('title')->get();
+        $audiences = Audience::orderBy('title')->get();
+        return view('questionaires.create')->with(['surveys' => $surveys, 'audiences' => $audiences]);
     }
 
     public function store(Request $request)
     {
+        // print_r($request->input());exit;
         $request->validate([
-            'obfuscator' => 'required',
             'survey_id' => 'required',
-            'validity' => 'required|boolean',
             'target_audience' => 'required',
         ]);
 
-        Questionaire::create($request->all());
+        $audit_action = 'Created an questionaire';
+        $audit_user_id = auth()->user()->id;
+
+        // Audit this action
+        $audit_trail = new AuditTrail();
+
+        $audit_trail->action = $audit_action;
+        $audit_trail->user_id = $audit_user_id;
+
+        $audit_trail->save();
+
+        $questionaire = new Questionaire;
+        $questionaire->survey_id = $request->input('survey_id');
+        $questionaire->target_audience = $request->input('target_audience');
+        $questionaire->validity = 1;
+        $questionaire->obfuscator = Str::random(10);
+        $questionaire->save();
 
         return redirect()->route('questionaires.index')->with('success', 'Questionaire created successfully.');
     }

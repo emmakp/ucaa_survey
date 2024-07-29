@@ -23,11 +23,11 @@
                             @php
                                 $counter = 1;
                             @endphp
-                            @foreach ($audience as $record)
+                            @foreach ($surveys as $record)
                                 <tr>
                                     <td>{{ $counter }}</td>
                                     <td>{{ $record->title }}</td>
-                                    <td><span class="badge badge-success">{{ $record->status }}</span></td>
+                                    <td><span class="badge bg-warning">{{ $record->status }}</span></td>
                                     <td>5</td>
                                     <td>{{ $record->user->FirstName }} {{ $record->user->SecondName }}</td>
                                     <td>{{ $record->created_at->setTimezone('Africa/Nairobi') }}</td>
