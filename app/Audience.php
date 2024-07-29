@@ -1,15 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Audience extends Model
 {
-    use HasFactory, SoftDeletes;
+    // Table
+    protected $table = 'audiences';
 
-    protected $fillable = ['title', 'created_by', 'obfuscator', 'validity'];
+    //Primary Key
+    public $primaryKey = 'id';
+
+    // timestamps
+    public $timestamps = true;
+
+    // hidden attributes
+    protected $hidden = [
+
+    ];
 }
-

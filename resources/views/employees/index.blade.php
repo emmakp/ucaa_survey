@@ -11,7 +11,7 @@
         <div class="card-body">
             <div class="table-hover">
                 @if (count($employees) > 0)
-                    <table class="table">
+                    <table class="table" id="datatablesSimple">
                         <thead>
                             <th>ID</th>
                             <th>Title</th>
@@ -43,4 +43,14 @@
             </div>
         </div>
     </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+            });
+
+    </script>
 @endsection

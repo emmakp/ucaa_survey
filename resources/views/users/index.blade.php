@@ -3,17 +3,17 @@
 @section('content')
     <div class="card card-secondary container p-0">
         <div class="card-header">
-            <div class="row">
-                <h4 class="col-md-10">User</h4>
-                <a href="{{route('register')}}" class="link">Add New User</a>
+            <div class="d-flex justify-content-between">
+                <h4 class="">User</h4>
+                <a href="{{route('register')}}" class="link btn btn-primary btn-sm">Add New User</a>
             </div>
         </div>
         <div class="card-body">
-            <div class="row offset-md-1">
+            <div class="row offset-md-1 text-center">
                 <div class="col col-xs-12">
                     <p>{{ $active_users }}</p>
                     <br>
-                    Active Users 
+                    Active Users
                 </div>
                 <div class="col col-xs-12">
                     <p>{{ $blocked_users }}</p>
@@ -23,13 +23,13 @@
                 <div class="col col-xs-12">
                     <p>{{ $pending_deletion }}</p>
                     <br>
-                    Users Pending Deletion 
+                    Users Pending Deletion
                 </div>
             </div>
         <hr>
             <div class="table-hover">
                 @if (count($users) > 0)
-                    <table class="table">
+                    <table class="table" id="datatablesSimple">
                         <thead>
                             <th>#</th>
                             <th>User's Name</th>
@@ -43,7 +43,8 @@
                                 <tr>
                                     <td>
                                         @if(isset($user->pic))
-                                            <img src="{{ asset($user->pic->Location).'/'.$user->pic->Name }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
+                                            <img src="{{ asset('storage/pics/nopic.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
+                                            <!-- <img src="{{ asset('$user->pic->Location').'/'.$user->pic->Name }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;"> -->
                                         @else
                                             <img src="{{ asset('storage/pics/nopic.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
                                         @endif
@@ -65,4 +66,14 @@
             </div>
         </div>
     </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+            });
+
+    </script>
 @endsection

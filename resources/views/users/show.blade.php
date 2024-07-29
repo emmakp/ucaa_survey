@@ -25,14 +25,14 @@
                                         <input type="submit" value="Restore User" class="btn btn-success">
                                         </form>
                                     </div>
-                                    
+
                                     <div class="col">
                                         {{-- Restore account --}}
                                         <form action="{{ route('remove_user', ['staff' => $user[0]->Obfuscator ]) }}" method="POST">
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
                                         <input type="submit" value="Permanently Remove User" class="btn btn-danger">
-                                        </form>    
+                                        </form>
                                     </div>
                                 @else
                                     <div class="col">
@@ -45,15 +45,16 @@
                                     <div class="col">
                                         @if ($user[0]->validity === 0)
                                             {{-- Button for unblocking user --}}
-                                            <form action="{{route('unblock_user', ['staff' => $user[0]->Obfuscator, 'firstname' => $user[0]->FirstName, 'lastname' => $user[0]->SecondName,])}}" method="post">
+                                            <form action="{{route('unblock_user', ['obfuscator' => $user[0]->Obfuscator, 'firstname' => $user[0]->FirstName, 'lastname' => $user[0]->SecondName,])}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="_method" value="PATCH">
                                                 <input type="submit" value="Unblock User" class="btn btn-success">
                                             </form>
-                                            
+
                                         @else
                                             {{-- Button for blocking user --}}
-                                            <form action="{{route('block_user', ['staff' => $user[0]->Obfuscator, 'firstname' => $user[0]->FirstName, 'lastname' => $user[0]->SecondName,])}}" method="post">
+                                            <form action="{{route('block_user', ['obfuscator' => $user[0]->Obfuscator, 'firstname' => $user[0]->FirstName, 'lastname' => $user[0]->SecondName,])}}" method="post">
+                                            {{-- <form action="#" method="post"> --}}
                                                 @csrf
                                                 <input type="hidden" name="_method" value="PUT">
                                                 <input type="submit" value="Block User" class="btn btn-secondary">

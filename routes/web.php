@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function(){
     // Only varified emails can access these controllers or routes
     // Route::group(['middleware' => 'verified'], function(){
 
-        Route::get('/home', 'HomeController@index')->name('test');
+        Route::get('/home', 'HomeController@index')->name('home');
         //
         Route::group(['middleware' => 'admin'], function(){
 
@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function(){
 
             // Get
             Route::get('/staff/change-password', 'UsersController@getChangePassword')->name('user.changePassword');
+            Route::get('/qna', [App\Http\Controllers\QuestionFormController::class, 'index']);
+
 
             // PATCH / PUT,
             Route::put('/staff/block/{obfuscator}/asuser/{firstname}-{lastname}', 'UsersController@block_user')->name('block_user');
@@ -65,6 +67,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::resource('question-type', 'QuestionTypeController');
             Route::resource('questions', 'QuestionController');
             Route::resource('answers', 'AnswerController');
+            // Route::resource('qna', 'QuestionFormController');
 
             // Route::resources([
             //     'audiences' => AudienceController::class,

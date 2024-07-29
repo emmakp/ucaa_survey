@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Audience;
+use App\Audience;
 use Illuminate\Http\Request;
 
 class AudienceController extends Controller

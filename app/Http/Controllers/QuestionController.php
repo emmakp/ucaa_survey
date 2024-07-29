@@ -3,9 +3,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Question;
-use App\Models\Questionaire;
-use App\Models\QuestionType;
+use App\Question;
+use App\Questionaire;
+use App\QuestionType;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller

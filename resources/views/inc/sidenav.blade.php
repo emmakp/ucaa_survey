@@ -1,7 +1,7 @@
 <!--**********************************
     Sidebar start
 ***********************************-->
-<div class="quixnav">
+{{-- <div class="quixnav">
     <div class="quixnav-scroll">
         <ul class="metismenu" id="menu">
             <li class="nav-label first">Main Menu</li>
@@ -25,191 +25,120 @@
             @endguest
 
             @auth
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                {{-- <i class="icon icon-single-04"></i> --}}
-                <i class="mdi mdi-view-dashboard"></i>
-                <span class="nav-text">Dashboard</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('home') }}">Dashboard</a></li>
-                </ul>
-            </li>
-            <li><a href="{{ route('audit-trail.index') }}" aria-expanded="false"><i class="mdi mdi-road-variant mdi-24px"></i><span class="nav-text">Audit Trail</span></a>
-            </li>
-            <li class="nav-label">Patients</li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-account-group mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Patients</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('corporate-clients.index') }}">
-                        {{ __('Corporate Clients') }}
-                    </a></li>
-                    <li><a href="{{ route('patients.index') }}">
-                        {{ __('List of Patients') }}
-                    </a></li>
-                    <li><a href="{{ route('next-of-kin.index') }}">
-                        {{ __('Next of Kin') }}
-                    </a></li>
-                    <li><a href="{{ route('referrals.index') }}">
-                        {{ __('Referral Records') }}
-                    </a></li>
-                    {{-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
-                        <ul aria-expanded="false">
-                            <li><a href="./email-compose.html">Compose</a></li>
-                            <li><a href="./email-inbox.html">Inbox</a></li>
-                            <li><a href="./email-read.html">Read</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="./app-calender.html">Calendar</a></li> --}}
-                </ul>
-            </li>
-            <li class="nav-label">Treatment</li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-medical-bag mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Medical Services</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('patient-service-records.index') }}">
-                        {{ __('Medical Service Recrods') }}
-                    </a></li>
-                    <li><a href="{{ route('medical-services.index') }}">
-                        {{ __('Services Offered') }}
-                    </a></li>
-                </ul>
-            </li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-needle mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Treatment Records</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('treatment-records.index') }}">
-                        {{ __('Treatment Records') }}
-                    </a></li>
-                    <li><a href="{{ route('diagnosis.index') }}">
-                        {{ __('Diagnosis Records') }}
-                    </a></li>
-                </ul>
-            </li>
-            <li class="nav-label">Drugs/Items</li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-pill mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Drugs</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('drugs.index') }}">
-                        {{ __('List') }}
-                    </a></li>
-                    <li><a href="{{ route('drug.usedup') }}">
-                        {{ __('Used Up Drugs') }}
-                    </a></li>
-                    <li><a href="{{ route('drug-quantities.index') }}">
-                        {{ __('Drug Quanties') }}
-                    </a></li>
-                    <li><a href="{{ route('drug-categories.index') }}">
-                        {{ __('Categories') }}
-                    </a></li>
-                    <li><a href="{{ route('drug-administrations.index') }}">
-                        {{ __('Administration Types') }}
-                    </a></li>
-                    <li><a href="{{ route('drug-units.index') }}">
-                        {{ __('Unit Types') }}
-                    </a></li>
-                </ul>
-            </li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-shape mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Medical Items</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('medical-items.index')}}">
-                        {{ __('List') }}
-                    </a></li>
-                    <li><a href="{{ route('item.usedup') }}">
-                        {{ __('Used Up Items') }}
-                    </a></li>
-                    <li><a href="{{ route('item-quantities.index') }}">
-                        {{ __('Item Quanties') }}
-                    </a></li>
-                </ul>
-            </li>
-            <li class="nav-label">Payments/Debts</li>
-            <li><a href="{{ route('over-the-counter.index') }}" aria-expanded="false"><i class="mdi mdi-cash mdi-24px"></i><span
-                class="nav-text">Over The Counter</span></a></li>
-            <li><a href="{{ route('daily_sales') }}" aria-expanded="false"><i class="mdi mdi-cash-multiple mdi-24px"></i><span
-                class="nav-text">Sales</span></a></li>
-             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-sale mdi-24px"></i>
-                <span class="nav-text">Debts</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('debts.dailypay') }}" aria-expanded="false">Shift Debt Pay</a></li>
-                    <li><a href="{{ route('debts.index') }}" aria-expanded="false">Debt</a></li>
-                    <li><a href="{{ route('debts.index2') }}" aria-expanded="false">Previous/Current Debts</a></li>
-                </ul>
-             </li>
-            <li><a href="{{ route('payment-methods.index') }}" aria-expanded="false"><i class="mdi mdi-publish mdi-24px"></i><span
-                class="nav-text">Payment Methods</span></a></li>
-            <li class="nav-label">Schedule and Goals</li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-calendar-clock mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Schedules and Appointments</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('appointments.index') }}">
-                        {{ __('Appointments') }}
-                    </a></li>
-                    <li><a href="{{ route('doctor-schedules.index') }}">
-                        {{ __('Doctor Schedules') }}
-                    </a></li>
-                </ul>
-            </li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-target mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Target Goals</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('target-goals.index') }}">
-                        {{ __('Targets') }}
-                    </a></li>
-                    <li><a href="{{ route('target-goals.index') }}">
-                        {{ __('Pending Targets') }}
-                    </a></li>
-                    <li><a href="#">
-                        {{ __('Due Targets') }}
-                    </a></li>
-                </ul>
-            </li>
-            <li class="nav-label">System Settings</li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-account-settings mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">Users</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{route('staff.index')}}">List</a></li>
-                    <li><a href="{{ route('user-roles.index') }}">
-                        {{ __('User Roles') }}
-                    </a></li>
-                </ul>
-            </li>
-            <li><a href="{{ route('employees.index') }}" aria-expanded="false"><i class="mdi mdi-account-box-multiple mdi-24px"></i><span
-                class="nav-text">Employees</span></a></li>
-            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                <i class="mdi mdi-tune mdi-24px"></i>
-                {{-- <i class="icon icon-app-store"></i> --}}
-                <span class="nav-text">More ...</span></a>
-                <ul aria-expanded="false">
-                    <li><a href="{{ route('departments.index') }}">
-                        {{ __('Departments') }}
-                    </a></li>
-                    <li><a href="{{ route('titles.index') }}">
-                        {{ __('System Titles') }}
-                    </a></li>
-                    <li></li>
-                </ul>
-            </li>
+
             @endauth
         </ul>
     </div>
+</div> --}}
+
+
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                {{-- <div class="sb-sidenav-menu-heading">Core</div>
+                <a class="nav-link" href="index.html">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Dashboard
+                </a>
+                <div class="sb-sidenav-menu-heading">Interface</div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Layouts
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a> --}}
+                {{-- <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{ url('audit-trail') }}">Static Navigation</a>
+                        <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                    </nav>
+                </div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                    Pages
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                            Authentication
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="login.html">Login</a>
+                                <a class="nav-link" href="register.html">Register</a>
+                                <a class="nav-link" href="password.html">Forgot Password</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                            Error
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="401.html">401 Page</a>
+                                <a class="nav-link" href="404.html">404 Page</a>
+                                <a class="nav-link" href="500.html">500 Page</a>
+                            </nav>
+                        </div>
+                    </nav>
+                </div> --}}
+                <div class="sb-sidenav-menu-heading">Addons</div>
+                <a class="nav-link" href="{{url('audit-trail')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Audit Trail
+                </a>
+                <a class="nav-link" href="{{url('staff')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Staff
+                </a>
+                <a class="nav-link" href="{{url('titles')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Titles
+                </a>
+                <a class="nav-link" href="{{url('user-roles')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    User Roles
+                </a>
+                {{-- <a class="nav-link" href="{{url('employees')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Employees
+                </a> --}}
+
+                <a class="nav-link" href="{{url('audiences')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Audiences
+                </a>
+                <a class="nav-link" href="{{url('surveys')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Surveys
+                </a>
+                <a class="nav-link" href="{{url('questionaires')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Questionaires
+                </a>
+                <a class="nav-link" href="{{url('question-types')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Question Types
+                </a>
+                <a class="nav-link" href="{{url('questions')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Questions
+                </a>
+                <a class="nav-link" href="{{url('answers')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Answers
+                </a>
+            </div>
+        </div>
+        <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            Start Bootstrap
+        </div>
+    </nav>
 </div>
+
 <!--**********************************
     Sidebar end
 ***********************************-->

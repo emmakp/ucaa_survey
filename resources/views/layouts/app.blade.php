@@ -25,7 +25,7 @@
 <body>
     @include('inc.top-nav')
     <div id="layoutSidenav">
-        @include('inc.side-nav')
+        @include('inc.sidenav')
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4 pt-4">
