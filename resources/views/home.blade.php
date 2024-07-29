@@ -9,17 +9,69 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
+                
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
-                        <div class="card bg-primary text-white mb-4">
-                            <div class="card-body">Primary Card</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
+                        <div class="border border-2 bg-white mb-4 shadow  ">
+                             <span class="text-muted ms-2 mt-2">Audit Trails</span>
+                             <div class="d-flex justify-content-between p-3">
+                                <div>
+                                    <h2>344</h2>
+                                </div>
+                                <div>
+                                    <i class="fas fa-chevron-up text-primary"></i>
+                                     <span class="text-muted small border-rounded">12%</span>
+                                </div>
+                             </div>
+                             <span class="d-block mt-auto w-100 border border-2 border-primary"></span>
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
+                        <div class="border border-2 bg-white mb-4 shadow  ">
+                             <span class="text-muted ms-2 mt-2">Tiles</span>
+                             <div class="d-flex justify-content-between p-3">
+                                <div>
+                                    <h2>344</h2>
+                                </div>
+                                <div>
+                                    <i class="fas fa-chevron-up text-success"></i>
+                                     <span class="text-muted small border-rounded">12%</span>
+                                </div>
+                             </div>
+                             <span class="d-block mt-auto w-100 border border-2 border-success"></span>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="border border-2 bg-white mb-4 shadow  ">
+                             <span class="text-muted ms-2 mt-2">Staff</span>
+                             <div class="d-flex justify-content-between p-3">
+                                <div>
+                                    <h2>344</h2>
+                                </div>
+                                <div>
+                                    <i class="fas fa-chevron-up text-warning"></i>
+                                     <span class="text-muted small border-rounded">12%</span>
+                                </div>
+                             </div>
+                             <span class="d-block mt-auto w-100 border border-2 border-warning"></span>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="border border-2 bg-white mb-4 shadow  ">
+                             <span class="text-muted ms-2 mt-2">Audiences</span>
+                             <div class="d-flex justify-content-between p-3">
+                                <div>
+                                    <h2>344</h2>
+                                </div>
+                                <div>
+                                    <i class="fas fa-chevron-up text-danger"></i>
+                                     <span class="text-muted small border-rounded">12%</span>
+                                </div>
+                             </div>
+                             <span class="d-block mt-auto w-100 border border-2 border-danger"></span>
+                        </div>
+                    </div>
+                    <!-- <div class="col-xl-3 col-md-6">
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-body">Warning Card</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -45,7 +97,7 @@
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row">
                     <div class="col-xl-6">

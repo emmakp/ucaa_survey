@@ -9,6 +9,8 @@
 
     <title>{{ config('app.name', 'NAJOD Survey') }}</title>
 
+ 
+
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
