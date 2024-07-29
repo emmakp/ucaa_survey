@@ -4,7 +4,7 @@
         <div class="card-header">
             <div class="row">
                 <h4 class="col-md-9">Questionaire</h4>
-                <div class="col-md-3"><a href="{{ route('surveys.create') }}" class="btn btn-success">Add new surveys</a></div>
+                <div class="col-md-3"><a href="{{ route('questionaires.create') }}" class="btn btn-success">Add new questionaire</a></div>
             </div>
         </div>
         <div class="card-body">
