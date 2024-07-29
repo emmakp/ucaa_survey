@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function(){
     // Only varified emails can access these controllers or routes
     // Route::group(['middleware' => 'verified'], function(){
 
-        Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('/dashboard', 'HomeController@index')->name('home');
         //
         Route::group(['middleware' => 'admin'], function(){
 

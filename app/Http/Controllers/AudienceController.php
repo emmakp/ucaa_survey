@@ -3,12 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Audience;
+use App\AuditTrail;
 use Illuminate\Http\Request;
 
 class AudienceController extends Controller
 {
     public function index()
     {
+        $audit_action = 'View List of Audiences';
+        $audit_user_id = auth()->user()->id;
+
+        // Audit this action
+        $audit_trail = new AuditTrail();
+
+        $audit_trail->action = $audit_action;
+        $audit_trail->user_id = $audit_user_id;
+
+        $audit_trail->save();
+
+
+
         $audiences = Audience::all();
         return view('audiences.index', compact('audiences'));
     }

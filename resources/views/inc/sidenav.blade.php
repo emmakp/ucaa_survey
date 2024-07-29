@@ -84,21 +84,25 @@
                         </div>
                     </nav>
                 </div> --}}
-                <div class="sb-sidenav-menu-heading">Addons</div>
-                <a class="nav-link" href="{{url('audit-trail')}}">
+                <div class="sb-sidenav-menu-heading">Tabs / Links</div>
+                <a class="nav-link" href="{{route('home')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Dashboard
+                </a>
+                <a class="nav-link" href="{{url('audit-trail')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
                     Audit Trail
                 </a>
                 <a class="nav-link" href="{{url('staff')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                     Staff
                 </a>
                 <a class="nav-link" href="{{url('titles')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-heading"></i></div>
                     Titles
                 </a>
                 <a class="nav-link" href="{{url('user-roles')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
                     User Roles
                 </a>
                 {{-- <a class="nav-link" href="{{url('employees')}}">
@@ -107,34 +111,34 @@
                 </a> --}}
 
                 <a class="nav-link" href="{{url('audiences')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Audiences
                 </a>
                 <a class="nav-link" href="{{url('surveys')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
                     Surveys
                 </a>
                 <a class="nav-link" href="{{url('questionaires')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-question"></i></div>
                     Questionaires
                 </a>
                 <a class="nav-link" href="{{url('question-types')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-check-square"></i></div>
                     Question Types
                 </a>
                 <a class="nav-link" href="{{url('questions')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-question"></i></div>
                     Questions
                 </a>
                 <a class="nav-link" href="{{url('answers')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-reply"></i></div>
                     Answers
                 </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Start Bootstrap
+            {{ auth()->user()->FirstName }} {{ auth()->user()->SecondName }}
         </div>
     </nav>
 </div>
