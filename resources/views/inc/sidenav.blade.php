@@ -134,6 +134,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-reply"></i></div>
                     Answers
                 </a>
+                <a class="nav-link" href="{{url('answers')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-reply"></i></div>
+                    Reports
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
