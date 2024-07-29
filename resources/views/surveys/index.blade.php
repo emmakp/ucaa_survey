@@ -28,7 +28,7 @@
                                     <td>{{ $counter }}</td>
                                     <td>{{ $record->title }}</td>
                                     <td><span class="badge bg-warning">{{ $record->status }}</span></td>
-                                    <td>5</td>
+                                    <td>{{ count($record->questionaires) }}</td>
                                     <td>{{ $record->user->FirstName }} {{ $record->user->SecondName }}</td>
                                     <td>{{ $record->created_at->setTimezone('Africa/Nairobi') }}</td>
                                 </tr>

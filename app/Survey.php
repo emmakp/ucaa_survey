@@ -12,7 +12,10 @@ class Survey extends Model
 
     public function user(){
         return $this->belongsTo('App\User', 'created_by');
+    }
 
+    public function questionaires(){
+        return $this->hasMany('App\Questionaire', 'survey_id');
     }
 }
 

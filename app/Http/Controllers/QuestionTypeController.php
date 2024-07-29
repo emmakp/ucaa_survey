@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuestionType;
+use App\QuestionType;
+use Illuminate\Support\Str;
+use App\AuditTrail;
 use Illuminate\Http\Request;
 
 class QuestionTypeController extends Controller
@@ -22,12 +24,25 @@ class QuestionTypeController extends Controller
     {
         $request->validate([
             'type' => 'required',
-            'obfuscator' => 'required',
         ]);
 
-        QuestionType::create($request->all());
+        $audit_action = 'Created a question type';
+        $audit_user_id = auth()->user()->id;
 
-        return redirect()->route('question-types.index')->with('success', 'Question type created successfully.');
+        // Audit this action
+        $audit_trail = new AuditTrail();
+
+        $audit_trail->action = $audit_action;
+        $audit_trail->user_id = $audit_user_id;
+
+        $audit_trail->save();
+
+        $questionType = new QuestionType;
+        $questionType->type = $request->input('type');
+        $questionType->obfuscator = Str::random(10);
+        $questionType->save();
+
+        return redirect()->route('question-type.create')->with('success', 'Question type created successfully.');
     }
 
     public function show(QuestionType $questionType)

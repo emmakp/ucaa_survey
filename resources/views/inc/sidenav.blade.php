@@ -122,10 +122,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-clipboard-question"></i></div>
                     Questionaires
                 </a>
-                <a class="nav-link" href="{{url('question-types')}}">
+                {{-- <a class="nav-link" href="{{url('question-types')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-check-square"></i></div>
                     Question Types
-                </a>
+                </a> --}}
                 <a class="nav-link" href="{{url('questions')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-question"></i></div>
                     Questions

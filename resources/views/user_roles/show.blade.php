@@ -5,7 +5,7 @@
         <div class="card-header">
             <div class="row">
                 <h4 class="col-md-10"><span><i class="mdi mdi-key mdi-24px"></i></span> {{ $user_role->RoleName }} - User Role</h4>
-                <a href="{{route('patients.create')}}" class="link">Add New User Role</a>
+                <a href="{{route('user-roles.create')}}" class="link">Add New User Role</a>
             </div>
         </div>
         <div class="card-body">

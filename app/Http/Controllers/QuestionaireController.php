@@ -13,7 +13,8 @@ class QuestionaireController extends Controller
 {
     public function index()
     {
-        $questionaires = Questionaire::all();
+        $questionaires = Questionaire::orderBy('created_at', 'desc')->with(['survey','target_audience_rq','questions'])->get();
+        // print_r($questionaires[0]->target_audience_rq);exit;
         return view('questionaires.index', compact('questionaires'));
     }
 
