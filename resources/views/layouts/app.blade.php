@@ -19,8 +19,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-    {{-- <link href="{{ asset('css/form.css') }}" rel="stylesheet"> --}}
+    {{-- <link href="{{ asset('css/app.css') }}"{{ asset('css/form.css') }} rel="stylesheet"> --}}
+    {{-- <link href="" rel="stylesheet"> --}}
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>

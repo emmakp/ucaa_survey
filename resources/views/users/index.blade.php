@@ -43,7 +43,7 @@
                                 <tr>
                                     <td>
                                         @if(isset($user->pic))
-                                            <img src="{{ asset('storage/pics/nopic.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
+                                            <img src="{{ asset('img/image.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
                                             <!-- <img src="{{ asset('$user->pic->Location').'/'.$user->pic->Name }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;"> -->
                                         @else
                                             <img src="{{ asset('storage/pics/nopic.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
@@ -52,7 +52,7 @@
                                     <td><a href="{{route('staff.show', ['staff' => $user->Obfuscator])}}" class="link">{{$user->user_title->TitleName.' '.$user->FirstName.' '.$user->SecondName }}</a></td>
                                     <td>{{$user->email }}</td>
                                     <td>{{$user->username }}</td>
-                                    <td><span class="badge badge-success">{{$user->user_role->RoleName }}</span></td>
+                                    <td><span class="bg-success badge">{{$user->user_role->RoleName }}</span></td>
                                     <td>0{{$user->PhoneNumber }}</td>
                                 </tr>
                             @endforeach
