@@ -3,6 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Survey;
+use App\User;
+use App\Questionaire;
+use App\AuditTrail;
+use App\ControllerModel;
+use App\Functionary;
+use App\Response;
+
+use Route;
+use DB;
 
 class HomeController extends Controller
 {
@@ -23,7 +33,29 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $audit_action = 'View List of Audit Trail';
+        $audit_user_id = auth()->user()->id;
+
+        // Audit this action
+        $audit_trail = new AuditTrail();
+
+        $audit_trail->action = $audit_action;
+        $audit_trail->user_id = $audit_user_id;
+
+        $audit_trail->save();
+
+        $survey_count = Survey::count();
+        $user_count = User::count();
+        $responses = Response::count();
+        $questionaire_count = Questionaire::count();
+        $audit_trail = AuditTrail::orderBy('created_at', 'DESC')->with('user')->get();
+        return view('home')->with([
+            'survey_count' => $survey_count,
+            'staff_count' => $user_count,
+            'questionaire_count' => $questionaire_count,
+            'audit_trail' => $audit_trail,
+            'responses' => $responses,
+        ]);
     }
 
     public function drugqty()
@@ -92,13 +124,27 @@ class HomeController extends Controller
                 $controllers[] = $action['controller'];
             }
         }
-
+        // print_r($controllers);
+        // unset($controllers[0]);
+        // echo '<br><br>';
+        // print_r($controllers);//exit;
+        for ($i=0; $i < count($controllers); $i++) {
+            // echo explode('\\',$controllers[$i])[0].'<br>';
+            if(explode('\\',$controllers[$i])[0] != "App" ) { unset($controllers[$i]); }
+        }
+        // echo '<br><br>';
+        // print_r($controllers);
+        // exit;
         foreach ($controllers as $controller) {
             $controller = explode('App\Http\Controllers\\',$controller);
+            // print_r($controller);exit;
             $controller = $controller[1];
             $controller = explode('@',$controller);
             $method = $controller[1];
+            // print_r($method);exit;
             $controller = $controller[0];
+            // print_r($controller);exit;
+
             // if ($method === 'update' || $method === 'store') {
             //     continue;
             // }
@@ -138,7 +184,9 @@ class HomeController extends Controller
             }
 
             // echo $controller.':'.$method.'<br><br>';
+
         }
+        echo 'Added successfully';exit;
         // print_r($controllers);
         // echo '<h1><font color= "red">What are looking for?</font></h1>';
         exit;

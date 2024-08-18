@@ -130,12 +130,12 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-question"></i></div>
                     Questions
                 </a>
-                <a class="nav-link" href="{{url('answers')}}">
+                {{-- <a class="nav-link" href="{{url('answers')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-reply"></i></div>
                     Answers
-                </a>
+                </a> --}}
                 <a class="nav-link" href="{{url('answers')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-reply"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
                     Reports
                 </a>
             </div>

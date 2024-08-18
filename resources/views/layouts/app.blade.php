@@ -9,7 +9,7 @@
 
     <title>{{ config('app.name', 'NAJOD Survey') }}</title>
 
- 
+
 
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
@@ -44,6 +44,8 @@
     </div> --}}
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -51,7 +53,8 @@
     <script src="{{ asset('js/demo/chart-bar-demo.js') }}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
-    
+
+@stack('script')
 <script>
     // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -73,7 +76,7 @@ var myLineChart = new Chart(ctx, {
   options: {
     scales: {
       xAxes: [{
-        time: { 
+        time: {
           unit: 'month'
         },
         gridLines: {

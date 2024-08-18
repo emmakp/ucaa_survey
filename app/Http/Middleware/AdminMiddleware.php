@@ -29,6 +29,8 @@ class AdminMiddleware
 
         // $name = Route::currentRouteName();
 
+        // return $next($request); exit;
+
         $action = Route::currentRouteAction();
         $action = explode('App\Http\Controllers\\',$action)[1];
         $controller = explode('@',$action)[0];

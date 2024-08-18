@@ -19,6 +19,7 @@
                             <th>No. of Questions</th>
                             <th>Status</th>
                             <th>Date</th>
+                            <th>Action</th>
                         </thead>
                         <tbody>
                             @php
@@ -28,12 +29,13 @@
                                 <tr>
                                     <td>{{ $counter }}</td>
                                     {{-- <td><a href="{{ route('surveys.show', ['questionaire' => $record->id]) }}" class="link">{{ $record->obfuscator }}</a></td> --}}
-                                    <td><a href="/surveys/{{ $record->id }}" class="link">{{ $record->obfuscator }}  <i class="fa fa-link" aria-hidden="true" style="font-size: 10px"></i></a></td>
+                                    <td><a href="/questionaires/{{ $record->id }}" class="link">{{ $record->obfuscator }}  <i class="fa fa-link" aria-hidden="true" style="font-size: 10px"></i></a></td>
                                     <td>{{ $record->survey->title }}</td>
                                     <td>{{ $record->target_audience_rq->title }}</td>
                                     <td>{{ count($record->questions) }}</td>
                                     <td>@if ($record->validity === true) <span class="badge bg-success"> active @else <span class="badge bg-danger"> no active @endif</span></td>
                                     <td>{{ $record->created_at->setTimezone('Africa/Nairobi') }}</td>
+                                    <td><a href="{{ route('guest.form', ['survey_id' => $record->survey->obfuscator, 'questionaire_id' => $record->obfuscator]) }}">Get Link</a></td>
                                 </tr>
                                 @php
                                     ++$counter;

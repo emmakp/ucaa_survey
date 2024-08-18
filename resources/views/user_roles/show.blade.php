@@ -81,4 +81,18 @@
             </form>
         </div>
     </div>
+@push('script')
+    <script>
+        // user role checkboxes
+        $('input.CTR-checkbox').change(function () {
+            var checker = $(this).is(":checked");
+            var checkerVal = $(this).val();
+            if(checker){
+                $('input.CTR-' + checkerVal).attr('checked', true);
+            }else{
+                $('input.CTR-' + checkerVal).attr('checked', false);
+            }
+        });
+    </script>
+@endpush
 @endsection

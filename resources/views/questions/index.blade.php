@@ -24,10 +24,10 @@
                     <tr>
                         <td>{{ $question->id }}</td>
                         <td>{{ $question->question }}</td>
-                        <td>{{ $question->questionaire_id }}</td>
+                        <td>{{ $question->questionaire->obfuscator }}</td>
                         <td>{{ $question->question_type }}</td>
                         <td>
-                            <a href="{{ route('questions.show', $question->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('questionaires.show', $question->questionaire_id ) }}" class="btn btn-info">View</a>
                             <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('questions.destroy', $question->id) }}" method="POST" style="display:inline-block;">
                                 @csrf

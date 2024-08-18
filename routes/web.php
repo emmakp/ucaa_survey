@@ -25,9 +25,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function(){
+    Route::get('/home', 'HomeController@home')->name('new-home');
     // Route::get('/dashboard', 'HomeController@index')->name('home');
 
     // Only varified emails can access these controllers or routes
@@ -42,8 +42,8 @@ Route::group(['middleware' => 'auth'], function(){
             Route::post('/staff/change-password', 'UsersController@postChangePassword')->name('user.postchangePassword');
 
             // Get
-            Route::get('/staff/change-password', 'UsersController@getChangePassword')->name('user.changePassword');
             Route::get('/qna', [App\Http\Controllers\QuestionFormController::class, 'index']);
+            Route::post('/qna', [App\Http\Controllers\QuestionFormController::class, 'create_answer'])->name('create-question');
 
 
             // PATCH / PUT,
@@ -82,6 +82,9 @@ Route::group(['middleware' => 'auth'], function(){
         });
     // });
 });
+
+Route::get('/survey/{survey_id}/fill/{questionaire_id}/ucaa', 'GuestController@get_form')->name('guest.form');
+Route::post('/survey/{survey_id}/fill/{questionaire_id}/ucaa', 'GuestController@post_form')->name('guest.form.post');
 
 // Debug
 Route::get('drugqty', 'HomeController@drugqty');

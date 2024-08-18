@@ -82,6 +82,6 @@ class QuestionaireController extends Controller
     {
         $questionaire->delete();
 
-        return redirect()->route('questionaires.index')->with('success', 'Questionaire deleted successfully.');
+        return redirect()->back()->with('error', 'Questionaire deleted successfully.');
     }
 }
