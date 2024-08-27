@@ -17,18 +17,17 @@ class QuestionFormController extends Controller
 
     public function create_answer(Request $request){
         // $questions = $request->input('questions');
-        // print_r($request->questionaire_id);exit;
-
+        // print_r($request->input());exit;
         // Validate the form data
         $request->validate([
             'questions.*.text' => 'required|string',
-            'questions.*.type' => 'required|in:text,multiple_choice,select,multiple_checkbox,star_rating,number_rating',
+            'questions.*.type' => 'required|in:text,multiple_choice,yes_no,number_rating,emoji_rating,star_rating,radio_button_gender,radio_button_experience',
             'questions.*.options' => 'sometimes|array',
             'questions.*.options.*' => 'required_with:questions.*.options|string',
-            'questions.*.stars' => 'required_if:questions.*.type,star_rating|integer|min:1',
             'questions.*.max' => 'required_if:questions.*.type,number_rating|integer|min:1',
         ]);
 
+        // print_r($request->input());exit;
         // Store survey and questions logic here
         foreach ($request->questions as $questionData) {
             // Create a new question
@@ -40,7 +39,7 @@ class QuestionFormController extends Controller
             $question->required = isset($questionData['required']);
             $question->save();
 
-            if (in_array($question->question_type, ['multiple_choice', 'select', 'multiple_checkbox']) && isset($questionData['options'])) {
+            if (in_array($question->question_type, ['multiple_choice']) && isset($questionData['options'])) {
                 foreach ($questionData['options'] as $optionText) {
                     // Create a new option
                     $option = new Option();
@@ -48,9 +47,6 @@ class QuestionFormController extends Controller
                     $option->text = $optionText;
                     $option->save();
                 }
-            } elseif ($question->question_type === 'star_rating') {
-                $question->stars = $questionData['stars'];
-                $question->save();
             } elseif ($question->question_type === 'number_rating') {
                 $question->max = $questionData['max'];
                 $question->save();

@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'NAJOD Survey') }}</title>
+    <title>{{ config('app.name', 'UCAA Survey') }}</title>
 
 
 

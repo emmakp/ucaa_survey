@@ -27,7 +27,7 @@ class QuestionController extends Controller
 
     public function store(Request $request)
     {
-        // print_r($request->input());exit;
+         print_r($request->input());exit;
         $request->validate([
             'question' => 'required',
             'questionaire_id' => 'required|exists:questionaires,id',

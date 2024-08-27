@@ -89,27 +89,6 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                     Dashboard
                 </a>
-                <a class="nav-link" href="{{url('audit-trail')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
-                    Audit Trail
-                </a>
-                <a class="nav-link" href="{{url('staff')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                    Staff
-                </a>
-                <a class="nav-link" href="{{url('titles')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-heading"></i></div>
-                    Titles
-                </a>
-                <a class="nav-link" href="{{url('user-roles')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                    User Roles
-                </a>
-                {{-- <a class="nav-link" href="{{url('employees')}}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Employees
-                </a> --}}
-
                 <a class="nav-link" href="{{url('audiences')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Audiences
@@ -134,10 +113,30 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-reply"></i></div>
                     Answers
                 </a> --}}
-                <a class="nav-link" href="{{url('answers')}}">
+                {{-- <a class="nav-link" href="{{url('answers')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
                     Reports
+                </a> --}}
+                <a class="nav-link" href="{{url('audit-trail')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
+                    Audit Trail
                 </a>
+                <a class="nav-link" href="{{url('staff')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                    Staff
+                </a>
+                <a class="nav-link" href="{{url('titles')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-heading"></i></div>
+                    Titles
+                </a>
+                <a class="nav-link" href="{{url('user-roles')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
+                    User Roles
+                </a>
+                {{-- <a class="nav-link" href="{{url('employees')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Employees
+                </a> --}}
             </div>
         </div>
         <div class="sb-sidenav-footer">

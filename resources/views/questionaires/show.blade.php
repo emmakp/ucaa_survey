@@ -60,7 +60,7 @@
         </table>
     @else
         <div class="text-danger mt-4">
-            <p>No questions in the System</p>
+            <p>No questions for this survey in the System</p>
         </div>
     @endif
 </div>
@@ -90,11 +90,13 @@
                         <label for="questionType-${questionCount}" class="form-label">Question Type</label>
                         <select class="form-select question-type-select" id="questionType-${questionCount}" name="questions[${questionCount}][type]" required>
                             <option value="text">Text</option>
-                            <option value="multiple_choice">Multiple Choice</option>
-                            <option value="select">Select Dropdown</option>
-                            <option value="multiple_checkbox">Multiple Checkbox</option>
-                            <option value="star_rating">Star Rating</option>
-                            <option value="number_rating">Number Rating</option>
+                            <option value="yes_no">Yes/No</option>
+                            <option value="star_rating">Rating with stars</option>
+                            <option value="emoji_rating">Rating with emojis</option>
+                            <option value="number_rating">Rating with numbers</option>
+                            <option value="radio_button_gender">Radio Buttons (Gender)</option>
+                            <option value="radio_button_experience">Radio Buttons (Experience)</option>
+                            <option value="multiple_choice">Dropdown</option>
                         </select>
                     </div>
                     <div id="optionsContainer-${questionCount}" class="mb-3 options-container"></div>
@@ -106,6 +108,9 @@
                 </div>
             </div>
         `;
+        // <option value="star_rating">Star Rating</option>
+        // <option value="number_rating">Number Rating</option>
+        // <option value="multiple_checkbox">Multiple Checkbox</option>
 
         $('#questionsContainer').append(questionHtml);
         questionCount++;
@@ -122,7 +127,6 @@
 
         switch (questionType) {
             case 'multiple_choice':
-            case 'select':
             case 'multiple_checkbox':
                 optionsContainer.html(`
                     <label class="form-label">Options</label>
@@ -134,12 +138,12 @@
                 </div>
             `);
             break;
-        case 'star_rating':
-            optionsContainer.html(`
-                <label class="form-label">Number of Stars</label>
-                <input type="number" class="form-control" name="questions[${questionId}][stars]" placeholder="5" required>
-            `);
-            break;
+        // case 'star_rating':
+        //     optionsContainer.html(`
+        //         <label class="form-label">Number of Stars</label>
+        //         <input type="number" class="form-control" name="questions[${questionId}][stars]" placeholder="5" required>
+        //     `);
+        //     break;
         case 'number_rating':
             optionsContainer.html(`
                 <label class="form-label">Max Rating</label>
