@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
                 'SecondName' => 'Sudo',
                 'email' => 'admin@example.com',
                 'email_verified_at' => now(),
-                'password' => bcrypt('admin@2020'),
+                'password' => bcrypt('admin@2024'),
                 'UserRole' => 2,
                 'Obfuscator' => substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 25)), 0, 5),
                 'validity' => 1,
