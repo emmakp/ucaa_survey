@@ -19,7 +19,11 @@ class QuestionFormController extends Controller
         // $questions = $request->input('questions');
         // print_r($request->input());exit;
         // Validate the form data
+        if(count($request->questions) < 1){
+            return redirect()->back()->with('error', 'Please add a question');
+        }
         $request->validate([
+            'questions' => 'required',
             'questions.*.text' => 'required|string',
             'questions.*.type' => 'required|in:text,multiple_choice,yes_no,number_rating,emoji_rating,star_rating,radio_button_gender,radio_button_experience',
             'questions.*.options' => 'sometimes|array',
