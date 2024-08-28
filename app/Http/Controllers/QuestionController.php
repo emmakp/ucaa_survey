@@ -18,6 +18,15 @@ class QuestionController extends Controller
         return view('questions.index', compact('questions'));
     }
 
+    public function get_questions()
+    {
+        $questions = Question::all();
+        return response()->json([
+            'success' => true,
+            'data' => $questions
+        ]);
+    }
+
     public function create()
     {
         $questionaires = Questionaire::all();

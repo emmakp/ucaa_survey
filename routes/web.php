@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth'], function(){
             // Get
             Route::get('/qna', [App\Http\Controllers\QuestionFormController::class, 'index']);
             Route::post('/qna', [App\Http\Controllers\QuestionFormController::class, 'create_answer'])->name('create-question');
+            
+            
+            Route::get('/api/questions', [App\Http\Controllers\QuestionController::class, 'get_questions']);
 
 
             // PATCH / PUT,

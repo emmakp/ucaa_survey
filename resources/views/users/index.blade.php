@@ -57,7 +57,7 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table>
+                    </table> 
                 @else
                     <div class="text-danger">
                         <p>No users in the System</p>
