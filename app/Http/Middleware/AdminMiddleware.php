@@ -56,18 +56,18 @@ class AdminMiddleware
         // print_r($can_access);
         // exit;
 
-        if ($method === 'postChangePassword'  || $method === 'getChangePassword'  || $method === 'drugqty' || $method === 'store'  || $method === 'update' || $method === 'showRegistrationForm' || $method === 'logout'){
-            return $next($request);
-        }else
-        if(isset($can_access) && ($can_access->Status === 1)){
-            return $next($request);
-        }else if(!isset($can_access) || ($can_access->Status === 0)){
-            return redirect('/dashboard')->with('error', 'Sorry, You don\'t have access.');
-        }
-        // if($request->user() && $request->user()->UserRole === 2){
+        // if ($method === 'postChangePassword'  || $method === 'getChangePassword'  || $method === 'drugqty' || $method === 'store'  || $method === 'update' || $method === 'showRegistrationForm' || $method === 'logout'){
         //     return $next($request);
+        // }else
+        // if(isset($can_access) && ($can_access->Status === 1)){
+        //     return $next($request);
+        // }else if(!isset($can_access) || ($can_access->Status === 0)){
+        //     return redirect('/dashboard')->with('error', 'Sorry, You don\'t have access.');
         // }
+        if($request->user() && $request->user()->UserRole === 2){
+            return $next($request);
+        }
 
-        // return redirect('/');
+        return redirect('/');
     }
 }

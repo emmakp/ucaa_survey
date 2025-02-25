@@ -11,7 +11,8 @@
                     <div class="row">
                         <div class="col col-md-7">
                             @if(isset($user[0]->pic))
-                                <img src="{{ asset($user[0]->pic->Location).'/'.$user[0]->pic->Name }}" alt="{{$user[0]->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 200px;">
+                                {{-- <img src="{{ asset($user[0]->pic->Location).'/'.$user[0]->pic->Name }}" alt="{{$user[0]->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 200px;"> --}}
+                                <img src="{{ asset('storage/pics/'.$user[0]->pic->Name) }}" alt="{{$user[0]->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 200px;">
                             @else
                                 <img src="{{ asset('storage/pics/nopic.png') }}" alt="{{$user[0]->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 200px;">
                             @endif

@@ -73,14 +73,14 @@ class UserRolesController extends Controller
         //
         $this->validate($request, [
             'RoleName' => 'required|string|min:2|max:30',
-            // 'Description' => 'nullable|string',
+            'Description' => 'nullable|string',
         ]);
 
         $user_id = auth()->user()->id;
 
         $user_role = new UserRoles;
         $user_role->RoleName = $request->input('RoleName');
-        // $user_role->Description = $request->input('Description');
+        $user_role->Description = $request->input('Description');
         $user_role->created_by = $user_id;
         $user_role->save();
 

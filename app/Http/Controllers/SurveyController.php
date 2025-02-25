@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Survey;
 use App\AuditTrail;
+use App\Departments;
+use App\Audience;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -30,13 +32,17 @@ class SurveyController extends Controller
 
     public function create()
     {
-        return view('surveys.create');
+        $departments = Departments::orderBy('Name', 'ASC')->get();
+        // $audiences = Audience::orderBy('title')->get();
+        
+        return view('surveys.create')->with(['departments' => $departments]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'string|required',
+            'department_id' => 'integer|required',
         ]);
 
 
@@ -54,6 +60,7 @@ class SurveyController extends Controller
         // Survey::create($request->all());
         $survey = new Survey;
         $survey->title = $request->input('title');
+        $survey->department_id = $request->input('department_id');
         $survey->obfuscator = Str::random(10);
         $survey->created_by = $audit_user_id;
         $survey->status = 'pending';
@@ -79,6 +86,7 @@ class SurveyController extends Controller
         $request->validate([
             'title' => 'required',
             'status' => 'required',
+            'department_id' => 'required',
             'obfuscator' => 'required',
             'created_by' => 'required',
         ]);

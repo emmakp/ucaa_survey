@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\QuestionaireController;
 // use App\Http\Controllers\QuestionTypeController;
 // use App\Http\Controllers\QuestionController;
-// use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
@@ -85,6 +85,16 @@ Route::group(['middleware' => 'auth'], function(){
 
 Route::get('/survey/{survey_id}/fill/{questionaire_id}/ucaa', 'GuestController@get_form')->name('guest.form');
 Route::post('/survey/{survey_id}/fill/{questionaire_id}/ucaa', 'GuestController@post_form')->name('guest.form.post');
+
+// AJAX Reqeusts
+// Ajax requests
+Route::prefix('api')->group(function () {
+
+    // open api routes
+    // Car Locations
+    Route::get('/questionaires/fetch', [App\Http\Controllers\GuestController::class, 'get_questions'])->name('api.questionaires');
+});
+
 
 // Debug
 Route::get('drugqty', 'HomeController@drugqty');

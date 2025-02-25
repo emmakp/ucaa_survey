@@ -3,8 +3,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Answer;
-use App\Models\Question;
+use App\Answer;
+use App\Question;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
@@ -12,6 +12,7 @@ class AnswerController extends Controller
     public function index()
     {
         $answers = Answer::all();
+        print_r($answers);exit;
         return view('answers.index', compact('answers'));
     }
 

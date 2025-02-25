@@ -17,5 +17,9 @@ class Survey extends Model
     public function questionaires(){
         return $this->hasMany('App\Questionaire', 'survey_id');
     }
+    
+    public function department(){
+        return $this->belongsTo('App\Departments', 'department_id');
+    }
 }
 

@@ -91,7 +91,7 @@ class AudienceController extends Controller
     public function destroy(Audience $audience)
     {
         $audience->delete();
-
-        return redirect()->route('audiences.index')->with('success', 'Audience deleted successfully.');
+        
+        return redirect()->route('audiences.index')->with('error', 'Audience deleted successfully.');
     }
 }

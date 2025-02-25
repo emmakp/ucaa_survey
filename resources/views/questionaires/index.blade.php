@@ -45,7 +45,7 @@
                     </table>
                 @else
                     <div class="text-danger">
-                        <p>No Audience  Record in the System</p>
+                        <p>No Questionaires in the System</p>
                     </div>
                 @endif
             </div>

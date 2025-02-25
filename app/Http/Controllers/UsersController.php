@@ -179,9 +179,10 @@ class UsersController extends Controller
         
         if ($request->input('UserName') != $user->username) {
             $this->validate($request, [
-                'UserName' => ['required', 'string', 'max:255', 'unique:users'],
+                'UserName' => ['nullable', 'string', 'max:255', 'unique:users'],
             ]);
             $user->username = $request->input('UserName');
+            $user->username = 'n/A';
         }
         
         if ($request->input('PhoneNumber') != $user->PhoneNumber) {

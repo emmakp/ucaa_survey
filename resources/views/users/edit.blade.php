@@ -74,7 +74,7 @@
                             <label for="UserName" class="col-md-4 col-form-label text-md-right">{{ __('Usern Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="UserName" type="text" class="form-control{{ $errors->has('UserName') ? ' is-invalid' : '' }}" name="UserName" value="{{ $user[0]->username }}" required autofocus>
+                                <input id="UserName" type="text" class="form-control{{ $errors->has('UserName') ? ' is-invalid' : '' }}" name="UserName" value="{{ $user[0]->username }}" autofocus>
 
                                 @if ($errors->has('UserName'))
                                     <span class="invalid-feedback" role="alert">
@@ -108,7 +108,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">256</span>
                                     </div>
-                                    <input id="PhoneNumber" type="text" class="form-control{{ $errors->has('PhoneNumber') ? ' is-invalid' : '' }}" name="PhoneNumber" value="{{ $user[0]->PhoneNumber }}" required placeholder="750000000">
+                                    <input id="PhoneNumber" type="text" class="form-control{{ $errors->has('PhoneNumber') ? ' is-invalid' : '' }}" name="PhoneNumber" value="{{ $user[0]->PhoneNumber }}" placeholder="750000000">
     
                                     @if ($errors->has('PhoneNumber'))
                                         <span class="invalid-feedback" role="alert">

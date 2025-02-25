@@ -43,10 +43,11 @@
                                 <tr>
                                     <td>
                                         @if(isset($user->pic))
-                                            <img src="{{ asset('img/image.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
-                                            <!-- <img src="{{ asset('$user->pic->Location').'/'.$user->pic->Name }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;"> -->
+                                            {{-- <img src="{{ asset('img/image.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;"> --}}
+                                            <img src="{{ asset('storage/pics/'.$user->pic->Name) }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
                                         @else
-                                            <img src="{{ asset('storage/pics/nopic.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
+                                            <img src="{{ asset('img/image.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;">
+                                            {{-- <img src="{{ asset('storage/pics/nopic.png') }}" alt="{{$user->FirstName}}'s Picture'" class="img-responsive rounded-circle" style="max-width: 50px;"> --}}
                                         @endif
                                     </td>
                                     <td><a href="{{route('staff.show', ['staff' => $user->Obfuscator])}}" class="link">{{$user->user_title->TitleName.' '.$user->FirstName.' '.$user->SecondName }}</a></td>
