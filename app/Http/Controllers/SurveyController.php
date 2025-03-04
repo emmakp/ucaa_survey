@@ -63,31 +63,62 @@ class SurveyController extends Controller
 
     // public function showDepartments($surveyId, $audienceType)
     // {
+    //     $survey = Survey::findOrFail($surveyId);
+    //     if (!$survey->published) {
+    //         return redirect()->route('survey.welcome')->with('error', 'This survey is not published.');
+    //     }
+    
+    //     $questionaire = \App\Questionaire::where('survey_id', $surveyId)
+    //                                     ->whereHas('audience', function ($query) use ($audienceType) {
+    //                                         $query->where('name', $audienceType);
+    //                                     })
+    //                                     ->first();
+    
+    //     if (!$questionaire) {
+    //         return redirect()->route('survey.welcome')->with('error', 'No questionnaire found for this survey and audience.');
+    //     }
+    
     //     $departments = Question::where('survey_id', $surveyId)
-    //                           ->where('audience_type', $audienceType)
-    //                           ->pluck('department')
-    //                           ->unique()
-    //                           ->values()
-    //                           ->toArray();
-
+    //                            ->where('questionaire_id', $questionaire->id)
+    //                            ->where('audience_type', $audienceType)
+    //                            ->pluck('department')
+    //                            ->unique()
+    //                            ->values()
+    //                            ->toArray();
+    
+    //     if (empty($departments)) {
+    //         return redirect()->route('survey.welcome')->with('error', 'No departments assigned to this questionnaire.');
+    //     }
+    
+    //     Log::info("Survey ID: $surveyId, Audience Type: $audienceType, Departments: ", $departments);
+    
     //     return view('forms.department-selection', [
     //         'survey_id' => $surveyId,
     //         'audience_type' => $audienceType,
     //         'departments' => $departments,
-    //         'questionaire' => (object) ['survey_id' => $surveyId, 'obfuscator' => 'initial-survey']
+    //         'questionaire' => $questionaire,
     //     ]);
     // }
-
-
-//     public function showDepartments($surveyId, $audienceType)
+// public function showDepartments($surveyId, $audienceType)
 // {
 //     $departments = Question::where('survey_id', $surveyId)
-//                           ->where('audience_type', $audienceType)
-//                           ->pluck('department')
-//                           ->unique()
-//                           ->values()
-//                           ->toArray();
-//     \Illuminate\Support\Facades\Log::info("Departments for surveyId=$surveyId, audienceType=$audienceType: ", $departments);
+//                            ->where('audience_type', $audienceType)
+//                            ->pluck('department')
+//                            ->unique()
+//                            ->values()
+//                            ->toArray();
+
+//     if (empty($departments)) {
+//         // Fallback to all active departments if no survey-specific ones exist
+//         $departments = \App\Departments::where('is_active', true)
+//                                        ->pluck('Name')
+//                                        ->values()
+//                                        ->toArray();
+//     }
+
+    
+
+//     \Illuminate\Support\Facades\Log::info("Survey ID: $surveyId, Audience Type: $audienceType, Departments: ", $departments);
 
 //     return view('forms.department-selection', [
 //         'survey_id' => $surveyId,
@@ -98,7 +129,25 @@ class SurveyController extends Controller
 // }
 public function showDepartments($surveyId, $audienceType)
 {
+    $survey = Survey::findOrFail($surveyId);
+    if (!$survey->published) {
+        Log::info("Redirecting: Survey {$surveyId} is not published.");
+        return redirect()->route('survey.welcome')->with('error', 'This survey is not published.');
+    }
+
+    $questionaire = \App\Questionaire::where('survey_id', $surveyId)
+                                    ->whereHas('audience', function ($query) use ($audienceType) {
+                                        $query->where('name', $audienceType);
+                                    })
+                                    ->first();
+
+    if (!$questionaire) {
+        Log::info("Redirecting: No questionnaire found for survey {$surveyId} and audience {$audienceType}.");
+        return redirect()->route('survey.welcome')->with('error', 'No questionnaire found for this survey and audience.');
+    }
+
     $departments = Question::where('survey_id', $surveyId)
+                           ->where('questionaire_id', $questionaire->id)
                            ->where('audience_type', $audienceType)
                            ->pluck('department')
                            ->unique()
@@ -106,22 +155,17 @@ public function showDepartments($surveyId, $audienceType)
                            ->toArray();
 
     if (empty($departments)) {
-        // Fallback to all active departments if no survey-specific ones exist
-        $departments = \App\Departments::where('is_active', true)
-                                       ->pluck('Name')
-                                       ->values()
-                                       ->toArray();
+        Log::info("Redirecting: No departments found for survey {$surveyId}, audience {$audienceType}, questionnaire {$questionaire->id}.");
+        return redirect()->route('survey.welcome')->with('error', 'No departments assigned to this questionnaire.');
     }
 
-    
-
-    \Illuminate\Support\Facades\Log::info("Survey ID: $surveyId, Audience Type: $audienceType, Departments: ", $departments);
+    Log::info("Survey ID: $surveyId, Audience Type: $audienceType, Departments: ", $departments);
 
     return view('forms.department-selection', [
         'survey_id' => $surveyId,
         'audience_type' => $audienceType,
         'departments' => $departments,
-        'questionaire' => (object) ['survey_id' => $surveyId, 'obfuscator' => 'initial-survey']
+        'questionaire' => $questionaire,
     ]);
 }
 

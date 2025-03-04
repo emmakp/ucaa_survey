@@ -49,7 +49,7 @@
     </div>
     <!-- Jurisdiction Selection Overlay -->
 <div id="jurisdictionOverlay" @if(isset($jurisdiction)) style="display: none;" @endif>
-    <h2>Select Your Jurisdiction</h2>
+    <h2>Which stakeholder department do you belong to?</h2>
     <!-- @foreach (\App\Jurisdiction::active()->get() as $jurisdictionOption)
         <button class="jurisdictionButton" data-jurisdiction="{{ $jurisdictionOption->name }}">{{ $jurisdictionOption->name }}</button>
     @endforeach -->

@@ -62,6 +62,12 @@
                     @enderror
                 </div>
 
+                <!-- Optional: Display audience_type (read-only) -->
+                <div class="form-group mb-3">
+                    <label>Audience Type</label>
+                    <p class="form-control-plaintext">Determined by selected questionnaire</p>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Create Question</button>
                 <a href="{{ route('questions.index') }}" class="btn btn-secondary">Cancel</a>
             </form>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,34 +25,37 @@
             margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
+            /* background-color: #007bff; Bootstrap primary blue */
+            color: black;
+            border: none;
+            border-radius: 5px;
+            /* color: white; */
+            transition: background-color 0.3s;
+        }
+        /* #departmentOverlay button:hover {
+            background-color: #0056b3; 
+        } */
+        #departmentOverlay h2 {
+            margin-bottom: 20px;
+        }
+        #departmentOverlay p {
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <!-- <div id="departmentOverlay">
+    <div id="departmentOverlay">
         <h2>Select a Department</h2>
-        @foreach ($departments as $department)
-            <button onclick="window.location.href='/survey/{{ $survey_id }}/questions/{{ $audience_type }}/{{ $department }}'">
+        @forelse ($departments as $department)
+            <button 
+                onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => str_replace(' ', '%20', $department)]) }}'">
                 {{ $department }}
             </button>
-        @endforeach
-    </div> -->
+        @empty
+            <p>No departments available for this survey and audience type.</p>
+        @endforelse
+    </div>
 
-
-    <div id="departmentOverlay">
-    <h2>Select a Department</h2>
-    @forelse ($departments as $department)
-        <button 
-        onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => str_replace(' ', '%20', $department)]) }}'">
-                <!-- onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => urlencode($department)]) }}'"> -->
-            {{ $department }}
-        </button>
-    @empty
-        <p>No departments available for this survey and audience type.</p>
-    @endforelse
-    <!-- Debug: Remove after testing -->
-    <!-- <p>Debug: {{ count($departments) }} departments found</p> -->
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
