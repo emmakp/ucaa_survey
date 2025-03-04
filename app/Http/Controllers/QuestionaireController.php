@@ -55,26 +55,30 @@ class QuestionaireController extends Controller
     // }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'obfuscator' => 'required|string|max:255',
-        'survey_id' => 'required|exists:surveys,id',
-        'validity' => 'required|boolean',
-        'target_audience' => 'required|integer',
-    ]);
-
-    $audit_user_id = auth()->user()->id;
-    AuditTrail::create([
-        'user_id' => $audit_user_id,
-        'controller' => 'QuestionaireController', // Add required field
-        'function' => 'store', // Add if function exists in schema
-        'action' => 'Created a questionnaire', // Fixed typo
-    ]);
-
-    $questionaire = Questionaire::create($request->all());
-
-    return redirect()->route('questionaires.index')->with('success', 'Questionnaire created successfully.');
-}
+    {
+        // Validate only the fields from the form
+        $request->validate([
+            'survey_id' => 'required|exists:surveys,id',
+            'target_audience' => 'required|integer',
+        ]);
+    
+        $audit_user_id = auth()->user()->id;
+        AuditTrail::create([
+            'user_id' => $audit_user_id,
+            'controller' => 'QuestionaireController',
+            'function' => 'store',
+            'action' => 'Created a questionnaire',
+        ]);
+    
+        // Merge validated data with auto-generated fields
+        $data = $request->all();
+        $data['obfuscator'] = Str::random(10); // Auto-generate obfuscator
+        $data['validity'] = 1; // Default to true
+    
+        $questionaire = Questionaire::create($data);
+    
+        return redirect()->route('questionaires.index')->with('success', 'Questionnaire created successfully.');
+    }
 
     public function show(Questionaire $questionaire)
     {
