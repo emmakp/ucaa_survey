@@ -28,13 +28,30 @@
     </style>
 </head>
 <body>
-    <div id="departmentOverlay">
+    <!-- <div id="departmentOverlay">
         <h2>Select a Department</h2>
         @foreach ($departments as $department)
             <button onclick="window.location.href='/survey/{{ $survey_id }}/questions/{{ $audience_type }}/{{ $department }}'">
                 {{ $department }}
             </button>
         @endforeach
-    </div>
+    </div> -->
+
+
+    <div id="departmentOverlay">
+    <h2>Select a Department</h2>
+    @forelse ($departments as $department)
+        <button 
+        onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => str_replace(' ', '%20', $department)]) }}'">
+                <!-- onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => urlencode($department)]) }}'"> -->
+            {{ $department }}
+        </button>
+    @empty
+        <p>No departments available for this survey and audience type.</p>
+    @endforelse
+    <!-- Debug: Remove after testing -->
+    <!-- <p>Debug: {{ count($departments) }} departments found</p> -->
+</div>
 </body>
+
 </html>

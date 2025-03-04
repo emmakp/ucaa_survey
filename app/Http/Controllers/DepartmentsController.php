@@ -13,21 +13,53 @@ class DepartmentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index()
+    // {
+    //     //
+    //     $audit_action = 'View List of Departments';
+    //     $audit_user_id = auth()->user()->id;
+
+    //     // Audit this action
+    //     $audit_trail = new AuditTrail();
+
+    //     $audit_trail->action = $audit_action;
+    //     $audit_trail->user_id = $audit_user_id;
+    //     $audit_trail->controller = 'DepartmentsController';
+    //     $audit_trail->function = 'index';
+
+    //     $audit_trail->save();
+
+    //     $departments = Departments::orderby('id', 'desc')->get();
+
+    //     return view('departments.index')->with('departments', $departments);
+    // }
     public function index()
     {
-        //
         $audit_action = 'View List of Departments';
         $audit_user_id = auth()->user()->id;
 
         // Audit this action
-        $audit_trail = new AuditTrail();
+        // $audit_trail = new AuditTrail();
 
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
+        // $audit_trail->action = $audit_action;
+        // $audit_trail->user_id = $audit_user_id;
+        // $audit_trail->controller = 'DepartmentsController';
+        // // $audit_trail->function = 'index';
+        // $audit_trail->function = 'store';
 
-        $audit_trail->save();
 
-        $departments = Departments::orderby('id', 'desc')->get();
+        AuditTrail::create([
+            'action' => $audit_action,
+            'user_id' => $audit_user_id,
+            'controller' => 'DepartmentsController',
+            'function' => 'index',
+        ]);
+
+
+        // $audit_trail->save();
+
+        // Use paginate instead of get
+        $departments = Departments::orderBy('id', 'desc')->paginate(10); // 10 items per page
 
         return view('departments.index')->with('departments', $departments);
     }
@@ -39,7 +71,7 @@ class DepartmentsController extends Controller
      */
     public function create()
     {
-        //
+        //in
 
         return view('departments.create');
     }
@@ -50,35 +82,68 @@ class DepartmentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+    //     //
+    //     $audit_action = 'Add New Department';
+    //     $audit_user_id = auth()->user()->id;
+
+    //     // Audit this action
+    //     $audit_trail = new AuditTrail();
+
+    //     $audit_trail->action = $audit_action;
+    //     $audit_trail->user_id = $audit_user_id;
+    //     $audit_trail->controller = 'DepartmentsController';
+    //     $audit_trail->function = 'store';
+
+    //     $audit_trail->save();
+
+    //     $this->validate($request, [
+    //         'Name' => ['required', 'string', 'max:255', 'min:2'],
+    //         'Description' => ['string', 'max:255', 'min:2', 'nullable'],
+    //     ]);
+
+    //     $department = new Departments;
+        
+    //     if ($request->input('Description') != '') {
+    //         $department->Description = $request->input('Description');
+    //     }
+
+    //     $department->Name = $request->input('Name');
+        
+    //     $department->save();
+
+    //     return redirect('/departments/create')->with('success', 'The record has been saved');
+    // }
     public function store(Request $request)
     {
-        //
         $audit_action = 'Add New Department';
         $audit_user_id = auth()->user()->id;
-
+    
         // Audit this action
-        $audit_trail = new AuditTrail();
-
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
-
-        $audit_trail->save();
-
+        AuditTrail::create([
+            'action' => $audit_action,
+            'user_id' => $audit_user_id,
+            'controller' => 'DepartmentsController',
+            'function' => 'store',
+        ]);
+    
         $this->validate($request, [
             'Name' => ['required', 'string', 'max:255', 'min:2'],
             'Description' => ['string', 'max:255', 'min:2', 'nullable'],
         ]);
-
+    
         $department = new Departments;
-        
         if ($request->input('Description') != '') {
             $department->Description = $request->input('Description');
         }
+        // $department->Name = $request->input('name'); // Map 'name' to 'Name'
+        $department->Name = $request->input('Name'); // Map 'name' to 'Name'
+        $department->Description = $request->input('Description', '');
+        $department->is_active = $request->has('is_active') ? true : false;
 
-        $department->Name = $request->input('Name');
-        
         $department->save();
-
+    
         return redirect('/departments/create')->with('success', 'The record has been saved');
     }
 
@@ -122,22 +187,40 @@ class DepartmentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // public function destroy($id)
+    // {
+    //     //
+    //     $audit_action = 'Deleted Department';
+    //     $audit_user_id = auth()->user()->id;
+
+    //     // Audit this action
+    //     $audit_trail = new AuditTrail();
+
+    //     $audit_trail->action = $audit_action;
+    //     $audit_trail->user_id = $audit_user_id;
+
+    //     $audit_trail->save();
+
+    //     $department = Departments::find($id);
+
+    //     $department->delete();
+
+    //     return redirect('/departments')->with('error', 'Record has been deleted');
+    // }
     public function destroy($id)
     {
-        //
         $audit_action = 'Deleted Department';
         $audit_user_id = auth()->user()->id;
 
         // Audit this action
-        $audit_trail = new AuditTrail();
-
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
-
-        $audit_trail->save();
+        AuditTrail::create([
+            'action' => $audit_action,
+            'user_id' => $audit_user_id,
+            'controller' => 'DepartmentsController',
+            'function' => 'destroy',
+        ]);
 
         $department = Departments::find($id);
-
         $department->delete();
 
         return redirect('/departments')->with('error', 'Record has been deleted');

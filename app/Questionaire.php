@@ -17,6 +17,11 @@ class Questionaire extends Model
         return $this->belongsTo('App\Audience', 'target_audience');
     }
 
+    public function audience()
+    {
+        return $this->belongsTo(Audience::class, 'target_audience');
+    }
+
     public function questions(){
         return $this->hasMany('App\Question', 'questionaire_id');
     }

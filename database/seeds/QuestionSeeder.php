@@ -11,6 +11,8 @@ use App\Audience;
 use App\Title;
 use App\UserRoles;
 use App\QuestionType;
+use App\Departments;
+use App\Jurisdiction;
 
 class QuestionSeeder extends Seeder
 {
@@ -26,6 +28,36 @@ class QuestionSeeder extends Seeder
         Title::query()->delete();
         UserRoles::query()->delete();
         QuestionType::query()->delete();
+        Departments::query()->delete();
+
+        // Seed Departments
+        $departments = [
+            ['Name' => 'Security', 'Description' => 'Handles security screening and safety'],
+            ['Name' => 'Operations', 'Description' => 'Manages check-in, boarding, and baggage'],
+            ['Name' => 'Customs and Immigrations', 'Description' => 'Oversees immigration and customs processes'],
+            ['Name' => 'Strategic Planning', 'Description' => 'Focuses on transportation and airport strategy'],
+            ['Name' => 'Information Desk', 'Description' => 'Provides customer support and emergency response'],
+            ['Name' => 'General', 'Description' => 'Covers overall airport experience'],
+        ];
+
+        foreach ($departments as $dept) {
+            Departments::firstOrCreate(
+                ['Name' => $dept['Name']],
+                ['Description' => $dept['Description'], 'is_active' => true]
+            );
+        }
+
+        // Seed Jurisdictions (optional since we’re focusing on audiences)
+        $jurisdictions = [
+            ['name' => 'Passenger', 'is_active' => true],
+            ['name' => 'Staff', 'is_active' => true],
+        ];
+        foreach ($jurisdictions as $j) {
+            Jurisdiction::firstOrCreate(
+                ['name' => $j['name']],
+                ['is_active' => $j['is_active']]
+            );
+        }
 
         // Seed Titles
         Title::create(['TitleName' => 'Mr.', 'Acrynom' => 'MR']);
@@ -55,14 +87,15 @@ class QuestionSeeder extends Seeder
         }
 
         // Seed Audiences
-        Audience::create([
+        $passengerAudience = Audience::create([
             'title' => 'Passenger',
             'name' => 'Passenger',
             'created_by' => 1,
             'obfuscator' => \Illuminate\Support\Str::random(10),
             'validity' => true,
         ]);
-        Audience::create([
+
+        $staffAudience = Audience::create([
             'title' => 'Staff',
             'name' => 'Staff',
             'created_by' => 1,
@@ -72,24 +105,30 @@ class QuestionSeeder extends Seeder
 
         // Seed Surveys
         $survey = Survey::create([
-            'title' => 'Passenger Survey',
+            'title' => 'Default Survey (for both passengers and staff)',
             'obfuscator' => \Illuminate\Support\Str::random(10),
             'created_by' => 1,
             'status' => 'active',
             'published' => true,
         ]);
 
-        // Seed Questionaires
-        if (!Questionaire::where('obfuscator', 'initial-survey')->exists()) {
-            $questionaire = Questionaire::create([
-                'obfuscator' => 'initial-survey',
-                'survey_id' => $survey->id,
-                'validity' => true,
-                'target_audience' => 1,
-            ]);
-        } else {
-            $questionaire = Questionaire::where('obfuscator', 'initial-survey')->first();
-        }
+        // Attach both audiences to the survey
+        $survey->audiences()->attach([$passengerAudience->id, $staffAudience->id]);
+
+        // Seed Questionaires for each audience
+        $passengerQuestionaire = Questionaire::create([
+            'obfuscator' => 'initial-survey-passenger',
+            'survey_id' => $survey->id,
+            'validity' => true,
+            'target_audience' => $passengerAudience->id,
+        ]);
+
+        $staffQuestionaire = Questionaire::create([
+            'obfuscator' => 'initial-survey-staff',
+            'survey_id' => $survey->id,
+            'validity' => true,
+            'target_audience' => $staffAudience->id,
+        ]);
 
         // Seed Question Types
         QuestionType::create(['type' => 'Rating', 'obfuscator' => \Illuminate\Support\Str::random(10)]);
@@ -217,7 +256,8 @@ class QuestionSeeder extends Seeder
                 'audience_type' => $question['audience_type'],
                 'department' => $question['department'],
                 'question' => $question['question'],
-                'questionaire_id' => $questionaire->id,
+                // 'questionaire_id' => $questionaire->id,
+                'questionaire_id' => $question['audience_type'] === 'passenger' ? $passengerQuestionaire->id : $staffQuestionaire->id,
                 'question_type' => $question['question_type'],
                 'is_required' => $question['is_required'],
                 'obfuscator' => \Illuminate\Support\Str::random(10),

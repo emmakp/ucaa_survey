@@ -47,14 +47,16 @@
         <img src="{{ asset('form/img/welcome_1.gif') }}" alt="Loading..." id="loaderGif">
         <button id="startButton">Start</button>
     </div>
-
-
     <!-- Jurisdiction Selection Overlay -->
-    <div id="jurisdictionOverlay" @if(isset($jurisdiction)) style="display: none;" @endif>
-        <h2>Are you a Passenger or Staff?</h2>
-        <button id="passengerButton">Passenger</button>
-        <button id="staffButton">Staff</button>
-    </div>
+<div id="jurisdictionOverlay" @if(isset($jurisdiction)) style="display: none;" @endif>
+    <h2>Select Your Jurisdiction</h2>
+    <!-- @foreach (\App\Jurisdiction::active()->get() as $jurisdictionOption)
+        <button class="jurisdictionButton" data-jurisdiction="{{ $jurisdictionOption->name }}">{{ $jurisdictionOption->name }}</button>
+    @endforeach -->
+    @foreach ($audiences as $audience)
+    <button class="jurisdictionButton" data-jurisdiction="{{ $audience }}">{{ $audience }}</button>
+@endforeach
+</div>
 
     <!-- Thank You Overlay -->
     <div id="secondOverlay">
@@ -84,46 +86,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <script>
-        Survey.StylesManager.applyTheme("defaultV2");
-
-        const surveyId = "{{ $survey_id ?? 1 }}";
-        const questionaireId = "{{ $questionaire->obfuscator ?? 'default-id' }}";
-        const jurisdiction = "{{ $jurisdiction ?? '' }}";
-        console.log('Survey ID:', surveyId, 'Questionnaire ID:', questionaireId, 'Jurisdiction:', jurisdiction);
-
-        document.getElementById('passengerButton')?.addEventListener('click', function() {
-            window.location.href = `/survey/${surveyId}/departments/passenger`;
-        });
-
-        document.getElementById('staffButton')?.addEventListener('click', function() {
-            window.location.href = `/survey/${surveyId}/departments/staff`;
-        });
-
-        if (jurisdiction) {
-            const surveyJson = {!! $surveyJson ?? 'null' !!};
-            if (surveyJson) {
-                const survey = new Survey.Model(surveyJson);
-                survey.onComplete.add(function (result) {
-                    fetch(`/survey/${surveyId}/fill/${questionaireId}/ucaa`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify(result.data)
-                    }).then(response => {
-                        if (response.ok) {
-                            document.getElementById('secondOverlay').style.display = 'flex';
-                            document.getElementById('mainContent').style.display = 'none';
-                        }
-                    }).catch(error => console.error('Error:', error));
-                });
-                survey.render(document.getElementById("caa-form"));
-            }
-        }
-    </script> -->
     <script>
     Survey.StylesManager.applyTheme("defaultV2");
 
@@ -155,63 +117,71 @@
 
     console.log('Survey ID:', surveyId, 'Questionnaire ID:', questionaireId, 'Jurisdiction:', jurisdiction);
 
-    document.getElementById('passengerButton')?.addEventListener('click', function() {
-        window.location.href = `/survey/${surveyId}/departments/passenger`;
-    });
+// Handle dynamic jurisdiction buttons
+document.querySelectorAll('.jurisdictionButton').forEach(button => {
+            button.addEventListener('click', function() {
+                const selectedJurisdiction = this.getAttribute('data-jurisdiction');
+                window.location.href = `/survey/${surveyId}/departments/${selectedJurisdiction.toLowerCase()}`;
+            });
+        });
 
-    document.getElementById('staffButton')?.addEventListener('click', function() {
-        window.location.href = `/survey/${surveyId}/departments/staff`;
-    });
+        // Handle custom jurisdiction
+        document.getElementById('customSubmitButton')?.addEventListener('click', function() {
+            const customJurisdiction = document.getElementById('customJurisdiction').value.trim();
+            if (customJurisdiction) {
+                // Optionally save to DB via AJAX (see Step 4)
+                fetch('/jurisdictions/store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ name: customJurisdiction })
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        window.location.href = `/survey/${surveyId}/departments/${customJurisdiction.toLowerCase()}`;
+                    }
+                }).catch(error => console.error('Error saving jurisdiction:', error));
+            } else {
+                alert('Please enter a custom jurisdiction.');
+            }
+        });
 
-    if (jurisdiction) {
-        const surveyJson = {!! $surveyJson ?? 'null' !!};
-        if (surveyJson) {
-            const survey = new Survey.Model(surveyJson);
-            // survey.onComplete.add(function (result) {
-            //     console.log('Submitting data:', result.data);
-            //     fetch(`/survey/${surveyId}/fill/${questionaireId}/ucaa`, {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //         },
-            //         body: JSON.stringify(result.data)
-            //     }).then(response => {
-            //         if (response.ok) {
-            //             document.getElementById('secondOverlay').style.display = 'flex';
-            //             document.getElementById('mainContent').style.display = 'none';
-            //         }
-            //     }).catch(error => console.error('Error:', error));
-            // });
-            survey.onComplete.add(function (result) {
-    console.log('Submitting data:', result.data);
-    fetch(`/survey/${surveyId}/fill/${questionaireId}/ucaa`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify(result.data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.status);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            document.getElementById('secondOverlay').style.display = 'flex';
-            document.getElementById('mainContent').style.display = 'none';
+        if (jurisdiction) {
+            const surveyJson = {!! $surveyJson ?? 'null' !!};
+            if (surveyJson) {
+                const survey = new Survey.Model(surveyJson);
+                survey.onComplete.add(function (result) {
+                    console.log('Submitting data:', result.data);
+                    fetch(`/survey/${surveyId}/fill/${questionaireId}/ucaa`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify(result.data)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok: ' + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('secondOverlay').style.display = 'flex';
+                            document.getElementById('mainContent').style.display = 'none';
+                        } else {
+                            console.error('Submission failed:', data.error);
+                        }
+                    })
+                    .catch(error => console.error('Fetch error:', error));
+                });
+                survey.render(document.getElementById("caa-form"));
+            }
         } else {
-            console.error('Submission failed:', data.error);
+            document.getElementById('loader').style.display = 'flex';
         }
-    })
-    .catch(error => console.error('Fetch error:', error));
-});
-            survey.render(document.getElementById("caa-form"));
-        }
-    }
 </script>
 </body>
 </html>

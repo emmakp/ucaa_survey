@@ -93,6 +93,15 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Audiences
                 </a>
+                <!-- <a class="nav-link" href="{{url('jurisdictions')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-map"></i></div>
+                    Jurisdictions
+                </a> -->
+                <a class="nav-link" href="{{url('departments')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-industry"></i></div>
+                   Departments
+                </a>
+
                 <a class="nav-link" href="{{url('surveys')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
                     Surveys
@@ -105,10 +114,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-check-square"></i></div>
                     Question Types
                 </a> --}}
-                <a class="nav-link" href="{{ route('question-type.index') }}">
+                <!-- <a class="nav-link" href="{{ route('question-type.index') }}">
     <div class="sb-nav-link-icon"><i class="fas fa-check-square"></i></div>
     Question Types
-</a>
+</a> -->
                 <a class="nav-link" href="{{url('questions')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-question"></i></div>
                     Questions

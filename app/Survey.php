@@ -14,6 +14,16 @@ class Survey extends Model
         return $this->belongsTo('App\User', 'created_by');
     }
 
+    // public function audience()
+    // {
+    //     return $this->belongsTo(Audience::class, 'audience_id');
+    // }
+    public function audiences()
+    {
+        return $this->belongsToMany(Audience::class, 'audience_survey', 'survey_id', 'audience_id')
+                    ->withTimestamps();
+    }
+
     public function questionaires(){
         return $this->hasMany('App\Questionaire', 'survey_id');
     }

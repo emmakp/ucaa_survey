@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Question;
 use App\Questionaire;
 use App\QuestionType;
+use App\Departments;
 use Illuminate\Support\Str;
 use App\AuditTrail;
 use Illuminate\Http\Request;
@@ -19,9 +20,11 @@ class QuestionController extends Controller
 
     public function create()
     {
-        $questionaires = Questionaire::all();
+        // $questionaires = Questionaire::all();
+        $questionaires = Questionaire::with(['survey', 'audience'])->get();
         $questionTypes = QuestionType::all();
-        return view('questions.create', compact('questionaires', 'questionTypes'));
+        $departments = Departments::all();
+        return view('questions.create', compact('questionaires', 'questionTypes', 'departments'));
     }
 
     public function store(Request $request)

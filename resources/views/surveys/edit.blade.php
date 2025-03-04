@@ -47,7 +47,7 @@
 
             <div class="form-group mb-3">
                 <label for="status">Status</label>
-                <select name="status" id="status" class="form-control">
+                <select name="status" id="status" class="form-control" style="color: grey;">
                     <option value="pending" {{ old('status', $survey->status) === 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="active" {{ old('status', $survey->status) === 'active' ? 'selected' : '' }}>Active</option>
                 </select>
@@ -55,9 +55,13 @@
             </div>
 
             <!-- Display Question Count -->
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <p>Number of Questions: {{ $survey->questions()->count() }}</p>
                 <a href="{{ route('questions.index', ['survey_id' => $survey->id]) }}" class="btn btn-secondary">Manage Questions</a>
+            </div> -->
+            <div class="mb-3">
+                <p>Number of Questions: {{ $survey->questions()->count() }}</p>
+                <a href="{{ route('surveys.questionnaires', $survey->id) }}" class="btn btn-secondary">Manage Questions</a>
             </div>
 
             <!-- Buttons -->
