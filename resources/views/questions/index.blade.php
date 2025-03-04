@@ -43,9 +43,12 @@
         </table>
 
         <!-- Add Pagination Links -->
-        <div class="mt-3">
+        <!-- <div class="mt-3">
             {{ $questions->links() }}
-        </div>
+        </div> -->
+        <div class="mt-3">
+    {{ $questions->links('pagination::simple-bootstrap-4') }}
+</div>
     </div>
 </div>
 @endsection
