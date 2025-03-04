@@ -105,6 +105,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-check-square"></i></div>
                     Question Types
                 </a> --}}
+                <a class="nav-link" href="{{ route('question-type.index') }}">
+    <div class="sb-nav-link-icon"><i class="fas fa-check-square"></i></div>
+    Question Types
+</a>
                 <a class="nav-link" href="{{url('questions')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-question"></i></div>
                     Questions
@@ -117,6 +121,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
                     Reports
                 </a> --}}
+                <a class="nav-link" href="{{url('answers')}}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-reply"></i></div>
+                    Answers
+                </a>
                 <a class="nav-link" href="{{url('audit-trail')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
                     Audit Trail

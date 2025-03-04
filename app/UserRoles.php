@@ -9,6 +9,8 @@ class UserRoles extends Model
     //Table name
     protected $table = 'userroles';
 
+    protected $fillable = ['RoleName'];
+
     // Primary Key;
     public $primaryKey = 'id';
 

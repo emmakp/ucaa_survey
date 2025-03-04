@@ -19,6 +19,7 @@ class Audience extends Model
     protected $hidden = [
 
     ];
+    protected $fillable =['title', 'created_by', 'obfuscator', 'validity'];
 
     public function user(){
         return $this->belongsTo('App\User', 'created_by');

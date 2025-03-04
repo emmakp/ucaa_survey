@@ -15,12 +15,19 @@ class AudienceController extends Controller
         $audit_user_id = auth()->user()->id;
 
         // Audit this action
-        $audit_trail = new AuditTrail();
+        // $audit_trail = new AuditTrail();
 
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
+        AuditTrail::create([
+            'user_id' => $audit_user_id,
+            'controller' => 'SurveyController',
+            'function' => 'index',
+            'action' => 'View List of Surveys',
+        ]);
 
-        $audit_trail->save();
+        // $audit_trail->action = $audit_action;
+        // $audit_trail->user_id = $audit_user_id;
+
+        // $audit_trail->save();
 
 
 

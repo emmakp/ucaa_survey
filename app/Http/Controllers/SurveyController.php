@@ -3,30 +3,350 @@
 namespace App\Http\Controllers;
 
 use App\Survey;
+use App\Question;
+use App\Answer;
 use App\AuditTrail;
+use App\SurveySubmission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class SurveyController extends Controller
 {
     public function index()
     {
-        $audit_action = 'View List of Surveys';
-        $audit_user_id = auth()->user()->id;
-
-        // Audit this action
-        $audit_trail = new AuditTrail();
-
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
-
-        $audit_trail->save();
-
-
+        $audit_user_id = auth()->user()->id ?? null;
+        AuditTrail::create([
+            'user_id' => $audit_user_id,
+            'controller' => 'SurveyController',
+            'function' => 'index',
+            'action' => 'View List of Surveys',
+        ]);
 
         $surveys = Survey::all();
         return view('surveys.index', compact('surveys'));
     }
+
+    public function showDepartments($surveyId, $audienceType)
+    {
+        $departments = Question::where('survey_id', $surveyId)
+                              ->where('audience_type', $audienceType)
+                              ->pluck('department')
+                              ->unique()
+                              ->values()
+                              ->toArray();
+
+        return view('forms.department-selection', [
+            'survey_id' => $surveyId,
+            'audience_type' => $audienceType,
+            'departments' => $departments,
+            'questionaire' => (object) ['survey_id' => $surveyId, 'obfuscator' => 'initial-survey']
+        ]);
+    }
+
+
+    
+    public function getSurveyQuestions($surveyId, $audienceType, $department)
+    {
+        try {
+            $survey = Survey::findOrFail($surveyId);
+            $questions = Question::where('survey_id', $surveyId)
+                                 ->where('audience_type', $audienceType)
+                                 ->where('department', $department)
+                                 ->with('questionType')
+                                 ->inRandomOrder()
+                                 ->limit(3)
+                                 ->get();
+    
+            if ($questions->isEmpty()) {
+                return response()->json(['error' => 'No questions found'], 404);
+            }
+    
+            $surveyJson = [
+                'title' => "Civil Aviation Authority - " . ucfirst($audienceType) . " Survey - " . $department,
+                'description' => "Please share your experience with the {$department} department at the Ugandan Airport.",
+                'pages' => [
+                    [
+                        'name' => 'page1',
+                        'elements' => $questions->map(function ($question) {
+                            $type = strtolower($question->questionType ? $question->questionType->type : 'text');
+                            $element = [
+                                'type' => $type === 'rating' ? 'rating' : ($type === 'boolean' ? 'boolean' : 'text'),
+                                'name' => 'question_' . $question->id,
+                                'title' => $question->question,
+                                'isRequired' => $question->is_required ?? false,
+                            ];
+                            if ($type === 'rating') {
+                                $element['rateValues'] = [
+                                    ['value' => 1, 'text' => '😞'],
+                                    ['value' => 2, 'text' => '🙁'],
+                                    ['value' => 3, 'text' => '😐'],
+                                    ['value' => 4, 'text' => '🙂'],
+                                    ['value' => 5, 'text' => '😊'],
+                                ];
+                            }
+                            return $element;
+                        })->toArray()
+                    ]
+                ]
+            ];
+    
+            return view('forms.survey-form', [
+                'surveyJson' => json_encode($surveyJson),
+                'survey_id' => $surveyId,
+                'questionaire' => (object) ['survey_id' => $surveyId, 'obfuscator' => 'initial-survey'],
+                'jurisdiction' => $audienceType
+            ]);
+        } catch (\Exception $e) {
+            Log::error("Error in getSurveyQuestions: " . $e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    // New method to handle survey submission
+    // public function fill(Request $request, $surveyId, $questionaireId, $jurisdiction)
+    // {
+    //     $survey = Survey::findOrFail($surveyId);
+
+    //     // Create a new survey submission record
+    //     $submission = SurveySubmission::create([
+    //         'survey_id' => $surveyId,
+    //         'user_id' => auth()->id(), // Nullable if guest users allowed
+    //         'submitted_at' => now(),
+    //     ]);
+
+    //     // Process answers from the survey form
+    //     $answers = $request->except('_token');
+    //     foreach ($answers as $key => $value) {
+    //         if (preg_match('/question_(\d+)/', $key, $matches)) {
+    //             $questionId = $matches[1];
+    //             Answer::create([
+    //                 'question_id' => $questionId,
+    //                 'survey_submission_id' => $submission->id,
+    //                 'answer' => $value,
+    //                 'score' => $this->calculateScore($value), // Adjust scoring logic as needed
+    //             ]);
+    //         }
+    //     }
+
+    //     // Log the survey submission in AuditTrail
+    //     AuditTrail::create([
+    //         'user_id' => auth()->id() ?? null,
+    //         'controller' => 'SurveyController',
+    //         'function' => 'fill',
+    //         'action' => "Submitted Survey #{$surveyId}",
+    //     ]);
+
+    //     return redirect()->route('survey.thankyou')->with('success', 'Survey submitted successfully');
+    // }
+
+
+    // public function fill(Request $request, $surveyId, $questionaireId)
+    // {
+    //     try {
+    //         Log::info("Starting fill: surveyId={$surveyId}, questionaireId={$questionaireId}");
+    //         Log::info('Request data:', $request->all());
+    
+    //         $survey = Survey::findOrFail($surveyId);
+    //         $submission = SurveySubmission::create([
+    //             'survey_id' => $surveyId,
+    //             // 'user_id' => auth()->id(),
+    //             'user_id' => auth()->id(),
+    //             'submitted_at' => now(),
+    //         ]);
+    
+    //         $answers = $request->except('_token');
+    //         foreach ($answers as $key => $value) {
+    //             if (preg_match('/question_(\d+)/', $key, $matches)) {
+    //                 $questionId = $matches[1];
+    //                 $answerValue = is_bool($value) ? ($value ? 'yes' : 'no') : $value;
+    //                 Answer::create([
+    //                     'question_id' => $questionId,
+    //                     'survey_submission_id' => $submission->id,
+    //                     'answer' => $answerValue,
+    //                     'score' => $this->calculateScore($answerValue),
+    //                 ]);
+    //                 Log::info("Answer saved: questionId={$questionId}, value={$answerValue}, submission_id={$submission->id}");
+    //             }
+    //         }
+    //         // return redirect()->route('survey.thankyou')->with('success', 'Survey submitted successfully');
+    //         return view('forms.thank-you');
+    //     } catch (\Exception $e) {
+    //         Log::error("Error in fill: " . $e->getMessage());
+    //         return redirect()->back()->with('error', 'Failed to submit survey');
+    //     }
+    // }
+    // public function fill(Request $request, $surveyId, $questionaireId)
+    // {
+    //     try {
+    //         // Log the start for debugging
+    //         Log::info("Starting survey fill: surveyId={$surveyId}, questionaireId={$questionaireId}", $request->all());
+
+    //         // Validate the survey exists
+    //         $survey = Survey::findOrFail($surveyId);
+
+    //         // Create a survey submission
+    //         $submission = SurveySubmission::create([
+    //             'survey_id' => $surveyId,
+    //             'user_id' => auth()->id() ?? null, // Optional: link to authenticated user
+    //             'submitted_at' => now(),
+    //         ]);
+
+    //         // Process answers
+    //         $answers = $request->except('_token');
+    //         foreach ($answers as $key => $value) {
+    //             if (preg_match('/question_(\d+)/', $key, $matches)) {
+    //                 $questionId = $matches[1];
+    //                 // Convert boolean to a format your DB/back-office expects
+    //                 $answerValue = is_bool($value) ? ($value ? 1 : 0) : $value;
+    //                 Answer::create([
+    //                     'question_id' => $questionId,
+    //                     'survey_submission_id' => $submission->id,
+    //                     'answer' => $answerValue,
+    //                     'score' => $this->calculateScore($answerValue),
+    //                 ]);
+    //                 Log::info("Answer saved: questionId={$questionId}, value={$answerValue}, submission_id={$submission->id}");
+    //             }
+    //         }
+
+    //         // Return a JSON response for the front-end (if using fetch)
+    //         return response()->json(['success' => 'Survey submitted successfully'], 200);
+    //         // Or redirect if using a form submission: return redirect()->route('survey.thankyou')->with('success', 'Survey submitted successfully');
+
+    //     } catch (\Exception $e) {
+    //         Log::error("Error in survey fill: " . $e->getMessage());
+    //         return response()->json(['error' => 'Failed to submit survey'], 500);
+    //         // Or redirect: return redirect()->back()->with('error', 'Failed to submit survey');
+    //     }
+    // }
+
+    // public function fill(Request $request, $surveyId, $questionaireId)
+    // {
+    //     try {
+    //         Log::info("Starting survey fill: surveyId={$surveyId}, questionaireId={$questionaireId}", $request->all());
+    
+    //         $survey = Survey::findOrFail($surveyId);
+    //         $submission = SurveySubmission::create([
+    //             'survey_id' => $surveyId,
+    //             'user_id' => auth()->id() ?? null,
+    //             'submitted_at' => now(),
+    //         ]);
+    
+    //         $answers = $request->all(); // Use all() since fetch sends JSON
+    //         Log::info("Raw answers data:", $answers);
+            
+    //         if (empty($answers)) {
+    //             Log::warning("No answers provided in request");
+    //         }
+    
+    //         foreach ($answers as $key => $value) {
+    //             if (preg_match('/question_(\d+)/', $key, $matches)) {
+    //                 $questionId = $matches[1];
+    //                 if (!Question::where('id', $questionId)->exists()) {
+    //                     Log::warning("Question ID {$questionId} does not exist");
+    //                     continue;
+    //                 }
+    //                 $answerValue = is_bool($value) ? ($value ? 'yes' : 'no') : (string)$value;
+    //                 $answer = Answer::create([
+    //                     'question_id' => $questionId,
+    //                     'survey_submission_id' => $submission->id,
+    //                     'answer' => $answerValue,
+    //                     'score' => $this->calculateScore($answerValue),
+    //                 ]);
+    //                 Log::info("Answer saved: questionId={$questionId}, value={$answerValue}, submission_id={$submission->id}");
+    //             } else {
+    //                 Log::warning("Key does not match question pattern: {$key}");
+    //             }
+    //         }
+    
+    //         return response()->json(['success' => 'Survey submitted successfully'], 200);
+    //     } catch (\Exception $e) {
+    //         Log::error("Error in survey fill: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+    //         return response()->json(['error' => 'Failed to submit survey: ' . $e->getMessage()], 500);
+    //     }
+    // }
+    public function fill(Request $request, $surveyId, $questionaireId)
+{
+    try {
+        Log::info("Starting survey fill: surveyId={$surveyId}, questionaireId={$questionaireId}");
+        Log::info("Raw request data:", $request->all());
+        Log::info("JSON decoded data:", $request->json()->all());
+
+        $survey = Survey::findOrFail($surveyId);
+        $submission = SurveySubmission::create([
+            'survey_id' => $surveyId,
+            'user_id' => auth()->id() ?? null,
+            'submitted_at' => now(),
+        ]);
+
+        $answers = $request->json()->all(); // Use JSON decoding for fetch payloads
+        Log::info("Answers to process:", $answers);
+
+        if (empty($answers)) {
+            Log::warning("No answers provided in request");
+        }
+
+        foreach ($answers as $key => $value) {
+            if (preg_match('/question_(\d+)/', $key, $matches)) {
+                $questionId = $matches[1];
+                if (!Question::where('id', $questionId)->exists()) {
+                    Log::warning("Question ID {$questionId} does not exist in questions table");
+                    continue;
+                }
+                $answerValue = is_bool($value) ? ($value ? 'yes' : 'no') : (string)$value;
+                $answer = Answer::create([
+                    'question_id' => $questionId,
+                    'survey_submission_id' => $submission->id,
+                    'answer' => $answerValue,
+                    'score' => $this->calculateScore($answerValue),
+                ]);
+                Log::info("Answer saved: questionId={$questionId}, value={$answerValue}, submission_id={$submission->id}");
+            } else {
+                Log::warning("Key does not match question pattern: {$key}");
+            }
+        }
+
+        return response()->json(['success' => 'Survey submitted successfully'], 200);
+    } catch (\Exception $e) {
+        Log::error("Error in survey fill: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+        return response()->json(['error' => 'Failed to submit survey: ' . $e->getMessage()], 500);
+    }
+}
+
+private function calculateScore($answer)
+{
+    if (is_numeric($answer)) {
+        return (int)$answer;
+    } elseif (is_string($answer)) {
+        $lowerAnswer = strtolower($answer);
+        return $lowerAnswer === 'yes' ? 1 : ($lowerAnswer === 'no' ? 0 : 0);
+    }
+    return 0;
+}
+
+    // private function calculateScore($answer)
+    // {
+    //     if (is_numeric($answer)) {
+    //         return (int)$answer;
+    //     }
+    //     return 0; // Default score; adjust based on your needs
+    // }
+// }
+
+//     private function calculateScore($answer)
+// {
+//     if (is_numeric($answer)) {
+//         return (int)$answer;
+//     } elseif (is_string($answer)) {
+//         $lowerAnswer = strtolower($answer);
+//         if ($lowerAnswer === 'yes') {
+//             return 1;
+//         } elseif ($lowerAnswer === 'no') {
+//             return 0;
+//         }
+//     }
+//     return 0; // Default score for unexpected input
+// }
 
     public function create()
     {
@@ -39,29 +359,24 @@ class SurveyController extends Controller
             'title' => 'string|required',
         ]);
 
-
-        $audit_action = 'Created a Survey';
         $audit_user_id = auth()->user()->id;
 
-        // Audit this action
-        $audit_trail = new AuditTrail();
+        AuditTrail::create([
+            'user_id' => $audit_user_id,
+            'controller' => 'SurveyController',
+            'function' => 'store',
+            'action' => 'Created a Survey',
+        ]);
 
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
-
-        $audit_trail->save();
-
-        // Survey::create($request->all());
         $survey = new Survey;
         $survey->title = $request->input('title');
         $survey->obfuscator = Str::random(10);
         $survey->created_by = $audit_user_id;
         $survey->status = 'pending';
+        $survey->published = false;
         $survey->save();
 
-
-
-        return redirect()->route('surveys.index')->with('success', 'Survey created successfully.');
+        return redirect()->route('surveys.index')->with('success', 'Survey created as draft. Add at least 3 questions to publish.');
     }
 
     public function show(Survey $survey)
@@ -69,29 +384,64 @@ class SurveyController extends Controller
         return view('surveys.show', compact('survey'));
     }
 
-    public function edit(Survey $survey)
+    public function edit($id)
     {
+        $survey = Survey::findOrFail($id);
         return view('surveys.edit', compact('survey'));
     }
 
-    public function update(Request $request, Survey $survey)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'required',
-            'status' => 'required',
-            'obfuscator' => 'required',
-            'created_by' => 'required',
-        ]);
+        $survey = Survey::findOrFail($id);
+        $audit_user_id = auth()->user()->id;
 
-        $survey->update($request->all());
+        $audit_trail = new AuditTrail;
+        $audit_trail->user_id = $audit_user_id;
+        $audit_trail->controller = 'SurveyController';
+        $audit_trail->function = 'update';
+        $audit_trail->action = 'update survey';
+        $audit_trail->save();
+
+        $survey->title = $request->input('title');
+        $newStatus = $request->input('status');
+
+        if ($newStatus === 'active') {
+            $questionCount = Question::where('survey_id', $id)->count();
+            if ($questionCount < 3) {
+                return redirect()->back()->with('error', 'Survey must have at least 3 questions to be published.');
+            }
+            Survey::where('id', '!=', $id)->update(['status' => 'pending', 'published' => false]);
+            $survey->status = 'active';
+            $survey->published = true;
+        } else {
+            $survey->status = 'pending';
+            $survey->published = false;
+        }
+
+        $survey->save();
 
         return redirect()->route('surveys.index')->with('success', 'Survey updated successfully.');
     }
 
     public function destroy(Survey $survey)
     {
+        $audit_user_id = auth()->user()->id ?? null;
+
+        AuditTrail::create([
+            'user_id' => $audit_user_id,
+            'controller' => 'SurveyController',
+            'function' => 'destroy',
+            'action' => 'Deleted a Survey',
+        ]);
+
         $survey->delete();
 
         return redirect()->route('surveys.index')->with('success', 'Survey deleted successfully.');
+    }
+
+    public function checkPublished($surveyId)
+    {
+        $survey = Survey::findOrFail($surveyId);
+        return response()->json(['published' => $survey->published]);
     }
 }

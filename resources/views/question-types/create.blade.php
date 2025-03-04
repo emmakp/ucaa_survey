@@ -5,7 +5,7 @@
     <div class="card-header">
         <div class="row">
             <h4 class="col-md-9">Create Question Type</h4>
-            <div class="col-md-3"><a href="{{ route('question-type.create') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>Back</a></div>
+            <div class="col-md-3"><a href="{{ route('question-type.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>Back</a></div>
         </div>
     </div>
     <div class="card-body">

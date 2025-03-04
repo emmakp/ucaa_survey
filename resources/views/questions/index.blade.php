@@ -16,6 +16,7 @@
                     <th>Question</th>
                     <th>Questionnaire ID</th>
                     <th>Question Type</th>
+                    <th>Department</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -26,8 +27,9 @@
                         <td>{{ $question->question }}</td>
                         <td>{{ $question->questionaire->obfuscator }}</td>
                         <td>{{ $question->question_type }}</td>
+                        <td>{{ $question->department }}</td>
                         <td>
-                            <a href="{{ route('questionaires.show', $question->questionaire_id ) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('questionaires.show', $question->questionaire_id) }}" class="btn btn-info">View</a>
                             <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('questions.destroy', $question->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
@@ -39,6 +41,11 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- Add Pagination Links -->
+        <div class="mt-3">
+            {{ $questions->links() }}
+        </div>
     </div>
 </div>
 @endsection

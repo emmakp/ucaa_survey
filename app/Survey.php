@@ -8,7 +8,7 @@ class Survey extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'status', 'obfuscator', 'created_by'];
+    protected $fillable = ['title', 'status', 'obfuscator', 'created_by', 'published'];
 
     public function user(){
         return $this->belongsTo('App\User', 'created_by');
@@ -16,6 +16,11 @@ class Survey extends Model
 
     public function questionaires(){
         return $this->hasMany('App\Questionaire', 'survey_id');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany('App\Question', 'survey_id');
     }
 }
 

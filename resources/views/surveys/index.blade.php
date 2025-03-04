@@ -17,6 +17,8 @@
                             <th>Status</th>
                             <th>Questionaires</th>
                             <th>Created By</th>
+                            <th>Published</th>
+                            <th>Actions</th>
                             <th>Date</th>
                         </thead>
                         <tbody>
@@ -30,6 +32,10 @@
                                     <td><span class="badge bg-warning">{{ $record->status }}</span></td>
                                     <td>{{ count($record->questionaires) }}</td>
                                     <td>{{ $record->user->FirstName }} {{ $record->user->SecondName }}</td>
+                                    <td>{{ $record->published ? 'Yes' : 'No' }}</td>
+        <td>
+            <a href="{{ route('surveys.edit', $record->id) }}" class="btn btn-sm btn-primary">Edit</a>
+        </td>
                                     <td>{{ $record->created_at->setTimezone('Africa/Nairobi') }}</td>
                                 </tr>
                                 @php

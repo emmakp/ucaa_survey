@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Question;
@@ -14,7 +13,7 @@ class QuestionController extends Controller
 {
     public function index()
     {
-        $questions = Question::all();
+        $questions = Question::with('questionaire')->paginate(5); // Paginate with 5 per page
         return view('questions.index', compact('questions'));
     }
 
@@ -27,23 +26,34 @@ class QuestionController extends Controller
 
     public function store(Request $request)
     {
-         print_r($request->input());exit;
         $request->validate([
-            'question' => 'required',
+            'question' => 'required|string|max:255',
             'questionaire_id' => 'required|exists:questionaires,id',
             'question_type' => 'required|exists:question_types,id',
+            'department' => 'required|string|max:255',
         ]);
 
-        // Question::create($request->all());
-        $question = new Question;
-        $question->question = $request->input('question');
-        $question->questionaire_id = $request->input('questionaire_id');
-        $question->question_type = $request->input('question_type');
-        $question->obfuscator = Str::random(10);
-        $question->save();
+        $question = Question::create([
+            'question' => $request->question,
+            'questionaire_id' => $request->questionaire_id,
+            'question_type' => $request->question_type,
+            'department' => $request->department,
+            'survey_id' => Questionaire::find($request->questionaire_id)->survey_id, // Linked to survey
+            'audience_type' => 'passenger', // Default value
+            'is_required' => true, // Default value
+            'obfuscator' => Str::random(10),
+            'validity' => true,
+        ]);
 
-        // return redirect()->route('questions.index')->with('success', 'Question created successfully.');
-        return redirect()->back()->with('success', 'Question created successfully.');
+        // Optionally audit this action
+        AuditTrail::create([
+            'user_id' => auth()->user()->id ?? null,
+            'controller' => 'QuestionController',
+            'function' => 'store',
+            'action' => 'Created a Question',
+        ]);
+
+        return redirect()->route('questions.index')->with('success', 'Question created successfully.');
     }
 
     public function show(Question $question)
@@ -61,20 +71,42 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         $request->validate([
-            'question' => 'required',
+            'question' => 'required|string|max:255',
             'questionaire_id' => 'required|exists:questionaires,id',
             'question_type' => 'required|exists:question_types,id',
+            'department' => 'required|string|max:255', // Add department validation
         ]);
 
-        $question->update($request->all());
+        $question->update([
+            'question' => $request->question,
+            'questionaire_id' => $request->questionaire_id,
+            'question_type' => $request->question_type,
+            'department' => $request->department,
+        ]);
+
+        // Optionally audit this action
+        AuditTrail::create([
+            'user_id' => auth()->user()->id ?? null,
+            'controller' => 'QuestionController',
+            'function' => 'update',
+            'action' => 'Updated a Question',
+        ]);
 
         return redirect()->route('questions.index')->with('success', 'Question updated successfully.');
     }
 
     public function destroy(Question $question)
     {
+        // Optionally audit this action
+        AuditTrail::create([
+            'user_id' => auth()->user()->id ?? null,
+            'controller' => 'QuestionController',
+            'function' => 'destroy',
+            'action' => 'Deleted a Question',
+        ]);
+
         $question->delete();
 
-        return redirect()->back()->with('error', 'Question deleted successfully.');
+        return redirect()->route('questions.index')->with('success', 'Question deleted successfully.');
     }
 }

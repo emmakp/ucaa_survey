@@ -1,19 +1,42 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-use App\Models\Answer;
-use App\Models\Question;
+use App\Answer;
+use App\Question;
+use App\SurveySubmission;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
     public function index()
     {
-        $answers = Answer::all();
-        return view('answers.index', compact('answers'));
+        $submissions = SurveySubmission::with('survey')->orderBy('submitted_at', 'desc')->paginate(10); // Paginate submissions, 10 per page
+        return view('answers.index', compact('submissions'));
     }
+
+    // public function show(SurveySubmission $submission)
+    // {
+    //     $submission->load('survey'); // Eager-load survey
+    //     $answers = Answer::where('survey_submission_id', $submission->id)->with('question')->get();
+    //     return view('answers.show', compact('submission', 'answers'));
+    // }
+//     public function show(SurveySubmission $submission)
+// {
+//     $answers = $submission->answers; // Assumes a hasMany relationship
+//     return view('answers.show', compact('submission', 'answers'));
+// }
+public function show(SurveySubmission $submission)
+{
+    $answers = $submission->answers()->with('question')->get(); // Explicitly fetch with question
+    // dd([
+    //     'submission_id' => $submission->id,
+    //     'survey' => $submission->survey ? $submission->survey->title : 'No Survey',
+    //     'answers_count' => $answers->count(),
+    //     'answers' => $answers->toArray(),
+    // ]);
+    return view('answers.show', compact('submission', 'answers'));
+}
 
     public function create()
     {
@@ -32,11 +55,6 @@ class AnswerController extends Controller
         Answer::create($request->all());
 
         return redirect()->route('answers.index')->with('success', 'Answer created successfully.');
-    }
-
-    public function show(Answer $answer)
-    {
-        return view('answers.show', compact('answer'));
     }
 
     public function edit(Answer $answer)

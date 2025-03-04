@@ -25,34 +25,56 @@ class QuestionaireController extends Controller
         return view('questionaires.create')->with(['surveys' => $surveys, 'audiences' => $audiences]);
     }
 
+    // public function store(Request $request)
+    // {
+    //     // print_r($request->input());exit;
+    //     $request->validate([
+    //         'survey_id' => 'required',
+    //         'target_audience' => 'required',
+    //     ]);
+
+    //     $audit_action = 'Created an questionaire';
+    //     $audit_user_id = auth()->user()->id;
+
+    //     // Audit this action
+    //     $audit_trail = new AuditTrail();
+
+    //     $audit_trail->action = $audit_action;
+    //     $audit_trail->user_id = $audit_user_id;
+
+    //     $audit_trail->save();
+
+    //     $questionaire = new Questionaire;
+    //     $questionaire->survey_id = $request->input('survey_id');
+    //     $questionaire->target_audience = $request->input('target_audience');
+    //     $questionaire->validity = 1;
+    //     $questionaire->obfuscator = Str::random(10);
+    //     $questionaire->save();
+
+    //     return redirect()->route('questionaires.index')->with('success', 'Questionaire created successfully.');
+    // }
+
     public function store(Request $request)
-    {
-        // print_r($request->input());exit;
-        $request->validate([
-            'survey_id' => 'required',
-            'target_audience' => 'required',
-        ]);
+{
+    $request->validate([
+        'obfuscator' => 'required|string|max:255',
+        'survey_id' => 'required|exists:surveys,id',
+        'validity' => 'required|boolean',
+        'target_audience' => 'required|integer',
+    ]);
 
-        $audit_action = 'Created an questionaire';
-        $audit_user_id = auth()->user()->id;
+    $audit_user_id = auth()->user()->id;
+    AuditTrail::create([
+        'user_id' => $audit_user_id,
+        'controller' => 'QuestionaireController', // Add required field
+        'function' => 'store', // Add if function exists in schema
+        'action' => 'Created a questionnaire', // Fixed typo
+    ]);
 
-        // Audit this action
-        $audit_trail = new AuditTrail();
+    $questionaire = Questionaire::create($request->all());
 
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
-
-        $audit_trail->save();
-
-        $questionaire = new Questionaire;
-        $questionaire->survey_id = $request->input('survey_id');
-        $questionaire->target_audience = $request->input('target_audience');
-        $questionaire->validity = 1;
-        $questionaire->obfuscator = Str::random(10);
-        $questionaire->save();
-
-        return redirect()->route('questionaires.index')->with('success', 'Questionaire created successfully.');
-    }
+    return redirect()->route('questionaires.index')->with('success', 'Questionnaire created successfully.');
+}
 
     public function show(Questionaire $questionaire)
     {
