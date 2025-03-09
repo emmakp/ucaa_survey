@@ -9,7 +9,7 @@ class AddFunctionToAuditTrailTable extends Migration
     public function up()
     {
         Schema::table('audit_trail', function (Blueprint $table) {
-            $table->string('function')->after('controller');
+            $table->string('function')->after('controller')->nullable();
         });
     }
 
