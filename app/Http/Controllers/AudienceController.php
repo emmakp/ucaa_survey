@@ -15,12 +15,19 @@ class AudienceController extends Controller
         $audit_user_id = auth()->user()->id;
 
         // Audit this action
-        $audit_trail = new AuditTrail();
+        // $audit_trail = new AuditTrail();
 
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
+        AuditTrail::create([
+            'user_id' => $audit_user_id,
+            'controller' => 'SurveyController',
+            'function' => 'index',
+            'action' => 'View List of Surveys',
+        ]);
 
-        $audit_trail->save();
+        // $audit_trail->action = $audit_action;
+        // $audit_trail->user_id = $audit_user_id;
+
+        // $audit_trail->save();
 
 
 
@@ -50,15 +57,19 @@ class AudienceController extends Controller
 
         $audit_trail->action = $audit_action;
         $audit_trail->user_id = $audit_user_id;
+        $audit_trail->controller = 'AudienceController';
+        $audit_trail->function = 'store';
 
         $audit_trail->save();
 
         // Audience::create($request->all());
         $audience = new Audience;
         $audience->title = $request->input('title');
+        $audience->name = $request->input('title');
         $audience->obfuscator = Str::random(10);
         $audience->created_by = $audit_user_id;
-        $audience->validity = 1;
+        $audience->validity = true;
+        // $audience->validity = 1;
         $audience->save();
 
         return redirect()->route('audiences.index')->with('success', 'Audience created successfully.');
@@ -78,8 +89,8 @@ class AudienceController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'created_by' => 'required',
-            'obfuscator' => 'required',
+            // 'created_by' => 'required',
+            // 'obfuscator' => 'required',
             'validity' => 'required|boolean',
         ]);
 

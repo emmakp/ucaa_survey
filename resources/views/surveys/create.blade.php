@@ -1,55 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card card-secondary container p-0">
-    <div class="card-header">
-        <div class="row">
-            <h4 class="col-md-9">Create Survey</h4>
-            <div class="col-md-3"><a href="{{ route('surveys.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>Back</a></div>
+    <div class="card card-secondary container p-0">
+        <div class="card-header">
+            <div class="row">
+                <h4 class="col-md-9">Create Survey</h4>
+                <div class="col-md-3">
+                    <a href="{{ route('surveys.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('surveys.store') }}" method="POST">
+                @csrf
+                <div class="form-group mb-3">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" 
+                           value="{{ old('title') }}" required>
+                    @error('title')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group mb-3">
+                    <label for="audience_ids">Audiences</label>
+                    <!-- <select name="audience_ids[]" id="audience_ids" class="form-control @error('audience_ids') is-invalid @enderror" 
+                            multiple required>
+                        @foreach ($audiences as $audience)
+                            <option value="{{ $audience->id }}">{{ $audience->title }}</option>
+                        @endforeach
+                    </select> -->
+                    <div class="checkbox-group @error('audience_ids') is-invalid @enderror">
+                        @foreach ($audiences as $audience)
+                            <div class="form-check">
+                                <input type="checkbox" name="audience_ids[]" id="audience_{{ $audience->id }}" 
+                                       value="{{ $audience->id }}" class="form-check-input"
+                                       {{ in_array($audience->id, old('audience_ids', [])) ? 'checked' : '' }}>
+                                <label for="audience_{{ $audience->id }}" class="form-check-label">
+                                    {{ $audience->title }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                    @error('audience_ids')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
         </div>
     </div>
-    <div class="card-body">
-    <form action="{{ route('surveys.store') }}" method="POST">
-        @csrf
-        <div class="form-group mb-3">
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form-control" required>
-        </div>
-        {{-- <div class="form-group mb-3">
-            <label for="target_audience">Target Audience</label>
-            <select name="target_audience" id="target_audience" class="form-control" required>
-                <option value="#" disabled selected>-- Select option --</option>
-                @foreach ($audiences as $audience)
-                    <option value="{{ $audience->id }}">{{ $audience->title }}</option>
-                @endforeach
-            </select>
-            @if ($errors->has('target_audience'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('target_audience') }}</strong>
-                </span>
-            @endif
-        </div> --}}
-        <div class="form-group mb-3">
-            <label for="department_id">Department</label>
-            <select name="department_id" id="department_id" class="form-control">
-                @if (count($departments) > 0)
-                    <option value="#" disabled selected>-- Select an option --</option>
-                    @foreach ($departments as $department)
-                        <option value="{{$department->id}}">{{ $department->Name }}</option>
-                    @endforeach
-                @else
-                    <option value="#" disabled selected>No departments in the system</option>
-                @endif
-            </select>
-
-            @if ($errors->has('department_id'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('department_id') }}</strong>
-                </span>
-            @endif
-        </div>
-        <button type="submit" class="btn btn-primary">Create</button>
-    </form>
-    </div>
-</div>
 @endsection

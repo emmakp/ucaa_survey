@@ -5,7 +5,9 @@
         <div class="card-header">
             <div class="row">
                 <h4 class="col-md-9">Audiences</h4>
-                <div class="col-md-3"><a href="{{ route('audiences.create') }}" class="btn btn-success">Add new audiance</a></div>
+                <div class="col-md-3">
+                    <a href="{{ route('audiences.create') }}" class="btn btn-success">Add new audience</a>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -17,6 +19,7 @@
                             <th>Title</th>
                             <th>Created By</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </thead>
                         <tbody>
                             @php
@@ -28,6 +31,11 @@
                                     <td>{{ $record->title }}</td>
                                     <td>{{ $record->user->FirstName }} {{ $record->user->SecondName }}</td>
                                     <td>{{ $record->created_at->setTimezone('Africa/Nairobi') }}</td>
+                                    <td>
+                                        <a href="{{ route('audiences.edit', $record->id) }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                    </td>
                                 </tr>
                                 @php
                                     ++$counter;
@@ -37,7 +45,7 @@
                     </table>
                 @else
                     <div class="text-danger">
-                        <p>No Audience  Record in the System</p>
+                        <p>No Audience Record in the System</p>
                     </div>
                 @endif
             </div>
@@ -45,12 +53,10 @@
     </div>
     <script>
         window.addEventListener('DOMContentLoaded', event => {
-
-                const datatablesSimple = document.getElementById('datatablesSimple');
-                if (datatablesSimple) {
-                    new simpleDatatables.DataTable(datatablesSimple);
-                }
-            });
-
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple);
+            }
+        });
     </script>
 @endsection

@@ -6,23 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class AuditTrail extends Model
 {
-    // Point to table in database
     protected $table = 'audit_trail';
-
-    // Primary Key
     public $primaryKey = 'id';
-
-    // timestamps
     public $timestamps = true;
 
-    // hidden attributes
-    protected $hidden = [
+    // Updated $fillable array to include all fields
+    protected $fillable = ['user_id', 'controller', 'function', 'action', 'date'];
+    // protected $fillable = ['user_id', 'controller', 'action'];
 
-    ];
-
-
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\User', 'user_id');
     }
-
 }

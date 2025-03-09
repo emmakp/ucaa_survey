@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('content')
     <div class="card card-secondary container p-0">
         <div class="card-header">
@@ -14,9 +15,12 @@
                         <thead>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Audience</th>
                             <th>Status</th>
                             <th>Questionaires</th>
                             <th>Created By</th>
+                            <th>Published</th>
+                            <th>Actions</th>
                             <th>Date</th>
                         </thead>
                         <tbody>
@@ -27,9 +31,21 @@
                                 <tr>
                                     <td>{{ $counter }}</td>
                                     <td>{{ $record->title }}</td>
-                                    <td><span class="badge bg-warning">{{ $record->status }}</span></td>
+                                    <td>{{ $record->audiences->pluck('title')->implode(', ') ?: 'N/A' }}</td>
+                                    <!-- <td><span class="badge bg-warning">{{ $record->status }}</span></td> -->
+                                    <td>
+                                        <span class="badge {{ $record->status === 'active' ? 'bg-success' : 'bg-warning' }}">
+                                            {{ $record->status }}
+                                        </span>
+                                    </td>
+                                     <!-- //make the status class dynamic based on the status -->
+                                    <!-- <td><span class="badge bg-{{ $record->status === 'Draft' ? 'warning' : ($record->status === 'active' ? 'success' : 'danger') }}">{{ $record->status }}</span></td> -->
                                     <td>{{ count($record->questionaires) }}</td>
                                     <td>{{ $record->user->FirstName }} {{ $record->user->SecondName }}</td>
+                                    <td>{{ $record->published ? 'Yes' : 'No' }}</td>
+                                    <td>
+                                        <a href="{{ route('surveys.edit', $record->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                    </td>
                                     <td>{{ $record->created_at->setTimezone('Africa/Nairobi') }}</td>
                                 </tr>
                                 @php
@@ -40,7 +56,7 @@
                     </table>
                 @else
                     <div class="text-danger">
-                        <p>No Audience  Record in the System</p>
+                        <p>No Survey Record in the System</p>
                     </div>
                 @endif
             </div>
@@ -48,13 +64,10 @@
     </div>
     <script>
         window.addEventListener('DOMContentLoaded', event => {
-
-                const datatablesSimple = document.getElementById('datatablesSimple');
-                if (datatablesSimple) {
-                    new simpleDatatables.DataTable(datatablesSimple);
-                }
-            });
-
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple);
+            }
+        });
     </script>
 @endsection
-

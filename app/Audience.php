@@ -19,6 +19,17 @@ class Audience extends Model
     protected $hidden = [
 
     ];
+    protected $fillable =['title', 'created_by', 'obfuscator', 'validity'];
+
+    // public function surveys()
+    // {
+    //     return $this->hasMany(Survey::class, 'audience_id');
+    // }
+    public function surveys()
+    {
+        return $this->belongsToMany(Survey::class, 'audience_survey', 'audience_id', 'survey_id')
+                    ->withTimestamps();
+    }
 
     public function user(){
         return $this->belongsTo('App\User', 'created_by');

@@ -31,19 +31,44 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    // public function index()
+    // {
+    //     $audit_action = 'View List of Audit Trail';
+    //     $audit_user_id = auth()->user()->id;
+
+    //     // Audit this action
+    //     $audit_trail = new AuditTrail();
+
+    //     $audit_trail->action = $audit_action;
+    //     $audit_trail->user_id = $audit_user_id;
+
+    //     $audit_trail->save();
+
+    //     $survey_count = Survey::count();
+    //     $user_count = User::count();
+    //     $responses = Response::count();
+    //     $questionaire_count = Questionaire::count();
+    //     $audit_trail = AuditTrail::orderBy('created_at', 'DESC')->with('user')->get();
+    //     return view('home')->with([
+    //         'survey_count' => $survey_count,
+    //         'staff_count' => $user_count,
+    //         'questionaire_count' => $questionaire_count,
+    //         'audit_trail' => $audit_trail,
+    //         'responses' => $responses,
+    //     ]);
+    // }
     public function index()
     {
-        $audit_action = 'View List of Audit Trail';
         $audit_user_id = auth()->user()->id;
-
+    
         // Audit this action
-        $audit_trail = new AuditTrail();
-
-        $audit_trail->action = $audit_action;
-        $audit_trail->user_id = $audit_user_id;
-
-        $audit_trail->save();
-
+        AuditTrail::create([
+            'user_id' => $audit_user_id,
+            'controller' => 'HomeController', // Add this to satisfy the NOT NULL constraint
+            'function' => 'index',
+            'action' => 'View List of Audit Trail',
+        ]);
+    
         $survey_count = Survey::count();
         $user_count = User::count();
         $responses = Response::count();

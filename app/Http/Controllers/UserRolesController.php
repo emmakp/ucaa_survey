@@ -32,6 +32,8 @@ class UserRolesController extends Controller
 
         $audit_trail->action = $audit_action;
         $audit_trail->user_id = $audit_user_id;
+        $audit_trail->controller = 'UserRolesController';
+        $audit_trail->function = 'index';
 
         $audit_trail->save();
 

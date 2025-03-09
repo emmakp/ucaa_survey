@@ -1,282 +1,113 @@
-
-$(document).ready(function () {
-
-    // let questionaire;
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $.ajax({
-        url: "/api/questionaires/fetch",
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            console.error(xhr.responseText);
-        }
-    });
-});
-
-const surveyJSON = {
-    title: "Entebbe International Airport Survey",
-    description: "Please take a few minutes to share your experience at the airport.",
+// Passenger Survey
+const passengerSurveyJSON = {
+    title: "Civil Aviation Authority - Passenger Survey",
+    description: "Please share your experience at the Ugandan Airport.",
     pages: [
         {
-            name: "Facility Feedback",
+            name: "Check-in & Security Screening",
             elements: [
-                {
-                    type: "rating",
-                    name: "cleanliness_maintenance",
-                    title: "How would you rate the overall cleanliness and maintenance of facilities available at the airport premises?",
-                    isRequired: false,
-                    rateMin: 1,
-                    rateMax: 10
-                },
-                {
-                    type: "boolean",
-                    name: "facilities_lacking",
-                    title: "Were there any specific facilities or amenities you felt were lacking or could be improved?",
-                    isRequired: false
-                },
-                {
-                    type: "text",
-                    name: "describe_lacking_facilities",
-                    title: "Kindly describe to us where exactly you felt something was lacking or could be improved.",
-                    isRequired: false,
-                    visibleIf: "{facilities_lacking} = true"
-                },
-                {
-                    type: "rating",
-                    name: "accessibility_disabilities",
-                    title: "How satisfied were you with the accessibility of facilities for passengers with disabilities?",
-                    isRequired: false,
-                    rateValues: [
-                        { value: 1, text: "😡" },
-                        { value: 2, text: "🙁" },
-                        { value: 3, text: "😐" },
-                        { value: 4, text: "🙂" },
-                        { value: 5, text: "😍" }
-                    ]
-                },
-                {
-                    type: "rating",
-                    name: "parking_facilities",
-                    title: "How convenient did you find the parking facilities and their proximity to the terminal?",
-                    isRequired: false,
-                    rateValues: [
-                        { value: 1, text: "😡" },
-                        { value: 2, text: "🙁" },
-                        { value: 3, text: "😐" },
-                        { value: 4, text: "🙂" },
-                        { value: 5, text: "😍" }
-                    ]
-                },
-                {
-                    type: "radiogroup",
-                    name: "accessibility_travelers",
-                    title: "How would you rate the accessibility of the airport for pedestrians and travelers with luggage?",
-                    isRequired: false,
-                    choices: [
-                        "Excellent",
-                        "Good",
-                        "Average",
-                        "Poor",
-                        "Very Poor"
-                    ]
-                }
+                { type: "rating", name: "checkin_efficiency", title: "How would you rate the efficiency and friendliness of the check-in process?", rateMax: 5, isRequired: true },
+                { type: "boolean", name: "security_clear", title: "Were the security screening procedures clear and handled professionally?", isRequired: true },
+                { type: "text", name: "delays_issues", title: "Did you experience any delays or inconveniences during check-in or security checks? If yes, please describe.", isRequired: false }
             ]
         },
         {
-            name: "Check-in Experience",
+            name: "Terminal Facilities & Services",
             elements: [
-                {
-                    type: "boolean",
-                    name: "delays_queues",
-                    title: "Did you experience any delays or long queues during the check-in process?",
-                    isRequired: false
-                },
-                {
-                    type: "dropdown",
-                    name: "time_taken_delays",
-                    title: "How long does it usually take?",
-                    isRequired: false,
-                    visibleIf: "{delays_queues} = true",
-                    choices: [
-                        "Less than 10 minutes",
-                        "10-20 minutes",
-                        "20-30 minutes",
-                        "More than 30 minutes"
-                    ]
-                },
-                {
-                    type: "rating",
-                    name: "assistance_staff",
-                    title: "How satisfied were you with the availability of assistance from staff during check-in?",
-                    isRequired: false,
-                    rateValues: [
-                        { value: 1, text: "😡" },
-                        { value: 2, text: "🙁" },
-                        { value: 3, text: "😐" },
-                        { value: 4, text: "🙂" },
-                        { value: 5, text: "😍" }
-                    ]
-                },
-                {
-                    type: "boolean",
-                    name: "documents_received",
-                    title: "Did you receive all necessary documents (boarding pass, baggage tags, etc.) promptly during check-in?",
-                    isRequired: false
-                },
-                {
-                    type: "dropdown",
-                    name: "time_taken_documents",
-                    title: "How long does it usually take?",
-                    isRequired: false,
-                    visibleIf: "{documents_received} = false",
-                    choices: [
-                        "Less than 10 minutes",
-                        "10-20 minutes",
-                        "20-30 minutes",
-                        "More than 30 minutes"
-                    ]
-                },
-                {
-                    type: "boolean",
-                    name: "informed_updates",
-                    title: "Were you informed about any changes or updates regarding your flight during the check-in process?",
-                    isRequired: false
-                }
+                { type: "rating", name: "terminal_cleanliness", title: "How would you rate the cleanliness and comfort of the terminal?", rateMax: 5, isRequired: true },
+                { type: "boolean", name: "facilities_adequate", title: "Were airport facilities (e.g., lounges, restrooms, seating, Wi-Fi) adequate and accessible?", isRequired: true },
+                { type: "rating", name: "services_quality", title: "How satisfied are you with the availability and quality of food, retail, and other services?", rateMax: 5, isRequired: true }
             ]
         },
         {
-            name: "Baggage and Airport Rating",
+            name: "Boarding & Baggage Handling",
             elements: [
-                {
-                    type: "rating",
-                    name: "baggage_handling",
-                    title: "How would you rate the overall baggage handling experience?",
-                    isRequired: false,
-                    rateMin: 1,
-                    rateMax: 10
-                },
-                {
-                    type: "rating",
-                    name: "airport_rating",
-                    title: "How would you rate the Ugandan Airport?",
-                    isRequired: false,
-                    rateMax: 5,
-                    minRateDescription: "1 star",
-                    maxRateDescription: "5 stars"
-                },
-                {
-                    type: "text",
-                    name: "email_address",
-                    title: "Please fill in your email so that we can get back to you",
-                    isRequired: false,
-                    inputType: "email",
-                    placeholder: "your.email@example.com"
-                }
+                { type: "boolean", name: "boarding_organized", title: "Was the boarding process well-organized and timely?", isRequired: true },
+                { type: "text", name: "baggage_issues", title: "Did you experience any issues with baggage claim (e.g., delays, lost luggage, damaged items)? If yes, please describe.", isRequired: false },
+                { type: "rating", name: "communication_updates", title: "How would you rate the communication regarding boarding and baggage updates?", rateMax: 5, isRequired: true }
+            ]
+        },
+        {
+            name: "Immigration & Customs",
+            elements: [
+                { type: "boolean", name: "immigration_efficient", title: "Was the immigration process efficient and well-organized?", isRequired: true },
+                { type: "boolean", name: "customs_clear", title: "Were customs procedures clearly communicated and easy to follow?", isRequired: true },
+                { type: "rating", name: "officer_professionalism", title: "How would you rate the professionalism and courtesy of immigration/customs officers?", rateMax: 5, isRequired: true }
+            ]
+        },
+        {
+            name: "Transportation & Accessibility",
+            elements: [
+                { type: "boolean", name: "signage_clear", title: "Was airport signage and wayfinding clear and easy to follow?", isRequired: true },
+                { type: "rating", name: "transport_convenience", title: "How convenient was access to transportation (taxis, shuttles, car rentals, public transport)?", rateMax: 5, isRequired: true },
+                { type: "text", name: "transport_delays", title: "Were there any delays or difficulties in reaching or leaving the airport? If yes, please describe.", isRequired: false }
+            ]
+        },
+        {
+            name: "Customer Support & Emergency Response",
+            elements: [
+                { type: "boolean", name: "staff_available", title: "Were airport staff readily available to assist when needed?", isRequired: true },
+                { type: "rating", name: "assistance_effectiveness", title: "How would you rate the response time and effectiveness of airport assistance (lost items, medical, or other inquiries)?", rateMax: 5, isRequired: true },
+                { type: "rating", name: "emergency_handling", title: "How well did the airport handle any disruptions, delays, or emergencies?", rateMax: 5, isRequired: true }
+            ]
+        }
+    ]
+};
+
+// Staff Survey
+const staffSurveyJSON = {
+    title: "Civil Aviation Authority - Staff Survey",
+    description: "Please provide feedback to help improve airport operations.",
+    pages: [
+        {
+            name: "Check-in & Security Screening",
+            elements: [
+                { type: "boolean", name: "tools_support", title: "Do you have the necessary tools and support to carry out check-in and security screening efficiently?", isRequired: true },
+                { type: "boolean", name: "security_clear", title: "Are security procedures clear and easy to follow for both staff and passengers?", isRequired: true },
+                { type: "text", name: "checkin_challenges", title: "What challenges do you face in ensuring a smooth check-in process?", isRequired: false }
+            ]
+        },
+        {
+            name: "Terminal Facilities & Services",
+            elements: [
+                { type: "boolean", name: "working_environment", title: "Do you feel the airport provides a comfortable and safe working environment?", isRequired: true },
+                { type: "boolean", name: "resources_adequate", title: "Are there sufficient resources and facilities to handle passenger needs efficiently?", isRequired: true },
+                { type: "text", name: "service_improvements", title: "What improvements would help enhance airport services and passenger experience?", isRequired: false }
+            ]
+        },
+        {
+            name: "Boarding & Baggage Handling",
+            elements: [
+                { type: "text", name: "boarding_bottlenecks", title: "Are there any bottlenecks or inefficiencies in the boarding process that need improvement?", isRequired: false },
+                { type: "boolean", name: "baggage_resources", title: "Do you have sufficient manpower and equipment for smooth baggage handling?", isRequired: true },
+                { type: "text", name: "baggage_measures", title: "What measures could be introduced to reduce lost or delayed baggage incidents?", isRequired: false }
+            ]
+        },
+        {
+            name: "Immigration & Customs",
+            elements: [
+                { type: "boolean", name: "resources_sufficient", title: "Do you have the necessary resources to process passengers efficiently?", isRequired: true },
+                { type: "text", name: "processing_challenges", title: "What are the main challenges in handling passenger documentation and clearance?", isRequired: false },
+                { type: "text", name: "process_improvements", title: "Are there any process improvements that could enhance the flow of passengers?", isRequired: false }
+            ]
+        },
+        {
+            name: "Transportation & Accessibility",
+            elements: [
+                { type: "boolean", name: "transport_options", title: "Are there enough transport options for passengers at peak hours?", isRequired: true },
+                { type: "text", name: "accessibility_improvements", title: "What improvements could be made to airport accessibility?", isRequired: false },
+                { type: "text", name: "transport_coordination", title: "Do you face challenges coordinating with external transport services?", isRequired: false }
+            ]
+        },
+        {
+            name: "Customer Support & Emergency Response",
+            elements: [
+                { type: "boolean", name: "complaint_procedures", title: "Do you have clear procedures for handling customer complaints and inquiries?", isRequired: true },
+                { type: "boolean", name: "emergency_protocols", title: "Are emergency response protocols well-communicated and easy to implement?", isRequired: true },
+                { type: "text", name: "support_training", title: "What support or training would help you respond better to passenger needs?", isRequired: false }
             ]
         }
     ]
 };
 
 Survey.StylesManager.applyTheme("defaultV2");
-
-const survey = new Survey.Model(surveyJSON);
-
-
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-survey.onComplete.add(function (result) {
-    console.log(result.data);
-
-    var surveyData = result.data;
-
-    fetch('/survey/bufb8wpimY/fill/o0SsrY8RcW/ucaa', {
-        method: 'POST',  // HTTP request method
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken
-        },
-        body: JSON.stringify(surveyData)  // Convert survey data to JSON string
-    })
-        .then(response => {
-            if (response.ok) {
-                // Show the second overlay
-                document.getElementById('secondOverlay').style.display = 'flex';
-
-                // hide the main content
-                document.getElementById('mainContent').style.display = 'none';
-                return response.json();
-            }
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            console.log("Survey results successfully sent:", data);
-        })
-        .catch(error => {
-            console.error("Failed to send survey results:", error);
-        });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    survey.render(document.getElementById("caa-form"));
-});
-
-
-// Landing page when the page starts
-document.getElementById('startButton').addEventListener('click', function () {
-
-    $('#loader').fadeOut(500, function () {
-        // $('.selection-screen').fadeOut(500, function() {
-        $('.options-screen').fadeIn(500);
-        $('#returnee-btn').animate({ left: '0' }, 500);
-        $('#departure-btn').delay(200).animate({ left: '0' }, 500);
-        $('#security-btn').delay(400).animate({ left: '0' }, 500);
-        $('#stakeholders-btn').delay(600).animate({ left: '0' }, 500);
-
-
-        // });
-        // $('.options-screen').fadeIn(500);
-    });
-    // Hide the loader
-    // document.getElementById('loader').style.display = 'none';
-    // $('.options-screen').fadeIn(500);
-});
-
-$('.form-btn').on('click', function () {
-    $('.options-screen').fadeOut(500, function () {
-        $('#mainContent').fadeIn(500);
-    })
-});
-
-// Show the main content
-// document.getElementById('mainContent').style.display = 'block';
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Select all label elements that contain emojis
-    const emojiLabels = document.querySelectorAll('.sd-rating__item');
-
-    emojiLabels.forEach(label => {
-        label.addEventListener('click', function () {
-            // Add shake animation class when clicked
-            label.classList.add('shake');  // Adding the shake effect
-
-            // Display an alert with the emoji text
-            // const emojiText = label.querySelector('.sv-string-viewer').textContent;
-            // alert('You clicked on emoji: ' + emojiText);
-
-            // Remove the shake class after the animation ends
-            label.addEventListener('animationend', function () {
-                label.classList.remove('shake');
-            });
-        });
-    });
-});
