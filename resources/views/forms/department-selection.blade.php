@@ -46,7 +46,9 @@
 </head>
 <body>
     <div id="departmentOverlay">
-        <h2>Select a Department</h2>
+        <!-- <h2>Select a Department</h2> -->
+        <h2>Which areas are you interested in?</h2>
+
         @forelse ($departments as $department)
             <button 
                 onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => str_replace(' ', '%20', $department)]) }}'">
