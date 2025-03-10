@@ -33,7 +33,7 @@
             z-index: 1000;
         }
 
-        /* #jurisdictionOverlay button {
+        #jurisdictionOverlay button {
             margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
@@ -45,7 +45,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        } */
+        }
         #jurisdictionOverlay {
     position: fixed;
     top: 0;
