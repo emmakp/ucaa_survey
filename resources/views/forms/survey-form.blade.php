@@ -139,7 +139,7 @@
     </div>
 </div>
     <script>
-    Survey.StylesManager.applyTheme("defaultV2");
+    // Survey.StylesManager.applyTheme("defaultV2");
 
     // Default to survey_id = 1 (seeded survey)
     let surveyId = "{{ $survey_id ?? 1 }}";
