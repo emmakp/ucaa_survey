@@ -139,6 +139,8 @@
     </div>
 </div>
     <script>
+        // console.log(Survey.Version);
+        // Survey.applyTheme?.("defaultV2");
     // Survey.StylesManager.applyTheme("defaultV2");
 
     // Default to survey_id = 1 (seeded survey)
@@ -170,7 +172,8 @@
     console.log('Survey ID:', surveyId, 'Questionnaire ID:', questionaireId, 'Jurisdiction:', jurisdiction);
 
     document.addEventListener("DOMContentLoaded", function () {
-    Survey.StylesManager.applyTheme("defaultV2");
+    // Survey.StylesManager.applyTheme("defaultV2");
+    // Survey.applyTheme?.("defaultV2");
 
     let surveyId = "{{ $survey_id ?? 1 }}";
     const questionaireId = "{{ $questionaire->obfuscator ?? 'default-id' }}";
