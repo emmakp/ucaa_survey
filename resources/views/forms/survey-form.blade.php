@@ -17,13 +17,14 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('form/js/slider.js') }}"></script>
     <style>
-        #jurisdictionOverlay {
+               #jurisdictionOverlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            /* background: rgba(0, 0, 0, 0.8); */
+            background:  #007bff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,11 +32,39 @@
             color: white;
             z-index: 1000;
         }
-        #jurisdictionOverlay button {
+
+        /* #jurisdictionOverlay button {
             margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
-        }
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } */
+        #jurisdictionOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: rgba(0, 0, 0, 0.8); */
+    background:  #007bff;
+    display: flex;
+    justify-content: center; /* Centers children horizontally */
+    align-items: center; /* Centers children vertically */
+    flex-direction: column;
+    color: white;
+    z-index: 1000;
+}
+#jurisdictionOverlay h2 {
+    text-align: center; /* Explicitly center text inside h2 */
+    width: 100%; /* Ensure it spans the container */
+}
         #mainContent { display: none; }
         #secondOverlay { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
     </style>
@@ -65,7 +94,7 @@
     </div>
 
     <!-- Main Survey Content -->
-    <div id="mainContent" @if(isset($jurisdiction)) style="display: block;" @endif>
+    <!-- <div id="mainContent" @if(isset($jurisdiction)) style="display: block;" @endif>
         <div class="row">
             <div class="col-8">
                 <div class="container">
@@ -85,7 +114,30 @@
                 </div>
             </div>
         </div>
+    </div> -->
+    <div id="mainContent" @if(isset($jurisdiction)) style="display: block;" @endif>
+    <div class="container">
+        <div class="row flex-column flex-md-row">
+            <div class="col-12 col-md-8 order-1 order-md-0">
+                <div class="container">
+                    <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4">
+                    <div id="caa-form"></div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 order-2">
+                <div id="slider">
+                    <ul>
+                        <li class="slide1"><img src="{{ asset('form/img/Civil-Aviation-Authority-offices.jpg') }}" alt=""></li>
+                        <li class="slide2"><img src="{{ asset('form/img/slider_1.jpeg') }}" alt=""></li>
+                        <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li>
+                        <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
+                        <li class="slide5"><img src="{{ asset('form/img/slider_4.jpeg') }}" alt=""></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
     <script>
     Survey.StylesManager.applyTheme("defaultV2");
 
@@ -116,6 +168,27 @@
     }
 
     console.log('Survey ID:', surveyId, 'Questionnaire ID:', questionaireId, 'Jurisdiction:', jurisdiction);
+
+    document.addEventListener("DOMContentLoaded", function () {
+    Survey.StylesManager.applyTheme("defaultV2");
+
+    let surveyId = "{{ $survey_id ?? 1 }}";
+    const questionaireId = "{{ $questionaire->obfuscator ?? 'default-id' }}";
+    const jurisdiction = "{{ $jurisdiction ?? '' }}";
+
+    // Rest of your existing code...
+
+    if (jurisdiction) {
+        const surveyJson = {!! $surveyJson ?? 'null' !!};
+        if (surveyJson) {
+            console.log("Initializing survey with defaultV2 theme...");
+            const survey = new Survey.Model(surveyJson);
+            survey.render(document.getElementById("caa-form"));
+        }
+    } else {
+        document.getElementById('loader').style.display = 'flex';
+    }
+});
 
 // Handle dynamic jurisdiction buttons
 document.querySelectorAll('.jurisdictionButton').forEach(button => {
