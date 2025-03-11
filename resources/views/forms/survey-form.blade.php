@@ -128,17 +128,17 @@
                     <div id="caa-form"></div>
                 </div>
             </div>
-            <div class="col-12 col-md-4 order-2">
-                <div id="slider">
-                    <ul>
-                        <li class="slide1"><img src="{{ asset('form/img/Civil-Aviation-Authority-offices.jpg') }}" alt=""></li>
-                        <li class="slide2"><img src="{{ asset('form/img/slider_1.jpeg') }}" alt=""></li>
-                        <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li>
-                        <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
-                        <li class="slide5"><img src="{{ asset('form/img/slider_4.jpeg') }}" alt=""></li>
-                    </ul>
-                </div>
-            </div>
+            <div class="col-12 col-md-4 order-2 d-none d-md-block">
+    <div id="slider">
+        <ul>
+            <li class="slide1"><img src="{{ asset('form/img/Civil-Aviation-Authority-offices.jpg') }}" alt=""></li>
+            <li class="slide2"><img src="{{ asset('form/img/slider_1.jpeg') }}" alt=""></li>
+            <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li>
+            <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
+            <li class="slide5"><img src="{{ asset('form/img/slider_4.jpeg') }}" alt=""></li>
+        </ul>
+    </div>
+</div>
         </div>
     </div>
 </div>
