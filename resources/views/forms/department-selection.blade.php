@@ -47,7 +47,7 @@
 <body>
     <div id="departmentOverlay">
         <!-- <h2>Select a Department</h2> -->
-        <h2>Which areas are you interested in?</h2>
+        <h2>  Which Areas would you want to give your Feedback?</h2>
 
         @forelse ($departments as $department)
             <button 
