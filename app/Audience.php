@@ -35,4 +35,9 @@ class Audience extends Model
         return $this->belongsTo('App\User', 'created_by');
 
     }
+
+    public function getDisplayNameAttribute()
+    {
+        return ucwords(str_replace('_', ' ', $this->name));
+    }
 }
