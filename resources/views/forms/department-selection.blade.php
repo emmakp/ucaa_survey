@@ -13,8 +13,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* background: rgba(0, 0, 0, 0.8); */
-            background:  #007bff;
+            background: rgba(0, 0, 0, 0.8);
+            /* background:  #007bff; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,6 +27,8 @@
             padding: 10px 20px;
             font-size: 16px;
             /* background-color: #007bff; Bootstrap primary blue */
+            background: rgba(0, 0, 0, 0.8);
+
             color: black;
             border: none;
             border-radius: 5px;
