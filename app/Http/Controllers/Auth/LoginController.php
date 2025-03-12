@@ -52,6 +52,8 @@ class LoginController extends Controller
 
         $audit_trail->action = $audit_action;
         $audit_trail->user_id = $audit_user_id;
+        $audit_trail->controller = 'LoginController';
+        $audit_trail->function = 'authenticated';
 
         $audit_trail->save();
     }
@@ -61,12 +63,15 @@ class LoginController extends Controller
 
         $audit_action = 'Logout';
         $audit_user_id = auth()->user()->id;
+        // 'controller' => 'LoginController',
 
         // Audit this action
         $audit_trail = new AuditTrail();
 
         $audit_trail->action = $audit_action;
         $audit_trail->user_id = $audit_user_id;
+        $audit_trail->controller = 'LoginController';
+        $audit_trail->function = 'logout';
 
         $audit_trail->save();
 

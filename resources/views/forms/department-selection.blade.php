@@ -14,6 +14,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
+            /* background:  #007bff; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,6 +27,8 @@
             padding: 10px 20px;
             font-size: 16px;
             /* background-color: #007bff; Bootstrap primary blue */
+            /* background: rgba(0, 0, 0, 0.8); */
+
             color: black;
             border: none;
             border-radius: 5px;
@@ -45,7 +48,9 @@
 </head>
 <body>
     <div id="departmentOverlay">
-        <h2>Select a Department</h2>
+        <!-- <h2>Select a Department</h2> -->
+        <h2>  Which Areas would you want to give your Feedback?</h2>
+
         @forelse ($departments as $department)
             <button 
                 onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => str_replace(' ', '%20', $department)]) }}'">
