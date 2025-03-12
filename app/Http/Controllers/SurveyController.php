@@ -178,66 +178,7 @@ public function manageQuestionnaires($surveyId)
 }
 
 
-    
-    // public function getSurveyQuestions($surveyId, $audienceType, $department)
-    // {
-    //     try {
-    //         $survey = Survey::findOrFail($surveyId);
-    //         $questions = Question::where('survey_id', $surveyId)
-    //                              ->where('audience_type', $audienceType)
-    //                              ->where('department', $department)
-    //                              ->with('questionType')
-    //                              ->inRandomOrder()
-    //                              ->limit(3)
-    //                              ->get();
-    
-    //         if ($questions->isEmpty()) {
-    //             return response()->json(['error' => 'No questions found'], 404);
-    //         }
-    
-    //         $surveyJson = [
-    //             'title' => "Civil Aviation Authority - " . ucfirst($audienceType) . " Survey - " . $department,
-    //             'description' => "Please share your experience with the {$department} department at the Ugandan Airport.",
-    //             'pages' => [
-    //                 [
-    //                     'name' => 'page1',
-    //                     'elements' => $questions->map(function ($question) {
-    //                         $type = strtolower($question->questionType ? $question->questionType->type : 'text');
-    //                         $element = [
-    //                             'type' => $type === 'rating' ? 'rating' : ($type === 'boolean' ? 'boolean' : 'text'),
-    //                             'name' => 'question_' . $question->id,
-    //                             'title' => $question->question,
-    //                             'isRequired' => $question->is_required ?? false,
-    //                         ];
-    //                         if ($type === 'rating') {
-    //                             $element['rateValues'] = [
-    //                                 ['value' => 1, 'text' => '😞'],
-    //                                 ['value' => 2, 'text' => '🙁'],
-    //                                 ['value' => 3, 'text' => '😐'],
-    //                                 ['value' => 4, 'text' => '🙂'],
-    //                                 ['value' => 5, 'text' => '😊'],
-    //                             ];
-    //                         }
-    //                         return $element;
-    //                     })->toArray()
-    //                 ]
-    //             ]
-    //         ];
-    
-    //         return view('forms.survey-form', [
-    //             'surveyJson' => json_encode($surveyJson),
-    //             'survey_id' => $surveyId,
-    //             'questionaire' => (object) ['survey_id' => $surveyId, 'obfuscator' => 'initial-survey'],
-    //             'audiences' => $audiences,
-    //             'jurisdiction' => $audienceType
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         Log::error("Error in getSurveyQuestions: " . $e->getMessage());
-    //         return response()->json(['error' => 'Server error'], 500);
-    //     }
-    // }
-
-    public function getSurveyQuestions($surveyId, $audienceType, $department)
+public function getSurveyQuestions($surveyId, $audienceType, $department)
 {
     try {
         Log::info("Starting getSurveyQuestions: surveyId=$surveyId, audienceType=$audienceType, department=$department");
@@ -259,8 +200,11 @@ public function manageQuestionnaires($surveyId)
             return response()->json(['error' => 'No questions found'], 404);
         }
 
+        // Format the audienceType for display
+        $formattedAudienceType = Str::title(str_replace('_', ' ', $audienceType));
+
         $surveyJson = [
-            'title' => "Civil Aviation Authority - {$audienceType} Survey - {$department}",
+            'title' => "Civil Aviation Authority - {$formattedAudienceType} Survey - {$department}",
             'description' => "Please share your experience with the {$department} department.",
             'pages' => [
                 [
@@ -294,6 +238,64 @@ public function manageQuestionnaires($surveyId)
         return response()->json(['error' => 'Server error'], 500);
     }
 }
+
+//     public function getSurveyQuestions($surveyId, $audienceType, $department)
+// {
+//     try {
+//         Log::info("Starting getSurveyQuestions: surveyId=$surveyId, audienceType=$audienceType, department=$department");
+
+//         $survey = Survey::findOrFail($surveyId);
+//         Log::info("Survey found: " . $survey->title);
+
+//         $questions = Question::where('survey_id', $surveyId)
+//                              ->where('audience_type', $audienceType)
+//                              ->where('department', $department)
+//                              ->with('questionType')
+//                              ->inRandomOrder()
+//                              ->limit(3)
+//                              ->get();
+
+//         Log::info("Questions found: " . $questions->count());
+
+//         if ($questions->isEmpty()) {
+//             return response()->json(['error' => 'No questions found'], 404);
+//         }
+
+//         $surveyJson = [
+//             'title' => "Civil Aviation Authority - {$audienceType} Survey - {$department}",
+//             'description' => "Please share your experience with the {$department} department.",
+//             'pages' => [
+//                 [
+//                     'name' => 'page1',
+//                     'elements' => $questions->map(function ($question) {
+//                         Log::info("Processing question ID: " . $question->id);
+//                         return [
+//                             'type' => strtolower($question->questionType->type ?? 'text'), // Fallback
+//                             'name' => 'question_' . $question->id,
+//                             'title' => $question->question,
+//                             'isRequired' => $question->is_required,
+//                         ];
+//                     })->toArray()
+//                 ]
+//             ]
+//         ];
+
+//         $audiences = Audience::where('validity', true)->pluck('name')->toArray();
+
+//         Log::info("Success: surveyId=$surveyId, audienceType=$audienceType, department=$department, audiences=", $audiences);
+
+//         return view('forms.survey-form', [
+//             'surveyJson' => json_encode($surveyJson),
+//             'survey_id' => $surveyId,
+//             'questionaire' => (object) ['survey_id' => $surveyId, 'obfuscator' => 'initial-survey'],
+//             'audiences' => $audiences,
+//             'jurisdiction' => $audienceType
+//         ]);
+//     } catch (\Exception $e) {
+//         Log::error("Error in getSurveyQuestions: " . $e->getMessage() . "\nStack trace: " . $e->getTraceAsString());
+//         return response()->json(['error' => 'Server error'], 500);
+//     }
+// }
 
 
     // public function fill(Request $request, $surveyId, $questionaireId)
