@@ -27,8 +27,8 @@
                         <tr>
                             <td>{{ $submission->id }}</td>
                             <td>{{ $submission->survey->title }}</td>
-                            <td>{{ $submission->answers->first()->question->audience ?? 'N/A' }}</td>
-                            <td>{{ $submission->answers->first()->question->department ?? 'N/A' }}</td>
+                            <td>{{ $submission->answers->first() ? (Str::title(str_replace('_', ' ', $submission->answers->first()->question->audience_type)) ?? 'N/A') : 'No Answers' }}</td>
+                            <td>{{ $submission->answers->first() ? ($submission->answers->first()->question->department ?? 'N/A') : 'No Answers' }}</td>
                             <td>{{ $submission->submitted_at->format('Y-m-d H:i:s') }}</td>
                             <td>
                                 <a href="{{ route('answers.show', $submission->id) }}" class="btn btn-info">View Answers</a>
