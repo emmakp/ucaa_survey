@@ -142,6 +142,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                     Staff
                 </a>
+                <a class="nav-link" href="{{url('departments')}}">
+                    <div class="sb-nav-link-icon"><!--<i class="fas fa-user"></i>--><i class="fa-solid fa-building"></i></div>
+                    Departments
+                </a>
                 <a class="nav-link" href="{{url('titles')}}">
                     <div class="sb-nav-link-icon"><i class="fas fa-heading"></i></div>
                     Titles

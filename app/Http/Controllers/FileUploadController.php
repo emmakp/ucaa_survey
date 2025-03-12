@@ -18,7 +18,7 @@ class FileUploadController extends Controller
             // Get file name with extension
             $fileNameWithExt = $request->file('file')->getClientOriginalName();
 
-            $full_path = 'storage/pics/';
+            $full_path = 'public/pics/';
 
             // Upload file
             $path = $request->file('file')->storeAs($full_path, $fileNameWithExt);

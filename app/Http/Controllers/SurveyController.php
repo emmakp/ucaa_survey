@@ -555,6 +555,7 @@ private function calculateScore($answer)
 
         $survey = new Survey;
         $survey->title = $request->input('title');
+        $survey->department_id = $request->input('department_id');
         $survey->obfuscator = Str::random(10);
         $survey->created_by = $audit_user_id;
         $survey->status = 'pending';

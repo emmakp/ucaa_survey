@@ -1,0 +1,96 @@
+/* Keyframes for the shaky effect */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Shaky class to apply the animation */
+.shake {
+    animation: shake 0.5s ease-out;
+}
+
+.sd-rating__item-text {
+    font-size: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.sparkle {
+    animation: sparkle 0.5s ease-out;
+}
+
+.sd-rating__item-text {
+    font-size: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.form-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    color: #0073e6;
+    border-radius: 5px;
+    transition: transform 0.3s;
+    position: relative;
+    left: -100vw;
+}
+
+.form-btn:hover {
+    transform: scale(1.1);
+}
+
+/* button.form-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    color: #0073e6;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+button.form-btn:hover {
+    transform: scale(1.1);
+} */
+.hidden {
+    display: none;
+}
+
+div.options-screen {
+    font-family: Arial, sans-serif;
+    background-color: #0073e6;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+div.options-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

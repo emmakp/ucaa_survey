@@ -8,6 +8,9 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use App\Http\Controllers\FileUploadController;
 
 // missing modal classes
 use App\Titles;
@@ -36,13 +39,19 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * Controller hepler for file upload
+     * @var class
+     */
+    protected $fileUpload;
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(FileUploadController $fileUpload)
     {
-        $this->middleware('admin');
+        $this->middleware(['auth', 'admin']);
+        $this->fileUpload = $fileUpload;
         // $this->middleware('guest');
     }
 
@@ -57,9 +66,10 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'FirstName' => ['required', 'string', 'max:255'],
             'SecondName' => ['required', 'string', 'max:255'],
-            'UserName' => ['required', 'string', 'max:255', 'unique:users'],
+            'UserName' => ['nullable', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'PhoneNumber' => ['required', 'numeric', 'unique:users', 'digits:9'],
+            // 'PhoneNumber' => ['required', 'numeric', 'unique:users', 'digits:9'],
+            'PhoneNumber' => ['required', 'digits:9', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'userrole' => ['required', 'integer'],
             'title' => ['required', 'integer'],
@@ -84,7 +94,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'PhoneNumber' => $data['PhoneNumber'],
             'password' => Hash::make($data['password']),
-            'UserRole' => $data['userrole'],
+            'UserRole' => ($data['userrole'] === '')? 'n/A' : $data['userrole'],
             'title' => $data['title'],
             'username' => $data['UserName'],
             'gender' => $data['gender'],
@@ -101,8 +111,7 @@ class RegisterController extends Controller
 
         // Overridden to add file to user profile pic
         if($request->hasFile('file')){
-            $file = new FileUploadController;
-            $file->upload_pic($request, 'user', $user->Obfuscator);
+            $this->fileUpload->upload_pic($request, 'user', $user->Obfuscator);
         }
 
         // $this->guard()->login($user);
