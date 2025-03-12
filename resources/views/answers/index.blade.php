@@ -11,40 +11,32 @@
                 <tr>
                     <th>ID</th>
                     <th>Survey Title</th>
+                    <th>Audience</th> <!-- Added Audience column -->
+                    <th>Department</th> <!-- Added Department column -->
                     <th>Submitted At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <!-- <tbody>
-                @foreach ($submissions as $submission)
-                    <tr>
-                        <td>{{ $submission->id }}</td>
-                        <td>{{ $submission->survey->title }}</td>
-                        <td>{{ $submission->submitted_at->format('Y-m-d H:i:s') }}</td>
-                        <td>
-                            <a href="{{ route('answers.show', $submission->id) }}" class="btn btn-info">View Answers</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody> -->
             <tbody>
-    @if ($submissions->isEmpty())
-        <tr>
-            <td colspan="4">No submissions found</td>
-        </tr>
-    @else
-        @foreach ($submissions as $submission)
-            <tr>
-                <td>{{ $submission->id }}</td>
-                <td>{{ $submission->survey->title }}</td>
-                <td>{{ $submission->submitted_at->format('Y-m-d H:i:s') }}</td>
-                <td>
-                    <a href="{{ route('answers.show', $submission->id) }}" class="btn btn-info">View Answers</a>
-                </td>
-            </tr>
-        @endforeach
-    @endif
-</tbody>
+                @if ($submissions->isEmpty())
+                    <tr>
+                        <td colspan="6">No submissions found</td> <!-- Updated colspan from 4 to 6 -->
+                    </tr>
+                @else
+                    @foreach ($submissions as $submission)
+                        <tr>
+                            <td>{{ $submission->id }}</td>
+                            <td>{{ $submission->survey->title }}</td>
+                            <td>{{ $submission->answers->first()->question->audience ?? 'N/A' }}</td>
+                            <td>{{ $submission->answers->first()->question->department ?? 'N/A' }}</td>
+                            <td>{{ $submission->submitted_at->format('Y-m-d H:i:s') }}</td>
+                            <td>
+                                <a href="{{ route('answers.show', $submission->id) }}" class="btn btn-info">View Answers</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            </tbody>
         </table>
 
         <div class="mt-3">
@@ -53,3 +45,5 @@
     </div>
 </div>
 @endsection
+
+

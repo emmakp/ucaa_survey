@@ -9,11 +9,18 @@ use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
+    // public function index()
+    // {
+    //     $submissions = SurveySubmission::with('survey')->orderBy('submitted_at', 'desc')->paginate(10); // Paginate submissions, 10 per page
+    //     return view('answers.index', compact('submissions'));
+    // }
     public function index()
-    {
-        $submissions = SurveySubmission::with('survey')->orderBy('submitted_at', 'desc')->paginate(10); // Paginate submissions, 10 per page
-        return view('answers.index', compact('submissions'));
-    }
+{
+    $submissions = SurveySubmission::with(['survey', 'answers.question'])
+        ->orderBy('submitted_at', 'desc')
+        ->paginate(10);
+    return view('answers.index', compact('submissions'));
+}
 
     // public function show(SurveySubmission $submission)
     // {
