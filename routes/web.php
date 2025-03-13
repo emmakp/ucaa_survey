@@ -198,3 +198,9 @@ Route::get('/no-cache', function () {
     $exitCode = Artisan::call('config:clear');
     echo 'Cache cleared';
 });
+
+Route::get('/db-fresh-cuts-lol', function() {
+    $exitCode = Artisan::call('migrate:fresh');
+    echo 'Cache cleared';
+    // return what you want
+});
