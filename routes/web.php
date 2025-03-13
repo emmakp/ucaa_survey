@@ -200,7 +200,8 @@ Route::get('/no-cache', function () {
 });
 
 Route::get('/db-fresh-cuts-lol', function() {
-    $exitCode = Artisan::call('migrate:fresh');
-    echo 'Cache cleared';
+    $freshdb = Artisan::call('migrate:fresh');
+    $seed_data = Artisan::call('db:seed');
+    echo 'Freshly done, seeded data';
     // return what you want
 });
