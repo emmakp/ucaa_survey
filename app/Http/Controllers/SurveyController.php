@@ -311,7 +311,7 @@ public function getSurveyQuestions($surveyId, $audienceType, $department)
     //             'user_id' => auth()->id(),
     //             'submitted_at' => now(),
     //         ]);
-    
+
     //         $answers = $request->except('_token');
     //         foreach ($answers as $key => $value) {
     //             if (preg_match('/question_(\d+)/', $key, $matches)) {
