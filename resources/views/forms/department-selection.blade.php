@@ -14,7 +14,8 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            background-image: url("{{ asset('form/img/welcome.gif') }}");
+            /* background-image: url("{{ asset('form/img/welcome.gif') }}"); */
+            background-image: url("{{ asset('form/img/welcomepic.jpg') }}");
     background-size: cover;
     background-position: center;
             display: flex;

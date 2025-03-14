@@ -19,7 +19,7 @@
     <script type="text/javascript" src="{{ asset('form/js/slider.js') }}"></script>
     <style>
     /* Full-screen loader */
-    #loader {
+    /* #loader {
         position: fixed;
         top: 0;
         left: 0;
@@ -30,7 +30,12 @@
         align-items: center;
         flex-direction: column;
         z-index: 999;
-    }
+    } */
+    #loader {
+    justify-content: center; /* Center horizontally */
+    align-items: flex-start; /* Align to left vertically */
+    padding-left: 20px; /* Optional: Add some left padding */
+}
 
     /* Full-screen GIF */
     #loaderGif {
@@ -50,7 +55,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        background: rgba(0, 0, 0, 0.2); /* Semi-transparent black */
         z-index: 2; /* Above GIF, below content */
     }
 
@@ -59,18 +64,26 @@
         position: relative;
         z-index: 3; /* Above overlay */
         color: #ffffff;
-        font-size: 56px;
+        font-size: 76px;
         font-weight: 700;
         font-family: 'Roboto', sans-serif;
-        text-align: center;
+        /* text-align: center; */
+        text-align: left;
         margin-bottom: 20px;
         animation: panUp 0.5s ease-out forwards;
+        margin-left: 50px;
     }
+    #welcomeText span {
+    color:rgb(55, 152, 255); /* Blue from Bootstrap theme */
+    font-size: 76px;
+        font-weight: 700;
+
+}
 
     /* Centered button with animation */
-    #startButton {
+    /* #startButton {
         position: relative;
-        z-index: 3; /* Above overlay */
+        z-index: 3;
         padding: 7px 12px;
         font-size: 18px;
         border: 2px solid #ffffff;
@@ -78,7 +91,31 @@
         border-radius: 30px;
         cursor: pointer;
         animation: panUp 0.5s ease-out forwards;
-    }
+        margin-left: 50px;
+    } */
+    #startButton {
+	padding: 10px 20px;
+    z-index: 3;
+	font-size: 16px;
+	cursor: pointer;
+	/* color: #1083cc; */
+    color: #fff;
+	border: 1px solid white;
+	border-radius: 30px;
+    animation: panUp 0.5s ease-out forwards;
+    background: transparent;
+    margin-left: 50px;
+  }
+
+  #startButton:hover {
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	color: #fff;
+	border: 1px solid #1083cc;
+	background-color: #1083cc;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
 
     /* #startButton:hover {
         background-color: rgba(255, 255, 255, 0.2); 
@@ -118,7 +155,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("{{ asset('form/img/welcome.gif') }}");
+    /* background-image: url("{{ asset('form/img/welcome.gif') }}"); */
+    background-image: url("{{ asset('form/img/welcomepic.jpg') }}");
     background-size: cover;
     background-position: center;
     display: none;
@@ -178,13 +216,16 @@
         z-index: 1000;
     }
     #welcomeLogo {
-        width: 200px;
+        /* width: 600px; */
         height: auto;
         z-index: 3;
         /* position top right coner */
         position: absolute;
         top: 0;
-        left: 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        /* left: 0; */
         background-color: white;
         border-radius: 0 0 0 0px;
         padding: 5px 20px 5px 20px;
@@ -195,11 +236,12 @@
 
     <!-- Loader Section -->
     <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
-    <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo">
-        <img src="{{ asset('form/img/welcome.gif') }}" alt="Loading..." id="loaderGif">
+    <!-- <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo"> -->
+    <h2 class="mb-4" id="welcomeLogo">WELCOME TO ENTEBBE INTERNATIONAL AIRPORT STAKEHOLDER FEEDBACK SYSTEM</h2>
+        <img src="{{ asset('form/img/welcomepic.jpg') }}" alt="Loading..." id="loaderGif">
         <div id="loaderOverlay"></div> <!-- Dark overlay -->
-        <div id="welcomeText">Safety, Security & Service</div>
-        <button id="startButton">Take Survey</button>
+        <div id="welcomeText">Safety, Security <br><span>&</span> Service</div>
+        <button id="startButton">Connect To Wifi</button>
     </div>
 
     <!-- Jurisdiction Selection Overlay -->
@@ -212,7 +254,7 @@
 
     <!-- Thank You Overlay -->
     <div id="secondOverlay">
-        <img src="{{ asset('form/img/thank you.gif') }}" alt="Thank You" id="loaderGif2">
+        <img src="{{ asset('form/img/welcome.gif') }}" alt="Thank You" id="loaderGif2">
         <button id="endButton">Connect to Wifi</button>
     </div>
 
