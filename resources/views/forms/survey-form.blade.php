@@ -238,7 +238,7 @@
     <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
     <!-- <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo"> -->
     <h2 class="mb-4" id="welcomeLogo">WELCOME TO ENTEBBE INTERNATIONAL AIRPORT STAKEHOLDER FEEDBACK SYSTEM</h2>
-        <img src="{{ asset('form/img/welcome.gif') }}" alt="Loading..." id="loaderGif">
+        <img src="{{ asset('form/img/welcomepic.jpg') }}" alt="Loading..." id="loaderGif">
         <div id="loaderOverlay"></div> <!-- Dark overlay -->
         <div id="welcomeText">Safety, Security <br><span>&</span> Service</div>
         <button id="startButton">Connect To Wifi</button>
