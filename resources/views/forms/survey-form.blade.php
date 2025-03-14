@@ -59,7 +59,7 @@
         position: relative;
         z-index: 3; /* Above overlay */
         color: #ffffff;
-        font-size: 46px;
+        font-size: 56px;
         font-weight: 700;
         font-family: 'Roboto', sans-serif;
         text-align: center;
@@ -71,7 +71,7 @@
     #startButton {
         position: relative;
         z-index: 3; /* Above overlay */
-        padding: 9px 20px;
+        padding: 7px 12px;
         font-size: 18px;
         border: 2px solid #ffffff;
         color: #000000;
@@ -177,12 +177,25 @@
         height: 100vh;
         z-index: 1000;
     }
+    #welcomeLogo {
+        width: 200px;
+        height: auto;
+        z-index: 3;
+        /* position top right coner */
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: white;
+        border-radius: 0 0 0 0px;
+        padding: 5px 20px 5px 20px;
+    }
 </style>
 </head>
 <body>
 
     <!-- Loader Section -->
     <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
+    <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo">
         <img src="{{ asset('form/img/welcome.gif') }}" alt="Loading..." id="loaderGif">
         <div id="loaderOverlay"></div> <!-- Dark overlay -->
         <div id="welcomeText">Safety, Security & Service</div>
@@ -218,8 +231,8 @@
                         <ul>
                             <li class="slide1"><img src="{{ asset('form/img/Civil-Aviation-Authority-offices.jpg') }}" alt=""></li>
                             <li class="slide2"><img src="{{ asset('form/img/slider_1.jpeg') }}" alt=""></li>
-                            <!-- <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li>
-                            <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
+                            <!-- <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li> -->
+                            <!-- <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
                             <li class="slide5"><img src="{{ asset('form/img/slider_4.jpeg') }}" alt=""></li> -->
                         </ul>
                     </div>
