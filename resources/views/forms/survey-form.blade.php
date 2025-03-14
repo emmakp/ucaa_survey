@@ -118,7 +118,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("{{ asset('form/img/welcome.gif') }}");
+    /* background-image: url("{{ asset('form/img/welcome.gif') }}"); */
+    background-image: url("{{ asset('form/img/welcomepic.jpg') }}");
     background-size: cover;
     background-position: center;
     display: none;
@@ -178,13 +179,16 @@
         z-index: 1000;
     }
     #welcomeLogo {
-        width: 200px;
+        /* width: 600px; */
         height: auto;
         z-index: 3;
         /* position top right coner */
         position: absolute;
         top: 0;
-        left: 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        /* left: 0; */
         background-color: white;
         border-radius: 0 0 0 0px;
         padding: 5px 20px 5px 20px;
@@ -195,11 +199,12 @@
 
     <!-- Loader Section -->
     <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
-    <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo">
+    <!-- <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo"> -->
+    <h2 class="mb-4" id="welcomeLogo">WELCOME TO ENTEBBE INTERNATIONAL AIRPORT STAKEHOLDER FEEDBACK SYSTEM</h2>
         <img src="{{ asset('form/img/welcome.gif') }}" alt="Loading..." id="loaderGif">
         <div id="loaderOverlay"></div> <!-- Dark overlay -->
         <div id="welcomeText">Safety, Security & Service</div>
-        <button id="startButton">Take Survey</button>
+        <button id="startButton">Connect To Wifi</button>
     </div>
 
     <!-- Jurisdiction Selection Overlay -->
@@ -212,7 +217,7 @@
 
     <!-- Thank You Overlay -->
     <div id="secondOverlay">
-        <img src="{{ asset('form/img/thank you.gif') }}" alt="Thank You" id="loaderGif2">
+        <img src="{{ asset('form/img/welcome.gif') }}" alt="Thank You" id="loaderGif2">
         <button id="endButton">Connect to Wifi</button>
     </div>
 
