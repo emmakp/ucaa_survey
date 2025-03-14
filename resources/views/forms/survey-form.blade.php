@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey</title>
     <!-- SurveyJS Libraries -->
-    <!-- <script src="https://unpkg.com/survey-core/survey.core.min.js"></script> -->
     <script src="https://unpkg.com/survey-core@latest/survey.core.min.js"></script>
     <script src="https://unpkg.com/survey-knockout@latest/survey.ko.min.js"></script>
     <script src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js"></script>
@@ -19,76 +18,184 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('form/js/slider.js') }}"></script>
     <style>
-        #jurisdictionOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            /* background:  #007bff; */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            color: white;
-            z-index: 1000;
-        }
+    /* Full-screen loader */
+    #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 999;
+    }
 
-        #jurisdictionOverlay button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: white;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    /* Full-screen GIF */
+    #loaderGif {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Fills screen, may crop */
+        z-index: 1;
+    }
+
+    /* Dark overlay */
+    #loaderOverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        z-index: 2; /* Above GIF, below content */
+    }
+
+    /* Welcome text with animation */
+    #welcomeText {
+        position: relative;
+        z-index: 3; /* Above overlay */
+        color: #ffffff;
+        font-size: 46px;
+        font-weight: 700;
+        font-family: 'Roboto', sans-serif;
+        text-align: center;
+        margin-bottom: 20px;
+        animation: panUp 0.5s ease-out forwards;
+    }
+
+    /* Centered button with animation */
+    #startButton {
+        position: relative;
+        z-index: 3; /* Above overlay */
+        padding: 9px 20px;
+        font-size: 18px;
+        border: 2px solid #ffffff;
+        color: #000000;
+        border-radius: 30px;
+        cursor: pointer;
+        animation: panUp 0.5s ease-out forwards;
+    }
+
+    /* #startButton:hover {
+        background-color: rgba(255, 255, 255, 0.2); 
+    } */
+
+    /* Animation keyframes */
+    @keyframes panUp {
+        0% {
+            transform: translateY(20px);
         }
-        #jurisdictionOverlay {
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    /* Jurisdiction overlay */
+    /* #jurisdictionOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("{{ asset('form/img/welcome.gif') }}");
+        background-size: cover;
+        background-position: center;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+        z-index: 1000;
+    } */
+    /* Jurisdiction overlay */
+#jurisdictionOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    /* background:  #007bff; */
-    display: flex;
-    justify-content: center; /* Centers children horizontally */
-    align-items: center; /* Centers children vertically */
+    background-image: url("{{ asset('form/img/welcome.gif') }}");
+    background-size: cover;
+    background-position: center;
+    display: none;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     color: white;
     z-index: 1000;
 }
-#jurisdictionOverlay h2 {
-    text-align: center; /* Explicitly center text inside h2 */
-    width: 100%; /* Ensure it spans the container */
+
+/* Dark overlay using ::before */
+#jurisdictionOverlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Same opacity as loader */
+    z-index: 1; /* Above background, below content */
 }
-        #mainContent { display: none; }
-        #secondOverlay { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-    </style>
+
+/* Ensure content stays above overlay */
+#jurisdictionOverlay h2,
+#jurisdictionOverlay button {
+    position: relative;
+    z-index: 2; /* Above the overlay */
+}
+
+    #jurisdictionOverlay button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #jurisdictionOverlay h2 {
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Other elements */
+    #mainContent { display: none; }
+    #secondOverlay {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        z-index: 1000;
+    }
+</style>
 </head>
 <body>
 
-   <!-- Loader Section -->
-   <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
-        <img src="{{ asset('form/img/welcome_1.gif') }}" alt="Loading..." id="loaderGif">
-        <button id="startButton">Start</button>
+    <!-- Loader Section -->
+    <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
+        <img src="{{ asset('form/img/welcome.gif') }}" alt="Loading..." id="loaderGif">
+        <div id="loaderOverlay"></div> <!-- Dark overlay -->
+        <div id="welcomeText">Safety, Security & Service</div>
+        <button id="startButton">Take Survey</button>
     </div>
+
     <!-- Jurisdiction Selection Overlay -->
-    <div id="jurisdictionOverlay" @if(isset($jurisdiction)) style="display: none; text-align:center" @endif>
-    <h2>Which category of stakeholder do you belong to?</h2>
-    @foreach ($audiences as $audience)
-        <button class="jurisdictionButton btn btn-md" data-jurisdiction="{{ $audience }}">{{ ucwords(str_replace('_', ' ', $audience)) }}</button>
-    @endforeach
-    {{-- @foreach ($audiences as $audience)
-        <button class="jurisdictionButton btn btn-md" data-jurisdiction="{{ $audience->name }}">{{ $audience->display_name }}</button>
-    @endforeach --}}
-</div>
-</div>
+    <div id="jurisdictionOverlay">
+        <h2>Which category of stakeholder do you belong to?</h2>
+        @foreach ($audiences as $audience)
+            <button class="jurisdictionButton btn btn-md" data-jurisdiction="{{ $audience }}">{{ ucwords(str_replace('_', ' ', $audience)) }}</button>
+        @endforeach
+    </div>
 
     <!-- Thank You Overlay -->
     <div id="secondOverlay">
@@ -97,54 +204,32 @@
     </div>
 
     <!-- Main Survey Content -->
-    <!-- <div id="mainContent" @if(isset($jurisdiction)) style="display: block;" @endif>
-        <div class="row">
-            <div class="col-8">
-                <div class="container">
-                    <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4">
-                    <div id="caa-form"></div>
+    <div id="mainContent" @if(isset($jurisdiction)) style="display: block;" @endif>
+        <div class="container">
+            <div class="row flex-column flex-md-row">
+                <div class="col-12 col-md-8 order-1 order-md-0">
+                    <div class="container">
+                        <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4">
+                        <div id="caa-form"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-4">
-                <div id="slider">
-                    <ul>
-                        <li class="slide1"><img src="{{ asset('form/img/Civil-Aviation-Authority-offices.jpg') }}" alt=""></li>
-                        <li class="slide2"><img src="{{ asset('form/img/slider_1.jpeg') }}" alt=""></li>
-                        <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li>
-                        <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
-                        <li class="slide5"><img src="{{ asset('form/img/slider_4.jpeg') }}" alt=""></li>
-                    </ul>
+                <div class="col-12 col-md-4 order-2 d-none d-md-block">
+                    <div id="slider">
+                        <ul>
+                            <li class="slide1"><img src="{{ asset('form/img/Civil-Aviation-Authority-offices.jpg') }}" alt=""></li>
+                            <li class="slide2"><img src="{{ asset('form/img/slider_1.jpeg') }}" alt=""></li>
+                            <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li>
+                            <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
+                            <li class="slide5"><img src="{{ asset('form/img/slider_4.jpeg') }}" alt=""></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> -->
-    <!-- Main Survey Content -->
-<div id="mainContent" @if(isset($jurisdiction)) style="display: block;" @endif>
-    <div class="container">
-        <div class="row flex-column flex-md-row">
-            <div class="col-12 col-md-8 order-1 order-md-0">
-                <div class="container">
-                    <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4">
-                    <div id="caa-form"></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 order-2 d-none d-md-block">
-    <div id="slider">
-        <ul>
-            <li class="slide1"><img src="{{ asset('form/img/Civil-Aviation-Authority-offices.jpg') }}" alt=""></li>
-            <li class="slide2"><img src="{{ asset('form/img/slider_1.jpeg') }}" alt=""></li>
-            <li class="slide3"><img src="{{ asset('form/img/slider_2.jpeg') }}" alt=""></li>
-            <li class="slide4"><img src="{{ asset('form/img/slider_3.jpg') }}" alt=""></li>
-            <li class="slide5"><img src="{{ asset('form/img/slider_4.jpeg') }}" alt=""></li>
-        </ul>
     </div>
-</div>
-        </div>
-    </div>
-</div>
+
     <script>
     // Survey.StylesManager.applyTheme("defaultV2");
-
     document.addEventListener("DOMContentLoaded", function () {
     Survey.StylesManager.applyTheme("defaultV2");
 

@@ -14,7 +14,9 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            /* background:  #007bff; */
+            background-image: url("{{ asset('form/img/welcome.gif') }}");
+    background-size: cover;
+    background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,6 +24,22 @@
             color: white;
             z-index: 1000;
         }
+        /* Dark overlay using ::before */
+#departmentOverlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Same opacity as loader */
+    z-index: 1; /* Above background, below content */
+}
+#departmentOverlay h2,
+#departmentOverlay button {
+    position: relative;
+    z-index: 2; /* Above the overlay */
+}
         #departmentOverlay button {
             margin: 10px;
             padding: 10px 20px;
@@ -49,8 +67,7 @@
 <body>
     <div id="departmentOverlay">
         <!-- <h2>Select a Department</h2> -->
-        <h2>  Which Areas would you want to give your Feedback?</h2>
-
+        <h2>Which Areas would you want to give your Feedback?</h2>
         @forelse ($departments as $department)
             <button 
                 onclick="window.location.href='{{ route('survey.questions', ['surveyId' => $survey_id, 'audienceType' => $audience_type, 'department' => str_replace(' ', '%20', $department)]) }}'">
