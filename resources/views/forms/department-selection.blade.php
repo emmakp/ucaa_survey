@@ -56,9 +56,13 @@
         /* #departmentOverlay button:hover {
             background-color: #0056b3; 
         } */
-        #departmentOverlay h2 {
+        /* #departmentOverlay h2 {
             margin-bottom: 20px;
-        }
+        } */
+        #departmentOverlay h2 {
+        text-align: center;
+        width: 100%;
+    }
         #departmentOverlay p {
             font-size: 18px;
         }
