@@ -45,7 +45,7 @@ class QuestionSeeder extends Seeder
             ['Name' => 'Strategic Planning', 'Description' => 'Focuses on transportation and airport strategy'],
             ['Name' => 'Information Desk', 'Description' => 'Provides customer support and emergency response'],
             ['Name' => 'General', 'Description' => 'Covers overall airport experience'],
-            ['Name' => 'Stakeholder Meeting', 'Description' => 'Handles stakeholder-specific engagements'],
+            ['Name' => 'Stakeholder', 'Description' => 'Handles stakeholder-specific engagements'],
         ];
 
         foreach ($departments as $dept) {
