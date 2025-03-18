@@ -163,6 +163,11 @@
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
             {{ auth()->user()->FirstName }} {{ auth()->user()->SecondName }}
+            <div class="row mt-5">
+                <b>Powered by: <a href="https://najod.co/">NAJOD Surveillance</a> under</b>
+                <img src="{{ asset('img/airestech.jpg') }}" alt="Logo" class="img-fluid ml-3" width="50px">
+                
+            </div>
         </div>
     </nav>
 </div>

@@ -103,8 +103,10 @@
                     </div>
                 </form>
 
-                <div class="new-account mt-2 tag text-center">
-                    <b>Powered by: <a href="https://najod.co/">NAJOD Surveillance</a></b>
+                <div class="new-account mt-2 tag text-center offset-2">
+                    <b>Powered by: <a href="https://najod.co/" target="__blanc">NAJOD Surveillance</a> <br>with</b>
+                    <br>
+                    <img src="{{ asset('img/airestech.jpg') }}" alt="Logo" class="img-fluid ml-3" width="180px">
                 </div>
             </div>
         </div>
