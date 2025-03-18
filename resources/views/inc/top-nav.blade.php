@@ -1,5 +1,5 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <img src="{{ asset('img/airestech.jpg') }}" alt="Logo" class="img-fluid ml-3" width="50px">
+    <img src="{{ asset('img/caa-uganda-logo.png') }}" alt="Logo" class="img-fluid ml-3" width="50px">
     <a class="navbar-brand ps-3" href="index.html">{{ config('app.name', 'NAJOD Survaillance') }}</a>
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <h5 class="text-white text-center flex-grow-1 m-0">ENTEBBE AIRPORT STAKEHOLDER FEEDBACK SYSTEM</h5>
