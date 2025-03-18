@@ -139,7 +139,8 @@ Route::get('/survey/{surveyId}/{questionaireId}/{audienceType}', function ($surv
 
 // Original guest form route (for back office links)
 // Route::get('/survey/{survey_id}/fill/{questionaire_id}/ucaa', 'GuestController@get_form')->name('guest.form');
-Route::get('/survey/{survey_id}/fill/{questionaire_id}/ucaa', [SurveyController::class, 'getGuestForm'])->name('guest.form');
+Route::get('/survey/{survey_id}/fill/{questionaire_id}/{jurisdiction?}', [SurveyController::class, 'getGuestForm'])->name('guest.form');
+// Route::get('/survey/{survey_id}/fill/{questionaire_id}/ucaa', [SurveyController::class, 'getGuestForm'])->name('guest.form');
 // Route::post('/survey/{survey_id}/fill/{questionaire_id}/ucaa', 'GuestController@post_form')->name('guest.form.post');
 Route::post('/survey/{survey_id}/fill/{questionaire_id}/ucaa', [SurveyController::class, 'fill'])->name('guest.form.post');
 

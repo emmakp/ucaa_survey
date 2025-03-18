@@ -46,8 +46,17 @@
        target="_blank" 
        class="btn btn-sm btn-info">Get Link</a>
 </td> -->
-<td>
+<!-- <td>
     <a href="{{ route('guest.form', ['survey_id' => $record->survey->obfuscator, 'questionaire_id' => $record->obfuscator]) }}" 
+       target="_blank" 
+       class="">Get Link</a>
+</td> -->
+<td>
+    <a href="{{ route('guest.form', [
+        'survey_id' => $record->survey->obfuscator, 
+        'questionaire_id' => $record->obfuscator, 
+        'jurisdiction' => $record->survey->audiences()->where('validity', true)->first()->name ?? 'default_audience'
+    ]) }}" 
        target="_blank" 
        class="">Get Link</a>
 </td>

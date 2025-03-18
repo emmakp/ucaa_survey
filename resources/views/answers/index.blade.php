@@ -40,7 +40,7 @@
         </table>
 
         <div class="mt-3">
-            {{ $submissions->links() }}
+            {{ $submissions->links('pagination::simple-bootstrap-4')  }}
         </div>
     </div>
 </div>

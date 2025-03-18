@@ -33,33 +33,112 @@ class SurveyController extends Controller
 
 
 
-    public function getGuestForm($surveyObfuscator, $questionaireObfuscator)
-    {
-        // Find the survey by obfuscator
-        $survey = Survey::where('obfuscator', $surveyObfuscator)->firstOrFail();
+    // public function getGuestForm($surveyObfuscator, $questionaireObfuscator)
+    // {
+    //     // Find the survey by obfuscator
+    //     $survey = Survey::where('obfuscator', $surveyObfuscator)->firstOrFail();
         
-        // Find the questionnaire by obfuscator and survey ID
+    //     // Find the questionnaire by obfuscator and survey ID
+    //     $questionaire = \App\Questionaire::where('obfuscator', $questionaireObfuscator)
+    //                                     ->where('survey_id', $survey->id)
+    //                                     ->firstOrFail();
+
+    //     // Fetch valid audiences for the survey
+    //     $audiences = $survey->audiences()->where('validity', true)->pluck('name')->toArray();
+
+    //     if (empty($audiences)) {
+    //         return redirect()->route('survey.welcome')->with('error', 'No valid audiences available for this survey.');
+    //     }
+
+    //     // Log for debugging
+    //     Log::info("Guest form accessed: survey_id = {$survey->id}, questionaire_obfuscator = {$questionaireObfuscator}");
+
+    //     // Render the survey form view
+    //     return view('forms.survey-form', [
+    //         'survey_id' => $survey->id,
+    //         'questionaire' => $questionaire,
+    //         'audiences' => $audiences,
+    //     ]);
+    // }
+    public function getGuestForm($surveyObfuscator, $questionaireObfuscator, $jurisdiction = null)
+    {
+        $survey = Survey::where('obfuscator', $surveyObfuscator)->firstOrFail();
         $questionaire = \App\Questionaire::where('obfuscator', $questionaireObfuscator)
                                         ->where('survey_id', $survey->id)
                                         ->firstOrFail();
-
-        // Fetch valid audiences for the survey
         $audiences = $survey->audiences()->where('validity', true)->pluck('name')->toArray();
-
+    
         if (empty($audiences)) {
             return redirect()->route('survey.welcome')->with('error', 'No valid audiences available for this survey.');
         }
-
-        // Log for debugging
-        Log::info("Guest form accessed: survey_id = {$survey->id}, questionaire_obfuscator = {$questionaireObfuscator}");
-
-        // Render the survey form view
+    
+        // Set jurisdiction to the provided value or the first audience as default
+        $jurisdiction = $jurisdiction ?? $audiences[0];
+    
+        // Fetch departments for the audience (assuming one department for simplicity)
+        $departments = Question::where('survey_id', $survey->id)
+                               ->where('audience_type', $jurisdiction)
+                               ->pluck('department')
+                               ->unique()
+                               ->values()
+                               ->toArray();
+        $department = $departments[0] ?? null;
+    
+        if (!$department) {
+            return redirect()->route('survey.welcome')->with('error', 'No departments available for this audience.');
+        }
+    
+        // Fetch questions (mirroring getSurveyQuestions logic)
+        $questions = Question::where('survey_id', $survey->id)
+                             ->where('audience_type', $jurisdiction)
+                             ->where('department', $department)
+                             ->with('questionType')
+                             ->inRandomOrder()
+                             ->limit(3)
+                             ->get();
+    
+        if ($questions->isEmpty()) {
+            return redirect()->route('survey.welcome')->with('error', 'No questions found for this audience and department.');
+        }
+    
+        $formattedAudienceType = Str::title(str_replace('_', ' ', $jurisdiction));
+        $surveyJson = [
+            'title' => "Civil Aviation Authority - {$formattedAudienceType} Survey - {$department}",
+            'description' => "Please share your experience with the {$department} department.",
+            'pages' => [
+                [
+                    'name' => 'page1',
+                    'elements' => $questions->map(function ($question) {
+                        $questionType = strtolower($question->questionType->type ?? 'text');
+                        $element = [
+                            'type' => $questionType,
+                            'name' => 'question_' . $question->id,
+                            'title' => $question->question,
+                            'isRequired' => $question->is_required,
+                        ];
+                        if ($questionType === 'rating') {
+                            $element['rateMin'] = 1;
+                            $element['rateMax'] = 5;
+                            $element['rateValues'] = [1, 2, 3, 4, 5];
+                            $element['displayMode'] = 'buttons';
+                        }
+                        return $element;
+                    })->toArray()
+                ]
+            ]
+        ];
+    
+        Log::info("Guest form accessed: survey_id = {$survey->id}, questionaire_obfuscator = {$questionaireObfuscator}, jurisdiction = {$jurisdiction}");
+    
         return view('forms.survey-form', [
+            'surveyJson' => json_encode($surveyJson),
             'survey_id' => $survey->id,
             'questionaire' => $questionaire,
             'audiences' => $audiences,
+            'jurisdiction' => $jurisdiction
         ]);
     }
+    
 
     // public function showDepartments($surveyId, $audienceType)
     // {
