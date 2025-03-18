@@ -4,71 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/login/style.css') }}" type='text/css' />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Najod Survey') }} - Login</title>
+    <title>{{ config('app.name', 'Najod Survey') }}-Login</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .login-form-bx {
+            max-width: 500px; /* Limit the overall width */
+            width: 100%; /* Responsive but capped by max-width */
+            padding: 20px;
+        }
+
+        .box-skew1 {
+            /* Background image applied here, replace with actual image if not in external CSS */
+            background: url('{{ asset('img/your-background.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            width: 100%; /* Fills the .login-form-bx container */
+            height: 100%; /* Fills the container height */
+            display: flex;
+            justify-content: center; /* Center the form inside */
+            align-items: center; /* Vertically center the form */
+        }
+
+        .authincation-content {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Full width within .login-form-bx, capped by max-width */
+            max-width: 400px; /* Optional: Slightly narrower than the container for better aesthetics */
+        }
+
+        /* Ensure form elements remain fully opaque */
+        .authincation-content input,
+        .authincation-content label,
+        .authincation-content button,
+        .authincation-content .tag {
+            opacity: 1;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
 </head>
-<body class="bg-light d-flex align-items-center min-vh-100 m-0">
-    <div class="container">
-        <div class="row justify-content-center">
-            <!-- Login Card -->
-            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-                <div class="card shadow-sm">
-                    <div class="card-body p-3 p-md-4">
-                        <a href="/" class="d-block text-center mb-3">
-                            <img src="{{ asset('img/caa-uganda-logo.png') }}" alt="CAA Uganda Logo" class="img-fluid" style="max-width: 150px; max-height: 100px;">
-                        </a>
-
-                        <form action="{{ route('login') }}" method="post">
-                            @csrf
-                            @if(count($errors) > 0)
-                                <div class="alert alert-danger text-center p-2">
-                                    @foreach($errors->all() as $error)
-                                        {{ $error }}<br>
-                                    @endforeach
-                                </div>
-                            @endif
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label fw-bold">Email</label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter your email">
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+<body>
+    <div class="login-form-bx">
+        <div class="box-skew1">
+            <div class="authincation-content">
+                <form action="{{ route('login') }}" method="post">
+                    @csrf
+                    @if(count($errors) > 0)
+                        @foreach($errors->all() as $error)
+                            <div class="alert alert-danger text-center">
+                                {{$error}}
                             </div>
+                        @endforeach
+                    @endif
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label fw-bold">Password</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Enter your password">
-                                @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                    <div class="form-group">
+                        <label class="mb-2 tag"><strong>Email</strong></label>
+                        <input id="email" type="email" class="form-control input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="mb-2 tag"><strong>Password</strong></label>
+                        <input id="password" type="password" class="form-control input @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Enter your password">
+                    </div>
+
+                    <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox ml-1">
+                                <input class="form-check-input" type="checkbox" name="remember" id="basic_checkbox_1">
+                                <label class="form-check-label" for="basic_checkbox_1">Remember my preference</label>
                             </div>
-
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                                    <label class="form-check-label" for="remember">Remember me</label>
-                                </div>
-                            </div>
-
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </div>
-                        </form>
-
-                        <div class="text-center mt-3">
-                            <small>Powered by: <a href="https://najod.co/" class="text-primary">NAJOD Surveillance</a></small>
                         </div>
                     </div>
+
+                    <div class="text-center">
+                        <button type="submit" name="admin_login" class="btn btn-primary btn-block">Login</button>
+                    </div>
+                </form>
+
+                <div class="new-account mt-2 tag text-center">
+                    <b>Powered by: <a href="https://najod.co/">NAJOD Surveillance</a></b>
                 </div>
             </div>
         </div>

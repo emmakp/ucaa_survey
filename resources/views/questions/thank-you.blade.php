@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="HandheldFriendly" content="true">
     <title>Thank You</title>
-    <link rel="shortcut icon" href="{{ asset('img/caa-uganda-logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('img/airestech.jpg') }}">
     <script type="text/javascript" src="https://cdn.jotfor.ms/js/prototype.js"></script>
 
     <link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/thankyou.css?v=0.13">

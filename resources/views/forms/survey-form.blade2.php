@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=1" />
 <meta name="HandheldFriendly" content="true" />
 
-<link rel="shortcut icon" href="{{ asset('img/caa-uganda-logo.png') }}">
+<link rel="shortcut icon" href="{{ asset('img/airestech.jpg') }}">
 
 <title>UCAA Survey </title>
 <!-- <link type="text/css" rel="stylesheet" href="https://cdn01.jotfor.ms/stylebuilder/static/form-common.css?v=10373ab

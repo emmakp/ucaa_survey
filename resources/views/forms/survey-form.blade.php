@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="{{ asset('form/css/style2.css') }}">
     <link rel="stylesheet" href="{{ asset('form/css/slider.css') }}">
     <link rel="stylesheet" href="{{ asset('form/css/theme.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <!-- Slider JS -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('form/js/slider.js') }}"></script>
@@ -66,7 +67,8 @@
         color: #ffffff;
         font-size: 76px;
         font-weight: 700;
-        font-family: 'Roboto', sans-serif;
+        /* font-family: 'Roboto', sans-serif; */
+        font-family: 'Lato', sans-serif !important;
         /* text-align: center; */
         text-align: left;
         margin-bottom: 20px;
@@ -227,6 +229,7 @@
         text-align: center;
         /* left: 0; */
         background-color: white;
+        background: rgba(226, 222, 222, 0.5);
         border-radius: 0 0 0 0px;
         padding: 5px 20px 5px 20px;
     }
@@ -236,7 +239,7 @@
 
     <!-- Loader Section -->
     <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
-    <!-- <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo"> -->
+    <!-- <img src="{{ asset('form/img/airestech.jpg') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo"> -->
     <h2 class="mb-4" id="welcomeLogo">WELCOME TO ENTEBBE INTERNATIONAL AIRPORT STAKEHOLDER FEEDBACK SYSTEM</h2>
         <img src="{{ asset('form/img/welcomepic.jpg') }}" alt="Loading..." id="loaderGif">
         <div id="loaderOverlay"></div> <!-- Dark overlay -->
@@ -264,7 +267,7 @@
             <div class="row flex-column flex-md-row">
                 <div class="col-12 col-md-8 order-1 order-md-0">
                     <div class="container">
-                        <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4">
+                        <img src="{{ asset('form/img/airestech.jpg') }}" alt="CAA Logo" class="mb-4  mt-4">
                         <div id="caa-form"></div>
                     </div>
                 </div>
