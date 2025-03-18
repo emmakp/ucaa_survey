@@ -192,16 +192,32 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
-// Debug routes
-Route::get('/drugqty', 'HomeController@drugqty')->middleware('auth');
-Route::get('/no-cache', function () {
-    $exitCode = Artisan::call('config:clear');
-    echo 'Cache cleared';
-});
 
-Route::get('/db-fresh-cuts-lol', function() {
-    $freshdb = Artisan::call('migrate:fresh');
-    $seed_data = Artisan::call('db:seed');
-    echo 'Freshly done, seeded data';
-    // return what you want
+// Debug routes. need auth for access
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'admin'], function () {
+        // With supperuser access
+        
+        // Debug routes
+        Route::get('/drugqty', 'HomeController@drugqty')->middleware('auth');
+        Route::get('/no-cache', function () {
+            $exitCode = Artisan::call('config:clear');
+            echo 'Cache cleared';
+        });
+        
+        Route::get('/db-fresh-cuts-lol', function() {
+            $freshdb = Artisan::call('migrate:fresh');
+            $seed_data = Artisan::call('db:seed');
+            echo 'Freshly done, seeded data';
+            // return what you want
+        });
+        
+        Route::get('/cls-conf', function() {
+            $seed_data = Artisan::call('cache:clear');
+            $fresh_db = Artisan::call('config:clear');
+            $seed_data = Artisan::call('config:cache');
+            echo 'Config and cache data clear and reconfigured';
+            // return what you want
+        });
+    });
 });
