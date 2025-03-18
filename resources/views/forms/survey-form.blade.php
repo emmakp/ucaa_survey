@@ -309,6 +309,10 @@
     text-align: center; /* Center text */
 }
 
+
+
+
+
 /* Medium screens (e.g., tablets, iPhone XR) */
 @media (max-width: 768px) {
     #welcomeLogo {
@@ -348,6 +352,96 @@
         margin-left: 0; /* Remove left margin in vertical layout */
     }
 }
+
+
+/* Target the SurveyJS dropdown on mobile */
+@media (max-width: 767.98px) {
+        .sv_q_dropdown_control select {
+            -webkit-appearance: none; /* Remove native styling on iOS */
+            -moz-appearance: none; /* Remove native styling on Firefox */
+            appearance: none; /* Remove default styling */
+            background: url('{{ asset('form/img/dropdown-arrow.png') }}') no-repeat right center; /* Custom arrow */
+            padding-right: 20px; /* Space for arrow */
+            height: 40px; /* Fixed height */
+            overflow: hidden; /* Prevent overflow */
+        }
+        .sv_q_dropdown_control {
+            position: relative;
+            max-width: 200px; /* Constrain width */
+        }
+    }
+
+
+
+    .sv_q_rating {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        gap: 4px; /* Smaller gap */
+        justify-content: center;
+        padding: 8px 0;
+        width: 100%; /* Full width of parent */
+        overflow-x: auto; /* Scroll horizontally if needed */
+    }
+    .sv_q_rating_item {
+        padding: 4px 6px; /* Smaller padding */
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        min-width: 20px; /* Smaller min-width */
+        font-size: 12px; /* Smaller font */
+        transition: all 0.2s ease;
+    }
+    .sv_q_rating_item:hover {
+        background: #ddd;
+    }
+    .sv_q_rating_item.active {
+        background: #1083cc;
+        color: #fff;
+        border-color: #1083cc;
+    }
+    /* Ensure dropdown is hidden */
+    .sv_q_dropdown_control {
+        display: none !important;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .sv_q_rating {
+            gap: 3px; /* Even smaller gap on mobile */
+            padding: 6px 0;
+        }
+        .sv_q_rating_item {
+            padding: 3px 5px; /* Tighter padding */
+            font-size: 11px; /* Smaller font */
+            min-width: 18px; /* Tighter min-width */
+        }
+    }
+    /* Ensure parent container doesn’t constrain too much */
+    .sv_q {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 5px; /* Minimal padding */
+    }
+
+    .container {
+    padding-left: 5px;
+    padding-right: 5px; /* Reduce Bootstrap padding */
+}
+.sv_q {
+    margin: 0 -5px; /* Offset any padding */
+}
+@media (max-width: 768px) {
+    .sv_q_rating_item {
+        padding: 2px 4px;
+        min-width: 16px;
+        font-size: 10px;
+    }
+    .sv_q_rating {
+        gap: 2px;
+    }
+}
+    
 </style>
 </head>
 <body>
@@ -385,6 +479,12 @@
     <div id="secondOverlay">
         <img src="{{ asset('form/img/welcomepic.jpg') }}" alt="Thank You" id="loaderGif">
         <div id="loaderOverlay"></div>
+        <!-- added -->
+        <!-- <div id="phoneNumberContainer">
+            <h3>Thank You! Please Provide Your Phone Number</h3>
+            <input type="tel" id="phoneNumberInput" placeholder="Enter your phone number" required>
+            <button id="submitPhoneButton">Submit</button>
+        </div> -->
         <button id="endButton">Connect to Wifi</button>
     </div>
     <!-- Thank You Overlay -->
@@ -399,8 +499,12 @@
             <div class="row flex-column flex-md-row">
                 <div class="col-12 col-md-8 order-1 order-md-0">
                     <div class="container">
-                        <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4 mt-4">
+                        <img src="{{ asset('form/img/airestech.jpg') }}" alt="CAA Logo" class="mb-4 mt-4">
                         <div id="caa-form"></div>
+                       <div class="text-center">
+                       <p>Copyright Uganda Civil Aviation © {{ date('Y') }}&amp;</p>
+                       <p>Powered by <a href="https://brandtechug.com/" target="_blank">NAJOD</a></p>
+                       </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 order-2 d-none d-md-block">
@@ -417,6 +521,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <script>
     // Survey.StylesManager.applyTheme("defaultV2");
@@ -530,6 +636,7 @@ document.querySelectorAll('.jurisdictionButton').forEach(button => {
                     .catch(error => console.error('Fetch error:', error));
                 });
                 survey.render(document.getElementById("caa-form"));
+                
             }
         } else {
             document.getElementById('loader').style.display = 'flex';
