@@ -200,7 +200,6 @@ public function getSurveyQuestions($surveyId, $audienceType, $department)
             return response()->json(['error' => 'No questions found'], 404);
         }
 
-        // Format the audienceType for display
         $formattedAudienceType = Str::title(str_replace('_', ' ', $audienceType));
 
         $surveyJson = [
@@ -211,12 +210,20 @@ public function getSurveyQuestions($surveyId, $audienceType, $department)
                     'name' => 'page1',
                     'elements' => $questions->map(function ($question) {
                         Log::info("Processing question ID: " . $question->id);
-                        return [
-                            'type' => strtolower($question->questionType->type ?? 'text'), // Fallback
+                        $questionType = strtolower($question->questionType->type ?? 'text');
+                        $element = [
+                            'type' => $questionType,
                             'name' => 'question_' . $question->id,
                             'title' => $question->question,
                             'isRequired' => $question->is_required,
                         ];
+                        if ($questionType === 'rating') {
+                            $element['rateMin'] = 1;
+                            $element['rateMax'] = 5;
+                            $element['rateValues'] = [1, 2, 3, 4, 5]; // Explicitly define 5 options
+                            $element['displayMode'] = 'buttons'; // Force button display
+                        }
+                        return $element;
                     })->toArray()
                 ]
             ]
@@ -224,6 +231,7 @@ public function getSurveyQuestions($surveyId, $audienceType, $department)
 
         $audiences = Audience::where('validity', true)->pluck('name')->toArray();
 
+        Log::info("Generated surveyJson: ", $surveyJson); // Debug output
         Log::info("Success: surveyId=$surveyId, audienceType=$audienceType, department=$department, audiences=", $audiences);
 
         return view('forms.survey-form', [
@@ -238,8 +246,7 @@ public function getSurveyQuestions($surveyId, $audienceType, $department)
         return response()->json(['error' => 'Server error'], 500);
     }
 }
-
-//     public function getSurveyQuestions($surveyId, $audienceType, $department)
+// public function getSurveyQuestions($surveyId, $audienceType, $department)
 // {
 //     try {
 //         Log::info("Starting getSurveyQuestions: surveyId=$surveyId, audienceType=$audienceType, department=$department");
@@ -261,20 +268,29 @@ public function getSurveyQuestions($surveyId, $audienceType, $department)
 //             return response()->json(['error' => 'No questions found'], 404);
 //         }
 
+//         $formattedAudienceType = Str::title(str_replace('_', ' ', $audienceType));
+
 //         $surveyJson = [
-//             'title' => "Civil Aviation Authority - {$audienceType} Survey - {$department}",
+//             'title' => "Civil Aviation Authority - {$formattedAudienceType} Survey - {$department}",
 //             'description' => "Please share your experience with the {$department} department.",
 //             'pages' => [
 //                 [
 //                     'name' => 'page1',
 //                     'elements' => $questions->map(function ($question) {
 //                         Log::info("Processing question ID: " . $question->id);
-//                         return [
-//                             'type' => strtolower($question->questionType->type ?? 'text'), // Fallback
+//                         $questionType = strtolower($question->questionType->type ?? 'text');
+//                         $element = [
+//                             'type' => $questionType,
 //                             'name' => 'question_' . $question->id,
 //                             'title' => $question->question,
 //                             'isRequired' => $question->is_required,
 //                         ];
+//                         if ($questionType === 'rating') {
+//                             $element['rateMin'] = 1;
+//                             $element['rateMax'] = 5;
+//                             $element['rateValues'] = [1, 2, 3, 4, 5]; // Force numbers
+//                         }
+//                         return $element;
 //                     })->toArray()
 //                 ]
 //             ]
@@ -296,8 +312,6 @@ public function getSurveyQuestions($surveyId, $audienceType, $department)
 //         return response()->json(['error' => 'Server error'], 500);
 //     }
 // }
-
-
     // public function fill(Request $request, $surveyId, $questionaireId)
     // {
     //     try {
