@@ -218,34 +218,80 @@
         z-index: 1000;
     }
     #welcomeLogo {
-        /* width: 600px; */
-        height: auto;
-        z-index: 3;
-        /* position top right coner */
-        position: absolute;
-        top: 0;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        /* left: 0; */
-        background-color: white;
-        background: rgba(226, 222, 222, 0.5);
-        border-radius: 0 0 0 0px;
-        padding: 5px 20px 5px 20px;
+    height: auto;
+    z-index: 3;
+    display: flex; /* Flexbox to align logo and text side by side */
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    width: 90%; /* Nearly full width with some margin */
+    margin: 0 auto; /* Center the container horizontally */
+    align-items: center; /* Vertically align logo and text */
+    justify-content: center; /* Center the entire contents */
+    font-family: 'Lato', sans-serif !important;
+    background: rgba(226, 222, 222, 0.5); /* Semi-transparent background for the container */
+    border-radius: 10px;
+    padding: 5px 20px; /* Consistent padding */
+    white-space: nowrap; /* Prevent wrapping by default */
+    overflow: hidden; /* Handle overflow if needed */
+}
+
+#caaLogo {
+    height: 40px; /* Adjust size to match text height; tweak as needed */
+    width: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Space between logo and text */
+    background: #fff; /* Fully opaque white background */
+    padding: 5px; /* Optional: padding to fit the logo neatly */
+    border-radius: 5px; /* Optional: slight rounding */
+}
+
+#welcomeTextHeader {
+    font-size: 28px; /* Match your existing font size */
+    font-family: 'Lato', sans-serif !important;
+    white-space: nowrap; /* Keep text on one line by default */
+    text-align: center; /* Center text */
+}
+
+/* Allow wrapping on smaller screens */
+@media (max-width: 768px) {
+    #welcomeLogo {
+        width: 90%; /* Keep some margin */
+        white-space: normal; /* Allow wrapping */
+        flex-wrap: wrap; /* Allow logo and text to stack if needed */
+        justify-content: center; /* Re-center if wrapped */
     }
+    #welcomeTextHeader {
+        white-space: normal; /* Allow text to wrap */
+    }
+    #caaLogo {
+        margin-bottom: 10px; /* Space if it wraps below */
+    }
+}
 </style>
 </head>
 <body>
 
+<div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
+    <div id="welcomeLogo">
+        <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" id="caaLogo">
+        <span id="welcomeTextHeader">WELCOME TO ENTEBBE INTERNATIONAL AIRPORT STAKEHOLDER FEEDBACK SYSTEM</span>
+    </div>
+    <img src="{{ asset('form/img/welcomepic.jpg') }}" alt="Loading..." id="loaderGif">
+    <div id="loaderOverlay"></div> <!-- Dark overlay -->
+    <div id="welcomeText">Safety, Security <br><span>&</span> Service</div>
+    <button id="startButton">Connect To Wifi</button>
+</div>
+
     <!-- Loader Section -->
-    <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
-    <!-- <img src="{{ asset('form/img/airestech.jpg') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo"> -->
+    <!-- <div id="loader" @if(isset($jurisdiction)) style="display: none;" @endif>
+    <img src="{{ asset('form/img/caa-uganda-logo.jpg') }}" alt="CAA Logo" class="mb-4" id="welcomeLogo">
     <h2 class="mb-4" id="welcomeLogo">WELCOME TO ENTEBBE INTERNATIONAL AIRPORT STAKEHOLDER FEEDBACK SYSTEM</h2>
         <img src="{{ asset('form/img/welcomepic.jpg') }}" alt="Loading..." id="loaderGif">
-        <div id="loaderOverlay"></div> <!-- Dark overlay -->
+        <div id="loaderOverlay"></div> 
         <div id="welcomeText">Safety, Security <br><span>&</span> Service</div>
         <button id="startButton">Connect To Wifi</button>
-    </div>
+    </div> -->
 
     <!-- Jurisdiction Selection Overlay -->
     <div id="jurisdictionOverlay">
@@ -267,7 +313,7 @@
             <div class="row flex-column flex-md-row">
                 <div class="col-12 col-md-8 order-1 order-md-0">
                     <div class="container">
-                        <img src="{{ asset('form/img/airestech.jpg') }}" alt="CAA Logo" class="mb-4  mt-4">
+                        <img src="{{ asset('form/img/airestech.jpg') }}" alt="CAA Logo" class="mb-4 mt-4">
                         <div id="caa-form"></div>
                     </div>
                 </div>
