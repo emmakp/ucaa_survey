@@ -70,6 +70,9 @@
         <div class="box-skew1">
             <div class="authincation-content">
                 <form action="{{ route('login') }}" method="post">
+                    <div class="row col text-center">
+                        <img src="{{ asset('img/caa-uganda-logo.png') }}" alt="Logo" class="img-fluid ml-3" width="180px">
+                    </div>
                     @csrf
                     @if(count($errors) > 0)
                         @foreach($errors->all() as $error)
@@ -103,8 +106,8 @@
                     </div>
                 </form>
 
-                <div class="new-account mt-2 tag text-center">
-                    <b>Powered by: <a href="https://najod.co/">NAJOD Surveillance</a></b>
+                <div class="new-account mt-2 tag text-center offset-2">
+                    <b>Powered by: <a href="https://najod.co/" target="__blanc">NAJOD Surveillance</a>
                 </div>
             </div>
         </div>

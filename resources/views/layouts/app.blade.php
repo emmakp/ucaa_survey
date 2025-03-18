@@ -36,6 +36,7 @@
                     @yield('content')
                 </div>
             </main>
+            @include('inc.footer')
         </div>
     </div>
     {{-- <main class="py-4">
