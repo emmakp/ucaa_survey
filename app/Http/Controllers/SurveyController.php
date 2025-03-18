@@ -668,27 +668,72 @@ private function calculateScore($answer)
         return view('surveys.show', compact('survey'));
     }
 
+    // public function edit($id)
+    // {
+    //     $survey = Survey::findOrFail($id);
+    //     return view('surveys.edit', compact('survey'));
+    // }
     public function edit($id)
     {
         $survey = Survey::findOrFail($id);
-        return view('surveys.edit', compact('survey'));
+        $audiences = Audience::where('validity', true)->get(); // Adjust this query based on your Audience model logic
+        return view('surveys.edit', compact('survey', 'audiences'));
     }
 
+    // public function update(Request $request, $id)
+    // {
+    //     $survey = Survey::findOrFail($id);
+    //     $audit_user_id = auth()->user()->id;
+
+    //     $audit_trail = new AuditTrail;
+    //     $audit_trail->user_id = $audit_user_id;
+    //     $audit_trail->controller = 'SurveyController';
+    //     $audit_trail->function = 'update';
+    //     $audit_trail->action = 'update survey';
+    //     $audit_trail->save();
+
+    //     $survey->title = $request->input('title');
+    //     $newStatus = $request->input('status');
+
+    //     if ($newStatus === 'active') {
+    //         $questionCount = Question::where('survey_id', $id)->count();
+    //         if ($questionCount < 3) {
+    //             return redirect()->back()->with('error', 'Survey must have at least 3 questions to be published.');
+    //         }
+    //         Survey::where('id', '!=', $id)->update(['status' => 'pending', 'published' => false]);
+    //         $survey->status = 'active';
+    //         $survey->published = true;
+    //     } else {
+    //         $survey->status = 'pending';
+    //         $survey->published = false;
+    //     }
+
+    //     $survey->save();
+
+    //     return redirect()->route('surveys.index')->with('success', 'Survey updated successfully.');
+    // }
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'string|required',
+            'status' => 'in:pending,active',
+            'audience_ids' => 'array', // Optional; change to 'required|array|min:1' if at least one audience is mandatory
+            'audience_ids.*' => 'exists:audiences,id',
+        ]);
+    
         $survey = Survey::findOrFail($id);
         $audit_user_id = auth()->user()->id;
-
+    
         $audit_trail = new AuditTrail;
         $audit_trail->user_id = $audit_user_id;
         $audit_trail->controller = 'SurveyController';
         $audit_trail->function = 'update';
         $audit_trail->action = 'update survey';
         $audit_trail->save();
-
+    
         $survey->title = $request->input('title');
         $newStatus = $request->input('status');
-
+    
         if ($newStatus === 'active') {
             $questionCount = Question::where('survey_id', $id)->count();
             if ($questionCount < 3) {
@@ -701,9 +746,12 @@ private function calculateScore($answer)
             $survey->status = 'pending';
             $survey->published = false;
         }
-
+    
         $survey->save();
-
+    
+        // Sync the selected audiences
+        $survey->audiences()->sync($request->input('audience_ids', []));
+    
         return redirect()->route('surveys.index')->with('success', 'Survey updated successfully.');
     }
 
