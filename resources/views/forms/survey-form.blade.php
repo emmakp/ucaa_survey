@@ -61,23 +61,60 @@
     }
 
     /* Welcome text with animation */
+   /* Welcome text with animation */
+#welcomeText {
+    position: relative;
+    z-index: 3; /* Above overlay */
+    color: #ffffff;
+    font-size: 76px; /* Default size for large screens */
+    font-weight: 700;
+    font-family: 'Lato', sans-serif !important;
+    text-align: left;
+    margin-bottom: 20px;
+    animation: panUp 0.5s ease-out forwards;
+    margin-left: 50px;
+    line-height: 1.1; /* Default tighter spacing */
+}
+
+#welcomeText span {
+    color: rgb(55, 152, 255); /* Blue from Bootstrap theme */
+    font-size: 76px; /* Match parent */
+    font-weight: 700;
+}
+
+/* Medium screens (e.g., iPhone XR, tablets) */
+@media (max-width: 768px) {
     #welcomeText {
-        position: relative;
-        z-index: 3; /* Above overlay */
-        color: #ffffff;
-        font-size: 76px;
-        font-weight: 700;
-        /* font-family: 'Roboto', sans-serif; */
-        font-family: 'Lato', sans-serif !important;
-        /* text-align: center; */
-        text-align: left;
-        margin-bottom: 20px;
-        animation: panUp 0.5s ease-out forwards;
-        margin-left: 50px;
+        font-size: 68px; /* Smaller for medium screens */
+        margin-left: 20px; /* Reduced margin */
+        margin-bottom: 15px; /* Less spacing below */
     }
     #welcomeText span {
+        font-size: 58px; /* Match parent */
+    }
+}
+
+/* Small screens (e.g., iPhone SE, 320px width) */
+@media (max-width: 375px) {
+    #welcomeText {
+        font-size: 58px; /* Much smaller for narrow screens */
+        margin-left: 10px; /* Minimal margin */
+        margin-bottom: 10px; /* Tighter spacing */
+        line-height: 1; /* Even tighter line spacing */
+        display: flex; /* Flex to control layout */
+        flex-direction: column; /* Stack words vertically */
+        gap: 5px; /* Controlled spacing between lines */
+    }
+    #welcomeText span {
+        font-size: 28px; /* Match parent */
+    }
+    #welcomeText br {
+        display: none; /* Remove forced line break on small screens */
+    }
+}
+    #welcomeText span {
     color:rgb(55, 152, 255); /* Blue from Bootstrap theme */
-    font-size: 76px;
+    font-size: 66px;
         font-weight: 700;
 
 }
@@ -108,6 +145,25 @@
     background: transparent;
     margin-left: 50px;
   }
+
+  #endButton {
+    z-index: 3;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    border: 1px solid white;
+    border-radius: 30px;
+    animation: panUp 0.5s ease-out forwards;
+    background: transparent;
+    margin-left: 50px;
+}
+
+    /* Hover effect */
+    /* #startButton:hover {
+        background-color: rgba(255, 255, 255, 0.2); 
+    } */
+
 
   #startButton:hover {
 	padding: 10px 20px;
@@ -217,7 +273,7 @@
         height: 100vh;
         z-index: 1000;
     }
-    #welcomeLogo {
+   #welcomeLogo {
     height: auto;
     z-index: 3;
     display: flex; /* Flexbox to align logo and text side by side */
@@ -230,42 +286,66 @@
     align-items: center; /* Vertically align logo and text */
     justify-content: center; /* Center the entire contents */
     font-family: 'Lato', sans-serif !important;
-    background: rgba(226, 222, 222, 0.5); /* Semi-transparent background for the container */
+    background: rgba(226, 222, 222, 0.5); /* Semi-transparent background */
     border-radius: 10px;
-    padding: 5px 20px; /* Consistent padding */
+    padding: 5px 10px; /* Reduced padding for smaller screens */
     white-space: nowrap; /* Prevent wrapping by default */
-    overflow: hidden; /* Handle overflow if needed */
+    overflow: hidden; /* Handle overflow */
 }
 
 #caaLogo {
-    height: 40px; /* Adjust size to match text height; tweak as needed */
+    height: 40px; /* Default size */
     width: auto; /* Maintain aspect ratio */
     margin-right: 10px; /* Space between logo and text */
     background: #fff; /* Fully opaque white background */
-    padding: 5px; /* Optional: padding to fit the logo neatly */
-    border-radius: 5px; /* Optional: slight rounding */
+    padding: 5px; /* Padding to fit logo */
+    border-radius: 5px; /* Slight rounding */
 }
 
 #welcomeTextHeader {
-    font-size: 28px; /* Match your existing font size */
+    font-size: 28px; /* Default font size */
     font-family: 'Lato', sans-serif !important;
     white-space: nowrap; /* Keep text on one line by default */
     text-align: center; /* Center text */
 }
 
-/* Allow wrapping on smaller screens */
+/* Medium screens (e.g., tablets, iPhone XR) */
 @media (max-width: 768px) {
     #welcomeLogo {
-        width: 90%; /* Keep some margin */
+        width: 90%;
         white-space: normal; /* Allow wrapping */
-        flex-wrap: wrap; /* Allow logo and text to stack if needed */
+        flex-wrap: wrap; /* Allow logo and text to stack */
         justify-content: center; /* Re-center if wrapped */
+        padding: 5px 8px; /* Slightly reduced padding */
     }
     #welcomeTextHeader {
         white-space: normal; /* Allow text to wrap */
+        font-size: 24px; /* Slightly smaller font */
     }
     #caaLogo {
-        margin-bottom: 10px; /* Space if it wraps below */
+        margin-bottom: 8px; /* Space if it wraps below */
+        height: 35px; /* Slightly smaller logo */
+    }
+}
+
+/* Small screens (e.g., iPhone SE, 320px width) */
+@media (max-width: 375px) {
+    #welcomeLogo {
+        width: 95%; /* Tighter margins */
+        flex-direction: column; /* Stack logo and text vertically */
+        padding: 5px 5px; /* Minimal padding */
+    }
+    #welcomeTextHeader {
+        font-size: 18px; /* Much smaller font for narrow screens */
+        line-height: 1.2; /* Improve readability when wrapped */
+    }
+    #caaLogo {
+        height: 30px; /* Smaller logo */
+        margin-right: 0; /* Remove right margin in vertical layout */
+        margin-bottom: 5px; /* Space between logo and text */
+    }
+    #startButton {
+        margin-left: 0; /* Remove left margin in vertical layout */
     }
 }
 </style>
@@ -303,9 +383,15 @@
 
     <!-- Thank You Overlay -->
     <div id="secondOverlay">
-        <img src="{{ asset('form/img/welcome.gif') }}" alt="Thank You" id="loaderGif2">
+        <img src="{{ asset('form/img/welcomepic.jpg') }}" alt="Thank You" id="loaderGif">
+        <div id="loaderOverlay"></div>
         <button id="endButton">Connect to Wifi</button>
     </div>
+    <!-- Thank You Overlay -->
+    <!-- <div id="secondOverlay">
+        <img src="{{ asset('form/img/welcome.gif') }}" alt="Thank You" id="loaderGif2">
+        <button id="endButton">Connect to Wifi</button>
+    </div> -->
 
     <!-- Main Survey Content -->
     <div id="mainContent" @if(isset($jurisdiction)) style="display: block;" @endif>
