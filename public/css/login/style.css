@@ -51,7 +51,8 @@
     background-color: #fbfbfb !important;
 }
 .login-form-bx .box-skew1 {
-    background-image: url("../../img/Civil-Aviation-Authority-offices.jpg");
+    /* background-image: url("../../img/Civil-Aviation-Authority-offices.jpg"); */
+    background-image: url("../../img/airport-terminal.jpeg");
     background-size: cover;
     background-position: bottom;
     height: 100%;
