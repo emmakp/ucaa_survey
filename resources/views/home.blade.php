@@ -11,94 +11,84 @@
                 </ol>
 
                 <div class="row">
+                    <!-- Surveys Tile -->
                     <div class="col-xl-3 col-md-6">
-                        <div class="border border-2 bg-white mb-4 shadow  ">
-                             <span class="text-muted ms-2 mt-2">Surveys</span>
-                             <div class="d-flex justify-content-between p-3">
-                                <div>
-                                    <h2>{{ $survey_count }}</h2>
+                        <a href="{{ url('surveys') }}" class="text-decoration-none">
+                            <div class="border border-2 bg-white mb-4 shadow">
+                                <span class="text-muted ms-2 mt-2">Surveys</span>
+                                <div class="d-flex justify-content-between p-3">
+                                    <div>
+                                        <h2>{{ $survey_count }}</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-chevron-up text-primary"></i>
+                                        <span class="text-muted small border-rounded">80%</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <i class="fas fa-chevron-up text-primary"></i>
-                                     <span class="text-muted small border-rounded">80%</span>
-                                </div>
-                             </div>
-                             <span class="d-block mt-auto w-100 border border-2 border-primary"></span>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="border border-2 bg-white mb-4 shadow  ">
-                             <span class="text-muted ms-2 mt-2">Questionaires</span>
-                             <div class="d-flex justify-content-between p-3">
-                                <div>
-                                    <h2>{{ $questionaire_count }}</h2>
-                                </div>
-                                <div>
-                                    <i class="fas fa-chevron-up text-success"></i>
-                                     <span class="text-muted small border-rounded">12%</span>
-                                </div>
-                             </div>
-                             <span class="d-block mt-auto w-100 border border-2 border-success"></span>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="border border-2 bg-white mb-4 shadow  ">
-                             <span class="text-muted ms-2 mt-2">Staff</span>
-                             <div class="d-flex justify-content-between p-3">
-                                <div>
-                                    <h2>{{ $staff_count }}</h2>
-                                </div>
-                                <div>
-                                    <i class="fas fa-chevron-up text-warning"></i>
-                                     <span class="text-muted small border-rounded">10%</span>
-                                </div>
-                             </div>
-                             <span class="d-block mt-auto w-100 border border-2 border-warning"></span>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6">
-                        <div class="border border-2 bg-white mb-4 shadow  ">
-                             <span class="text-muted ms-2 mt-2">Audiences Reached</span>
-                             <div class="d-flex justify-content-between p-3">
-                                <div>
-                                    <h2>{{ $responses }}</h2>
-                                </div>
-                                <div>
-                                    <i class="fas fa-chevron-up text-danger"></i>
-                                     <span class="text-muted small border-rounded">30%</span>
-                                </div>
-                             </div>
-                             <span class="d-block mt-auto w-100 border border-2 border-danger"></span>
-                        </div>
-                    </div>
-                    <!-- <div class="col-xl-3 col-md-6">
-                        <div class="card bg-warning text-white mb-4">
-                            <div class="card-body">Warning Card</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                <span class="d-block mt-auto w-100 border border-2 border-primary"></span>
                             </div>
-                        </div>
+                        </a>
                     </div>
+
+                    <!-- Questionaires Tile -->
                     <div class="col-xl-3 col-md-6">
-                        <div class="card bg-success text-white mb-4">
-                            <div class="card-body">Success Card</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        <a href="{{ url('questionaires') }}" class="text-decoration-none">
+                            <div class="border border-2 bg-white mb-4 shadow">
+                                <span class="text-muted ms-2 mt-2">Questionaires</span>
+                                <div class="d-flex justify-content-between p-3">
+                                    <div>
+                                        <h2>{{ $questionaire_count }}</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-chevron-up text-success"></i>
+                                        <span class="text-muted small border-rounded">12%</span>
+                                    </div>
+                                </div>
+                                <span class="d-block mt-auto w-100 border border-2 border-success"></span>
                             </div>
-                        </div>
+                        </a>
                     </div>
+
+                    <!-- Staff Tile -->
                     <div class="col-xl-3 col-md-6">
-                        <div class="card bg-danger text-white mb-4">
-                            <div class="card-body">Danger Card</div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="#">View Details</a>
-                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        <a href="{{ url('staff') }}" class="text-decoration-none">
+                            <div class="border border-2 bg-white mb-4 shadow">
+                                <span class="text-muted ms-2 mt-2">Staff</span>
+                                <div class="d-flex justify-content-between p-3">
+                                    <div>
+                                        <h2>{{ $staff_count }}</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-chevron-up text-warning"></i>
+                                        <span class="text-muted small border-rounded">10%</span>
+                                    </div>
+                                </div>
+                                <span class="d-block mt-auto w-100 border border-2 border-warning"></span>
                             </div>
-                        </div>
-                    </div> -->
+                        </a>
+                    </div>
+
+                    <!-- Audiences Reached Tile -->
+                    <div class="col-xl-3 col-md-6">
+                        <a href="{{ url('answers') }}" class="text-decoration-none">
+                            <div class="border border-2 bg-white mb-4 shadow">
+                                <span class="text-muted ms-2 mt-2">Audiences Reached</span>
+                                <div class="d-flex justify-content-between p-3">
+                                    <div>
+                                        <h2>{{ $responses }}</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-chevron-up text-danger"></i>
+                                        <span class="text-muted small border-rounded">30%</span>
+                                    </div>
+                                </div>
+                                <span class="d-block mt-auto w-100 border border-2 border-danger"></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
+
+                <!-- Rest of the dashboard (charts and audit trail) remains unchanged -->
                 <div class="row">
                     <div class="col-xl-6">
                         <div class="card mb-4">
@@ -162,16 +152,15 @@
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                    <div class="text-muted">Copyright © Your Website 2023</div>
                     <div>
                         <a href="#">Privacy Policy</a>
-                        &middot;
-                        <a href="#">Terms &amp; Conditions</a>
+                        ·
+                        <a href="#">Terms & Conditions</a>
                     </div>
                 </div>
             </div>
         </footer>
     </div>
 </div>
-
 @endsection
