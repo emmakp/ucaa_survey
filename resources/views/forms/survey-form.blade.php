@@ -499,11 +499,11 @@
             <div class="row flex-column flex-md-row">
                 <div class="col-12 col-md-8 order-1 order-md-0">
                     <div class="container">
-                        <img src="{{ asset('form/img/airestech.jpg') }}" alt="CAA Logo" class="mb-4 mt-4">
+                        <img src="{{ asset('form/img/caa-uganda-logo.png') }}" alt="CAA Logo" class="mb-4 mt-4">
                         <div id="caa-form"></div>
                        <div class="text-center">
                        <p>Copyright Uganda Civil Aviation © {{ date('Y') }}&amp;</p>
-                       <p>Powered by <a href="https://brandtechug.com/" target="_blank">NAJOD</a></p>
+                       <p>Powered by <a href="https://najod.co/" target="_blank">NAJOD</a></p>
                        </div>
                     </div>
                 </div>
